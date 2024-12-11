@@ -79,7 +79,7 @@
                         <select name="jabatan" id="jabatan" class="form-control" onchange="konfirmasi()">
                             <option value="">Pilih Hak Akses..</option>
                             <option value="Admin">Admin</option>
-                            <option value="Lurah">Lurah</option>
+                            <option value="Special">Special</option>
                         </select>
                     </div>
                     <div class="mb-3" id="isi_password">

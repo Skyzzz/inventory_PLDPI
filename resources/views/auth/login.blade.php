@@ -36,7 +36,7 @@
         }
 
         .image {
-            width: 360px;
+            /* width: 360px; */
             height: 300px;
             margin-top: 30px;
         }
@@ -148,13 +148,15 @@
         .btn-blue {
             background-color: #1A237E;
             width: 150px;
-            color: #fff;
-            border-radius: 2px
+            color: #fff; 
+            border-radius: 2px;
+            transition: background-color 0.3s ease, color 0.3s ease; 
         }
 
         .btn-blue:hover {
-            background-color: #000;
-            cursor: pointer
+            background-color: #3949AB; /
+            color: #fff; 
+            cursor: pointer;
         }
 
         .bg-blue {
@@ -196,7 +198,7 @@
                             src="{{ asset('images/kantor.png') }}" class="image"> </div>
                             <div class="row justify-content-center text-center pb-0 pt-2 border-line">
                                 <h4><b>Sistem Inventori Barang</b><br>
-                                    <b>Kantor Kelurahan Kalitimbang</b></h4>
+                                    <b>Pusat Layanan Disabilitas dan Pendidikan Inklusi Prov. Kalsel (PLDPI)</b></h4>
                                 </div>
                             </div>
                         </div>
@@ -229,7 +231,7 @@
                         </div>
                     </div>
                     <div class="bg-blue py-4">
-                        <div class="row px-3"> <small class="ml-4 ml-sm-5 mb-2">Copyright &copy; 2023. All rights
+                        <div class="row px-3"> <small class="ml-4 ml-sm-5 mb-2">Copyright &copy; 2024. All rights
                         reserved.</small>
                         <div class="social-contact ml-4 ml-sm-auto"> </div>
                     </div>

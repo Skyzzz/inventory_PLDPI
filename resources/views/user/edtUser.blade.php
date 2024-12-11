@@ -27,7 +27,7 @@
                         <select name="role" id="role" class="form-control">
                             <option value="{{ $item->role }}">{{ $item->role }}</option>
                             <option value="Admin">Admin</option>
-                            <option value="Lurah">Lurah</option>
+                            <option value="Special">Special</option>
                         </select>
                     </div>
                     <button type="submit" class="btn btn-sm btn-primary">Edit</button>

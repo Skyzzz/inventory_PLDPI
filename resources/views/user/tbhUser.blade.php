@@ -28,7 +28,7 @@
                         <select name="role" id="role" class="form-control">
                             <option value="">Pilih Role</option>
                             <option value="Admin">Admin</option>
-                            <option value="Lurah">Lurah</option>
+                            <option value="Special">Special</option>
                         </select>
                     </div>
                     <button type="submit" class="btn btn-sm btn-primary">Simpan</button>

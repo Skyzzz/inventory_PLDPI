@@ -31,7 +31,6 @@
         }
 
         img {
-            height: 100px;
             width: 100px;
         }
 
@@ -39,7 +38,7 @@
 
     <center>
         <img src="images/kantor.png" alt="">
-        <h5>Inventori Barang Kantor Kelurahan Kalitimbang Cilegon
+        <h5>Inventori Barang Pusat Layanan Disabilitas dan Pendidikan Inklusi Prov. Kalsel (PLDPI)
             <br>Laporan Barang Masuk</h4><br>
             <h6>Tanggal : {{ date('d-M-Y', strtotiMe($dari)) }} -
                 {{ date('d-M-Y', strtotime($sampai)) }}
