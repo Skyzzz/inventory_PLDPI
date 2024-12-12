@@ -61,6 +61,13 @@
                         </li>
                     </ul>
                 </li>
+                <h3 class="menu-title">Data Surat</h3><!-- /.menu-title -->
+                <li class="@yield('kategori')">
+                    <a href="{{ url('/kategori') }}"> <i class="menu-icon fa fa-tag"></i>Daftar Kategori</a>
+                </li>
+                <li class="@yield('barang')">
+                    <a href="{{ url('/barang') }}"> <i class="menu-icon fa fa-suitcase"></i>Daftar Barang</a>
+                </li>
                 <h3 class="menu-title">Laporan</h3><!-- /.menu-title -->
                 @if (auth()->user()->role == 'Admin')
                 <li class="@yield('laporan')">
