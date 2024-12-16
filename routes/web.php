@@ -11,6 +11,7 @@ use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\PemasokController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\MediaController;
 use App\Models\BarangKeluar;
 use Illuminate\Support\Facades\Route;
 
@@ -79,6 +80,11 @@ Route::middleware(['user'])->group(function () {
     Route::get('/tbhBarang_keluar', [BarangKeluarController::class, 'create']);
     Route::get('/tampil_bk/{id}', [BarangKeluarController::class, 'get_barang']);
     Route::post('/tbhBarang_keluar', [BarangKeluarController::class, 'store'])->name('tbhBarang_keluar');
+
+    Route::get('/media', [MediaController::class, 'index']);
+    Route::get('/tbhMedia', [MediaController::class, 'create']);
+    Route::get('/hpsMedia/{id}', [MediaController::class, 'destroy']);
+    Route::post('/tbhMedia', [MediaController::class, 'store'])->name('tbhMedia');
 
     Route::get('/laporan', [DashboardController::class, 'laporan']);
     Route::post('/laporan', [DashboardController::class, 'cetak_laporan'])->name('cetak_laporan');

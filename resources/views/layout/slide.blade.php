@@ -61,12 +61,16 @@
                         </li>
                     </ul>
                 </li>
-                <h3 class="menu-title">Data Surat</h3><!-- /.menu-title -->
-                <li class="@yield('kategori')">
-                    <a href="{{ url('/kategori') }}"> <i class="menu-icon fa fa-tag"></i>Daftar Kategori</a>
+                <h3 class="menu-title">Data Media</h3><!-- /.menu-title -->
+                <li class="@yield('media')">
+                    <a href="{{ url('/media') }}"> <i class="menu-icon fa fa-file"></i>Daftar File</a>
                 </li>
-                <li class="@yield('barang')">
-                    <a href="{{ url('/barang') }}"> <i class="menu-icon fa fa-suitcase"></i>Daftar Barang</a>
+                <h3 class="menu-title">Data Surat</h3><!-- /.menu-title -->
+                <li class="@yield('surat')">
+                    <a href="{{ url('/surat') }}"> <i class="menu-icon fa fa-download"></i>Surat Masuk</a>
+                </li>
+                <li class="@yield('surat')">
+                    <a href="{{ url('/surat') }}"> <i class="menu-icon fa fa-upload"></i>Surat Keluar</a>
                 </li>
                 <h3 class="menu-title">Laporan</h3><!-- /.menu-title -->
                 @if (auth()->user()->role == 'Admin')
