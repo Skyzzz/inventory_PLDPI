@@ -25,10 +25,11 @@
                         <thead>
                             <tr>
                                 <th>No</th>
+                                <th>Kode Media</th>
                                 <th>Nama File</th>
                                 <th>Ukuran File</th>
                                 <th>Kategori</th>
-                                <th>Uploaded By</th>
+                                <th>Diupload Oleh</th>
                                 <th>Tanggal Upload</th>
                                 <th>Aksi</th>
                             </tr>
@@ -37,6 +38,7 @@
                             @foreach ($media as $item)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
+                                <td>{{ $item->kode_media }}</td>
                                 <td>{{ $item->nama_file }}</td>
                                 <td>{{ number_format($item->ukuran_file / 1048576, 2) }} MB</td>
                                 <td>{{ $item->kategori }}</td>

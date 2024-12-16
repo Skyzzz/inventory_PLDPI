@@ -15,12 +15,14 @@ class CreateMediaTable extends Migration
     {
         Schema::create('media', function (Blueprint $table) {
             $table->id();
+            $table->string('kode_media');
             $table->string('nama_file');
             $table->string('tipe_file');
             $table->bigInteger('ukuran_file'); 
             $table->string('kategori')->nullable();
             $table->string('uploaded_by');
             $table->timestamp('tanggal_upload')->useCurrent();
+            $table->string('path');
         });
     }
 

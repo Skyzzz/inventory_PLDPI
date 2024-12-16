@@ -55,22 +55,39 @@ class MediaController extends Controller
             'file' => 'required|file|max:10240',
             'kategori' => 'nullable|string',
         ]);
-
+    
+        $prefix = 'MD'; // Kode tetap untuk media
+        $tahun_bulan = Carbon::now()->format('Ym'); // Tahun dan bulan dalam format YYYYMM
+        $nomor_urut = Media::where('kode_media', 'LIKE', $prefix . $tahun_bulan . '%')->count() + 1; // Hitung nomor urut berdasarkan bulan aktif
+        $nomor_urut_padded = str_pad($nomor_urut, 3, '0', STR_PAD_LEFT); // Tambahkan leading zero
+    
+        $kode_media = $prefix . $tahun_bulan . $nomor_urut_padded;
         $file = $request->file('file');
-        $path = $file->store('uploads/media');
-        $tipe_file = $file->getClientMimeType();
+        $nama_file = $file->getClientOriginalName();
+    
+        // Cek apakah nama file sudah ada di database
+        if (Media::where('nama_file', $nama_file)->exists()) {
+            return redirect()->back()->withErrors([
+                'file' => 'File dengan nama yang sama sudah ada. Harap gunakan file lain atau ubah nama file Anda sebelum mengunggah.',
+            ]);
+        }
+    
+        $path = $file->storeAs('uploads/media', $file->getClientOriginalName(), 'public'); // Simpan file ke dalam storage
+        $tipe_file = $file->getClientMimeType(); 
         $ukuran_file = $file->getSize();
-
+    
+        // Simpan data ke dalam database
         Media::create([
-            'kode_media' => $request->kode_media,
-            'nama_file' => $file->getClientOriginalName(),
+            'kode_media' => $kode_media,
+            'nama_file' => $nama_file,
             'tipe_file' => $tipe_file,
             'ukuran_file' => $ukuran_file,
             'kategori' => $request->kategori,
             'uploaded_by' => auth()->user()->nama,
             'tanggal_upload' => now(),
+            'path' => $path,
         ]);
-
+    
         alert()->success('Berhasil', 'Media berhasil diunggah.');
         return redirect('/media');
     }

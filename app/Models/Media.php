@@ -15,6 +15,7 @@ class Media extends Model
 
     // Kolom yang bisa diisi melalui mass assignment
     protected $fillable = [
+        'kode_media',
         'nama_file',
         'tipe_file',
         'ukuran_file',
@@ -22,5 +23,6 @@ class Media extends Model
         'kategori',
         'uploaded_by',
         'tanggal_upload',
+        'path',
     ];
 }

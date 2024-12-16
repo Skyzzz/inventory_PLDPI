@@ -16,6 +16,11 @@
                     <div class="form-group">
                         <label for="file" class="form-control-label">File Media</label>
                         <input type="file" id="file" name="file" class="form-control" required>
+                        @if ($errors->has('file'))
+                            <div class="alert alert-danger">
+                                {{ $errors->first('file') }}
+                            </div>
+                        @endif
                     </div>
                     <div class="form-group">
                         <label for="kategori" class="form-control-label">Kategori</label>
