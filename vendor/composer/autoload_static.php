@@ -340,8 +340,8 @@ class ComposerStaticInita28113a479ce75fb8adf2ef899fd8935
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -536,6 +536,7 @@ class ComposerStaticInita28113a479ce75fb8adf2ef899fd8935
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\DashboardController' => __DIR__ . '/../..' . '/app/Http/Controllers/DashboardController.php',
         'App\\Http\\Controllers\\KategoriController' => __DIR__ . '/../..' . '/app/Http/Controllers/KategoriController.php',
+        'App\\Http\\Controllers\\MediaController' => __DIR__ . '/../..' . '/app/Http/Controllers/MediaController.php',
         'App\\Http\\Controllers\\PegawaiController' => __DIR__ . '/../..' . '/app/Http/Controllers/PegawaiController.php',
         'App\\Http\\Controllers\\PemasokController' => __DIR__ . '/../..' . '/app/Http/Controllers/PemasokController.php',
         'App\\Http\\Controllers\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserController.php',
@@ -553,8 +554,10 @@ class ComposerStaticInita28113a479ce75fb8adf2ef899fd8935
         'App\\Models\\BarangKeluar' => __DIR__ . '/../..' . '/app/Models/BarangKeluar.php',
         'App\\Models\\BarangMasuk' => __DIR__ . '/../..' . '/app/Models/BarangMasuk.php',
         'App\\Models\\Kategori' => __DIR__ . '/../..' . '/app/Models/Kategori.php',
+        'App\\Models\\Media' => __DIR__ . '/../..' . '/app/Models/Media.php',
         'App\\Models\\Pegawai' => __DIR__ . '/../..' . '/app/Models/Pegawai.php',
         'App\\Models\\Pemasok' => __DIR__ . '/../..' . '/app/Models/Pemasok.php',
+        'App\\Models\\SuratMasuk' => __DIR__ . '/../..' . '/app/Models/SuratMasuk.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',

@@ -13,6 +13,7 @@ use App\Http\Controllers\PemasokController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MediaController;
 use App\Models\BarangKeluar;
+use App\Http\Controllers\SuratMasukController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -85,6 +86,13 @@ Route::middleware(['user'])->group(function () {
     Route::get('/tbhMedia', [MediaController::class, 'create']);
     Route::get('/hpsMedia/{id}', [MediaController::class, 'destroy']);
     Route::post('/tbhMedia', [MediaController::class, 'store'])->name('tbhMedia');
+
+    Route::get('/surat_masuk', [SuratMasukController::class, 'index']);
+    Route::get('/tbhSuratMasuk', [SuratMasukController::class, 'create']);
+    Route::post('/surat_masuk', [SuratMasukController::class, 'store'])->name('tbhSuratMasuk');
+    Route::get('/edtSuratMasuk/{id}', [SuratMasukController::class, 'edit']);
+    Route::put('/surat_masuk/{id}', [SuratMasukController::class, 'update']);
+    Route::get('/hpsSuratMasuk/{id}', [SuratMasukController::class, 'destroy']);
 
     Route::get('/laporan', [DashboardController::class, 'laporan']);
     Route::post('/laporan', [DashboardController::class, 'cetak_laporan'])->name('cetak_laporan');

@@ -1,6 +1,6 @@
 @extends('layout.main')
 
-@section('media', 'active')
+@section('surat', 'active')
 
 @section('content')
 
@@ -11,13 +11,13 @@
     } */
 </style>
 @if (auth()->user()->role == 'Admin')
-<a href="/tbhMedia" class="btn btn-sm btn-primary mb-3"><i class="fa fa-plus"></i> Tambah Media</a>
+<a href="/tbhSuratMasuk" class="btn btn-sm btn-primary mb-3"><i class="fa fa-plus"></i> Tambah Surat Masuk</a>
 @endif
 <div class="row">
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <strong class="card-title">Daftar Media</strong>
+                <strong class="card-title">Daftar Surat Masuk</strong>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -25,27 +25,28 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Kode Media</th>
-                                <th>Nama File</th>
-                                <th>Ukuran File</th>
-                                <th>Kategori</th>
-                                <th>Diupload Oleh</th>
-                                <th>Tanggal Upload</th>
+                                <th>ID Surat</th>
+                                <th>Nomor Surat</th>
+                                <th>Tanggal Surat</th>
+                                <th>Pengirim</th>
+                                <th>Perihal</th>
+                                <th>Tanggal Terima</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($media as $item)
+                            @foreach ($suratMasuk as $item)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->kode_media }}</td>
-                                <td>{{ $item->nama_file }}</td>
-                                <td>{{ number_format($item->ukuran_file / 1048576, 2) }} MB</td>
-                                <td>{{ $item->kategori }}</td>
-                                <td>{{ $item->uploaded_by }}</td>
-                                <td>{{ $item->tanggal_upload }}</td>
+                                <td>{{ $item->id_surat }}</td>
+                                <td>{{ $item->nomor_surat }}</td>
+                                <td>{{ $item->tanggal_surat->format('d-m-Y') }}</td>
+                                <td>{{ $item->pengirim }}</td>
+                                <td>{{ $item->perihal }}</td>
+                                <td>{{ $item->tanggal_terima->format('d-m-Y') }}</td>
                                 <td>
-                                    <a href="/hpsMedia/{{ $item->id }}" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
+                                    <a href="/edtSuratMasuk/{{ $item->id }}" class="btn btn-sm btn-success"><i class="fa fa-edit"></i> edit</a>
+                                    <a href="/hpsSuratMasuk/{{ $item->id }}" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Hapus</a>
                                 </td>
                             </tr>
                             @endforeach

@@ -6,7 +6,7 @@
                 aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="fa fa-bars"></i>
             </button>
-            <a class="navbar-brand" href="{{ url('/dashboard') }}"><img style="width: 50px; height: 45px;" class="mr-2"
+            <a class="navbar-brand" href="{{ url('/dashboard') }}"><img style=" height: 45px;" class="mr-2"
                     src="{{ asset('images/kantor.png') }}" alt=""><b class="mr-4">INVENTORI</b></a>
             <a class="navbar-brand hidden" href="{{ url('/dashboard') }}"></a>
         </div>
@@ -63,14 +63,14 @@
                 </li>
                 <h3 class="menu-title">Data Media</h3><!-- /.menu-title -->
                 <li class="@yield('media')">
-                    <a href="{{ url('/media') }}"> <i class="menu-icon fa fa-file"></i>Daftar File</a>
+                    <a href="{{ url('/media') }}"> <i class="menu-icon fa fa-folder"></i>Daftar File</a>
                 </li>
                 <h3 class="menu-title">Data Surat</h3><!-- /.menu-title -->
                 <li class="@yield('surat')">
-                    <a href="{{ url('/surat') }}"> <i class="menu-icon fa fa-download"></i>Surat Masuk</a>
+                    <a href="{{ url('/surat_masuk') }}"> <i class="menu-icon fa fa-inbox"></i>Surat Masuk</a>
                 </li>
                 <li class="@yield('surat')">
-                    <a href="{{ url('/surat') }}"> <i class="menu-icon fa fa-upload"></i>Surat Keluar</a>
+                    <a href="{{ url('/surat') }}"> <i class="menu-icon fa fa-paper-plane"></i>Surat Keluar</a>
                 </li>
                 <h3 class="menu-title">Laporan</h3><!-- /.menu-title -->
                 @if (auth()->user()->role == 'Admin')
