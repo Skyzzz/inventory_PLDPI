@@ -14,6 +14,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\MediaController;
 use App\Models\BarangKeluar;
 use App\Http\Controllers\SuratMasukController;
+use App\Http\Controllers\SuratKeluarController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -93,6 +94,13 @@ Route::middleware(['user'])->group(function () {
     Route::get('/edtSuratMasuk/{id}', [SuratMasukController::class, 'edit']);
     Route::put('/surat_masuk/{id}', [SuratMasukController::class, 'update']);
     Route::get('/hpsSuratMasuk/{id}', [SuratMasukController::class, 'destroy']);
+
+    Route::get('/surat_keluar', [SuratKeluarController::class, 'index']);
+    Route::get('/tbhSuratKeluar', [SuratKeluarController::class, 'create']);
+    Route::post('/surat_keluar', [SuratKeluarController::class, 'store'])->name('tbhSuratKeluar');
+    Route::get('/edtSuratKeluar/{id}', [SuratKeluarController::class, 'edit']);
+    Route::put('/surat_keluar/{id}', [SuratKeluarController::class, 'update']);
+    Route::get('/hpsSuratKeluar/{id}', [SuratKeluarController::class, 'destroy']);
 
     Route::get('/laporan', [DashboardController::class, 'laporan']);
     Route::post('/laporan', [DashboardController::class, 'cetak_laporan'])->name('cetak_laporan');

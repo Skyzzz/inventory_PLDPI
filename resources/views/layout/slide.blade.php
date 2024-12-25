@@ -70,7 +70,7 @@
                     <a href="{{ url('/surat_masuk') }}"> <i class="menu-icon fa fa-inbox"></i>Surat Masuk</a>
                 </li>
                 <li class="@yield('surat')">
-                    <a href="{{ url('/surat') }}"> <i class="menu-icon fa fa-paper-plane"></i>Surat Keluar</a>
+                    <a href="{{ url('/surat_keluar') }}"> <i class="menu-icon fa fa-paper-plane"></i>Surat Keluar</a>
                 </li>
                 <h3 class="menu-title">Laporan</h3><!-- /.menu-title -->
                 @if (auth()->user()->role == 'Admin')

@@ -60,11 +60,6 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="sifat" class="form-control-label">Sifat</label>
-                        <input type="text" id="sifat" name="sifat" class="form-control" value="{{ old('sifat', $suratMasuk->sifat) }}" required>
-                    </div>
-
-                    <div class="form-group">
                         <label for="file_surat" class="form-control-label">File Surat</label>
                         <input type="file" id="file_surat" name="file_surat" class="form-control">
                         @if ($suratMasuk->file_surat)
