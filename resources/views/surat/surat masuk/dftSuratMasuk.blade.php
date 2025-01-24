@@ -45,8 +45,9 @@
                                 <td>{{ $item->perihal }}</td>
                                 <td>{{ $item->tanggal_terima->format('d-m-Y') }}</td>
                                 <td>
-                                    <a href="/edtSuratMasuk/{{ $item->id }}" class="btn btn-sm btn-success"><i class="fa fa-edit"></i> edit</a>
+                                    <a href="/edtSuratMasuk/{{ $item->id }}" class="btn btn-sm btn-success"><i class="fa fa-edit"></i> Edit</a>
                                     <a href="/hpsSuratMasuk/{{ $item->id }}" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Hapus</a>
+                                    <a href="{{ asset('/uploads/media/' . $item->id) }}" class="btn btn-sm btn-success" download><i class="fa fa-download"></i> Unduh</a>
                                 </td>
                             </tr>
                             @endforeach

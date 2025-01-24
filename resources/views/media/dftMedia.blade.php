@@ -45,7 +45,9 @@
                                 <td>{{ $item->uploaded_by }}</td>
                                 <td>{{ $item->tanggal_upload }}</td>
                                 <td>
-                                    <a href="/hpsMedia/{{ $item->id }}" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
+                                    <a href="{{ asset('storage/uploads/media/' . $item->nama_file) }}" class="btn btn-sm btn-info" target="_blank"><i class="fa fa-eye"></i></a>
+                                    <a href="{{ asset('storage/uploads/media/' . $item->id) }}" class="btn btn-sm btn-success" download><i class="fa fa-download"></i></a>
+                                    <a href="/hpsMedia/{{ $item->id }}" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>  
                                 </td>
                             </tr>
                             @endforeach

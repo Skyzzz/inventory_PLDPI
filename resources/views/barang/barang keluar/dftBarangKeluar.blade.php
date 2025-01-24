@@ -33,8 +33,8 @@
                             <td>{{ $item->jumlah }} {{ $item->satuan }}</td>
                             <td>{{ $item->tanggal }}</td>
                             <td>
-                                <a href="/edtBarangKeluar/{{ $item->id_barang }}" class="btn btn-sm btn-success"><i
-                                        class="fa fa-pencil-square-o"></i></a>
+                                <!-- <a href="/edtBarangKeluar/{{ $item->id_barang }}" class="btn btn-sm btn-success"><i
+                                        class="fa fa-pencil-square-o"></i></a> -->
                                 <a href="/hpsBarangKeluar/{{ $item->id_barang }}" class="btn btn-sm btn-danger"><i
                                         class="fa fa-trash"></i></a>
                             </td>
