@@ -67,7 +67,7 @@
                 </li>
                 <h3 class="menu-title">Data Surat</h3><!-- /.menu-title -->
                 <li class="@yield('surat')">
-                    <a href="{{ url('/surat_masuk') }}"> <i class="menu-icon fa fa-inbox"></i>Surat Masuk</a>
+                    <a href="{{ url('/surat') }}"> <i class="menu-icon fa fa-download"></i>Surat Masuk</a>
                 </li>
                 <li class="@yield('surat')">
                     <a href="{{ url('/surat_keluar') }}"> <i class="menu-icon fa fa-paper-plane"></i>Surat Keluar</a>
