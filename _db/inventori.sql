@@ -258,9 +258,9 @@ CREATE TABLE `pegawai` (
 --
 
 INSERT INTO `pegawai` (`id_pegawai`, `kode_pegawai`, `nama_pegawai`, `email`, `created_at`, `updated_at`) VALUES
-(1, 'PW202310001', 'Najwan', 'Najwan@gmail.com', '2023-06-16 12:33:42', '2024-12-11 02:49:36'),
-(2, 'PW202310002', 'Rizki', 'Rizki@gmail.com', '2023-06-16 13:21:33', '2024-12-11 02:49:56'),
-(4, 'PW202410003', 'Khafie', 'khafie@gmail.com', '2024-12-11 02:50:11', '2024-12-11 02:51:37');
+(1, 'PW202510001', 'Najwan', 'Najwan@gmail.com', '2023-06-16 12:33:42', '2024-12-11 02:49:36'),
+(2, 'PW202510002', 'Rizki', 'Rizki@gmail.com', '2023-06-16 13:21:33', '2024-12-11 02:49:56'),
+(4, 'PW202510003', 'Khafie', 'khafie@gmail.com', '2024-12-11 02:50:11', '2024-12-11 02:51:37');
 
 -- --------------------------------------------------------
 
