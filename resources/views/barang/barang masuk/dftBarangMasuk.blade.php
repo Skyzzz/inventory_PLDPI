@@ -4,13 +4,13 @@
 
 @section('content')
 
-<style>
+<!-- <style>
     div.dataTables_wrapper {
         width: 980px;
         margin: 0 auto;
     }
 
-</style>
+</style> -->
 
 
 <div class="row">
@@ -32,6 +32,7 @@
                                 <th>Jumlah</th>
                                 <th>Total Pengeluaran</th>
                                 <th>Tanggal Masuk</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -45,6 +46,7 @@
                                 <td>{{ number_format($item->jumlah) }} {{ $item->satuan }}</td>
                                 <td>Rp. {{ number_format($item->tot_pengeluaran) }}</td>
                                 <td>{{ date('d F Y', strtotime($item->tanggal)) }}</td>
+                                <td><a href="/hpsBarang_masuk/{{ $item->id_barang_masuk }}" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a></td>
                             </tr>
                             @endforeach
                         </tbody>

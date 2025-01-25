@@ -117,10 +117,10 @@ class BarangMasukController extends Controller
        return view('');
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
         BarangMasuk::where('id_barang_masuk', $id)->delete();
-
+        alert()->success('Berhasil', 'Data berhasil dihapus.');
         return back();
     }
 }

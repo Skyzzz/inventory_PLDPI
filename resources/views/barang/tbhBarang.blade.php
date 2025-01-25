@@ -47,7 +47,7 @@
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="satuan">Satuan</label>
-                            <input type="text" name="satuan" id="satuan" class="form-control">
+                            <input type="text" name="satuan" id="satuan" class="form-control" placeholder="misal: pcs, box, pack">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="harga">Harga Beli</label>

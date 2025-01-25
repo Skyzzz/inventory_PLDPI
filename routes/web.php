@@ -77,10 +77,12 @@ Route::middleware(['user'])->group(function () {
     Route::get('/list/{id}', [BarangMasukController::class, 'get_barang']);
     Route::post('/tbhBarang_masuk', [BarangMasukController::class, 'store']);
     Route::get('/edtBarang_masuk', [BarangMasukController::class, 'edit']);
+    Route::get('/hpsBarang_masuk/{id}', [BarangMasukController::class, 'destroy']);
 
     Route::get('/barang_keluar', [BarangKeluarController::class, 'index']);
     Route::get('/tbhBarang_keluar', [BarangKeluarController::class, 'create']);
     Route::get('/tampil_bk/{id}', [BarangKeluarController::class, 'get_barang']);
+    Route::get('/hpsBarang_keluar/{id}', [BarangKeluarController::class, 'destroy']);
     Route::post('/tbhBarang_keluar', [BarangKeluarController::class, 'store'])->name('tbhBarang_keluar');
 
     Route::get('/media', [MediaController::class, 'index']);

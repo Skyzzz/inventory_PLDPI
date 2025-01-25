@@ -141,14 +141,29 @@ class BarangKeluarController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+     /**
+      * Remove the specified resource from storage.
+      *
+      * @param  int  $id
+      * @return \Illuminate\Http\Response
+      */
     public function destroy($id)
     {
-        //
+        // Cek apakah data barang_keluar dengan ID tertentu ada
+        $barangKeluar = BarangKeluar::findOrFail($id);
+      
+        // Kembalikan jumlah stok barang sebelum menghapus data barang keluar
+        $barang = Barang::where('id_barang', $barangKeluar->barang_id)->first();
+        if ($barang) {
+            $barang->update([
+                'jumlah' => $barang->jumlah + $barangKeluar->jumlah
+            ]);
+        }
+
+        // Hapus data barang keluar
+        $barangKeluar->delete();
+
+        alert()->success('Berhasil', 'Data berhasil dihapus.');
+        return back();
     }
 }
