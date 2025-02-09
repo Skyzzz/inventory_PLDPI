@@ -24,14 +24,15 @@ class SuratMasuk extends Model
     protected $fillable = [
         'id_surat',
         'nomor_surat',
+        'nama_surat',
         'tanggal_surat',
         'tanggal_terima',
         'pengirim',
         'perihal',
         'kategori',
-        'sifat',
         'file_surat',
         'keterangan',
+        'diupload_oleh',
     ];
 
     /**
@@ -43,4 +44,9 @@ class SuratMasuk extends Model
         'tanggal_surat' => 'date',
         'tanggal_terima' => 'date',
     ];
+
+    public function pegawai()
+    {
+        return $this->belongsTo(Pegawai::class, 'diupload_oleh');
+    }
 }

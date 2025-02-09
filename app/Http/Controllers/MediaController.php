@@ -30,7 +30,7 @@ class MediaController extends Controller
         $thn = Carbon::now()->year;
         $var = 'MD';
         $media_count = Media::count();
-        
+
         if ($media_count == 0) {
             $awal = 10001;
             $kode_media = $var . $thn . $awal;
@@ -40,8 +40,11 @@ class MediaController extends Controller
             $kode_media = $var . $thn . $awal;
         }
 
-        return view('media.tbhMedia', compact('kode_media'));
+        $kategoriMedia = \App\Models\KategoriMedia::all(); // Ambil semua kategori dari tabel kategori_media
+
+        return view('media.tbhMedia', compact('kode_media', 'kategoriMedia'));
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -83,8 +86,7 @@ class MediaController extends Controller
             'tipe_file' => $tipe_file,
             'ukuran_file' => $ukuran_file,
             'kategori' => $request->kategori,
-            'uploaded_by' => auth()->user()->nama,
-            'tanggal_upload' => now(),
+            'diupload_oleh' => auth()->user()->nama,
             'path' => $path,
         ]);
     

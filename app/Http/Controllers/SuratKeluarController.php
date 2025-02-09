@@ -48,19 +48,21 @@ class SuratKeluarController extends Controller
              $kode_surat = $var . $thn . str_pad($awal, 3, '0', STR_PAD_LEFT);  // Format SMYYYYMMxxx
          }
      
-         return view('surat.surat keluar.tbhSuratKeluar', compact('kode_surat'));
+         $kategori_surat = \App\Models\KategoriSurat::all();
+
+         return view('surat.surat keluar.tbhSuratKeluar', compact('kode_surat', 'kategori_surat')); 
      }
 
      public function store(Request $request)
      {
          $request->validate([
              'nomor_surat' => 'required|string|max:255',
+             'nama_surat' => 'required|string|max:255',
              'tanggal_surat' => 'required|date',
              'tanggal_keluar' => 'required|date',
              'pengirim' => 'required|string|max:255',
              'perihal' => 'required|string|max:255',
              'kategori' => 'nullable|string|max:255',
-             'sifat' => 'nullable|string|max:50',
              'file_surat' => 'nullable|file|mimes:pdf|max:10240',
              'keterangan' => 'nullable|string',
          ]);
@@ -83,14 +85,15 @@ class SuratKeluarController extends Controller
          SuratKeluar::create([
              'id_surat' => $kode_surat,
              'nomor_surat' => $request->nomor_surat,
+             'nama_surat' => $request->nama_surat,
              'tanggal_surat' => $request->tanggal_surat,
              'tanggal_keluar' => $request->tanggal_keluar,
              'pengirim' => $request->pengirim,
              'perihal' => $request->perihal,
              'kategori' => $request->kategori,
-             'sifat' => $request->sifat,
              'file_surat' => $filePath,
              'keterangan' => $request->keterangan,
+             'diupload_oleh' => auth()->user()->nama,
          ]);
      
          alert()->success('Berhasil', 'Surat keluar berhasil ditambahkan.');
@@ -106,7 +109,9 @@ class SuratKeluarController extends Controller
     public function edit($id)
     {
         $suratKeluar = SuratKeluar::findOrFail($id);
-        return view('surat.surat keluar.edtSuratKeluar', compact('suratKeluar'));
+        $kategori_surat = \App\Models\KategoriSurat::all();
+
+        return view('surat.surat keluar.edtSuratKeluar', compact('suratKeluar', 'kategori_surat'));
     }
 
          /**
@@ -121,12 +126,12 @@ class SuratKeluarController extends Controller
         // Validasi request
         $request->validate([
             'nomor_surat' => 'required|string|max:255',
+            'nama_surat' => 'required|string|max:255',
             'tanggal_surat' => 'required|date',
             'tanggal_keluar' => 'required|date',
             'pengirim' => 'required|string|max:255',
             'perihal' => 'required|string|max:255',
             'kategori' => 'nullable|string|max:255',
-            'sifat' => 'nullable|string|max:50',
             'file_surat' => 'nullable|file|mimes:pdf|max:10240',
             'keterangan' => 'nullable|string',
         ]);
@@ -151,12 +156,12 @@ class SuratKeluarController extends Controller
         // Update data surat keluar
         $suratKeluar->update([
             'nomor_surat' => $request->nomor_surat,
+            'nama_surat' => $request->nama_surat,
             'tanggal_surat' => $request->tanggal_surat,
             'tanggal_keluar' => $request->tanggal_keluar,
             'pengirim' => $request->pengirim,
             'perihal' => $request->perihal,
             'kategori' => $request->kategori,
-            'sifat' => $request->sifat,
             'file_surat' => $filePath,
             'keterangan' => $request->keterangan,
         ]);

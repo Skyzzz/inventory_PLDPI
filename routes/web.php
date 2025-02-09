@@ -8,6 +8,8 @@ use App\Http\Controllers\BarangMasukController;
 use App\Http\Controllers\BarangMasukSementaraController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\KategoriMediaController;
+use App\Http\Controllers\KategoriSuratController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\PemasokController;
 use App\Http\Controllers\UserController;
@@ -85,10 +87,20 @@ Route::middleware(['user'])->group(function () {
     Route::get('/hpsBarang_keluar/{id}', [BarangKeluarController::class, 'destroy']);
     Route::post('/tbhBarang_keluar', [BarangKeluarController::class, 'store'])->name('tbhBarang_keluar');
 
+    Route::get('/kategori_media', [KategoriMediaController::class, 'index']);
+    Route::post('/tbhKategoriMedia', [KategoriMediaController::class, 'store']);
+    Route::put('/edtKategoriMedia/{id}', [KategoriMediaController::class, 'update']);
+    Route::get('/hpsKategoriMedia/{id}', [KategoriMediaController::class, 'destroy']);
+
     Route::get('/media', [MediaController::class, 'index']);
     Route::get('/tbhMedia', [MediaController::class, 'create']);
     Route::get('/hpsMedia/{id}', [MediaController::class, 'destroy']);
     Route::post('/tbhMedia', [MediaController::class, 'store'])->name('tbhMedia');
+
+    Route::get('/kategori_surat', [KategoriSuratController::class, 'index']);
+    Route::post('/tbhKategoriSurat', [KategoriSuratController::class, 'store']);
+    Route::put('/edtKategoriSurat/{id}', [KategoriSuratController::class, 'update']);
+    Route::get('/hpsKategoriSurat/{id}', [KategoriSuratController::class, 'destroy']);
 
     Route::get('/surat_masuk', [SuratMasukController::class, 'index']);
     Route::get('/tbhSuratMasuk', [SuratMasukController::class, 'create']);

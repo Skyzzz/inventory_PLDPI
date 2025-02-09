@@ -20,9 +20,9 @@ class CreateMediaTable extends Migration
             $table->string('tipe_file');
             $table->bigInteger('ukuran_file'); 
             $table->string('kategori')->nullable();
-            $table->string('uploaded_by');
-            $table->timestamp('tanggal_upload')->useCurrent();
+            $table->string('diupload_oleh');
             $table->string('path');
+            $table->timestamps();
         });
     }
 

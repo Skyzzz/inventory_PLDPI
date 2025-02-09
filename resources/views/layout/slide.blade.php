@@ -29,7 +29,7 @@
                 <!-- /.menu-title -->
                 <h3 class="menu-title">Data Barang</h3><!-- /.menu-title -->
                 <li class="@yield('kategori')">
-                    <a href="{{ url('/kategori') }}"> <i class="menu-icon fa fa-tag"></i>Daftar Kategori</a>
+                    <a href="{{ url('/kategori') }}"> <i class="menu-icon fa fa-folder-open"></i>Daftar Kategori</a>
                 </li>
                 <li class="@yield('barang')">
                     <a href="{{ url('/barang') }}"> <i class="menu-icon fa fa-suitcase"></i>Daftar Barang</a>
@@ -62,10 +62,16 @@
                     </ul>
                 </li>
                 <h3 class="menu-title">Data Media</h3><!-- /.menu-title -->
+                <li class="@yield('kategori')">
+                    <a href="{{ url('/kategori_media') }}"> <i class="menu-icon fa fa-folder-open"></i>Daftar Kategori Media</a>
+                </li>
                 <li class="@yield('media')">
                     <a href="{{ url('/media') }}"> <i class="menu-icon fa fa-folder"></i>Daftar File</a>
                 </li>
                 <h3 class="menu-title">Data Surat</h3><!-- /.menu-title -->
+                <li class="@yield('kategori')">
+                    <a href="{{ url('/kategori_surat') }}"> <i class="menu-icon fa fa-folder-open"></i>Daftar Kategori Surat</a>
+                </li>
                 <li class="@yield('surat')">
                     <a href="{{ url('/surat_masuk') }}"> <i class="menu-icon fa fa-download"></i>Surat Masuk</a>
                 </li>

@@ -25,19 +25,9 @@
                     <div class="form-group">
                         <label for="kategori" class="form-control-label">Kategori</label>
                         <select id="kategori" name="kategori" class="form-control">
-                        <option value="Surat Keputusan">Surat Keputusan (SK)</option>
-                        <option value="Laporan">Laporan</option>
-                        <option value="Peraturan">Peraturan</option>
-                        <option value="Dokumen Administrasi">Dokumen Administrasi</option>
-                        <option value="Rencana Kerja">Rencana Kerja</option>
-                        <option value="Dokumen Keuangan">Dokumen Keuangan</option>
-                        <option value="Data dan Statistik">Data dan Statistik</option>
-                        <option value="Surat Permohonan">Surat Permohonan</option>
-                        <option value="Pengumuman">Pengumuman</option>
-                        <option value="Penyuluhan dan Edukasi">Penyuluhan dan Edukasi</option>
-                        <option value="Protokol">Protokol</option>
-                        <option value="Kontrak dan Perjanjian">Kontrak dan Perjanjian</option>
-                        <option value="Lainnya">Lainnya</option>
+                            @foreach ($kategoriMedia as $kategori)
+                                <option value="{{ $kategori->kategori_media }}">{{ $kategori->kategori_media }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <button type="submit" class="btn btn-sm btn-primary">Upload</button>

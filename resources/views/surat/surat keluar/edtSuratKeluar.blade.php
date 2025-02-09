@@ -42,20 +42,13 @@
 
                     <div class="form-group">
                         <label for="kategori" class="form-control-label">Kategori</label>
-                        <select id="kategori" name="kategori" class="form-control">
-                            <option value="Surat Keputusan" {{ $suratKeluar->kategori == 'Surat Keputusan' ? 'selected' : '' }}>Surat Keputusan (SK)</option>
-                            <option value="Laporan" {{ $suratKeluar->kategori == 'Laporan' ? 'selected' : '' }}>Laporan</option>
-                            <option value="Peraturan" {{ $suratKeluar->kategori == 'Peraturan' ? 'selected' : '' }}>Peraturan</option>
-                            <option value="Dokumen Administrasi" {{ $suratKeluar->kategori == 'Dokumen Administrasi' ? 'selected' : '' }}>Dokumen Administrasi</option>
-                            <option value="Rencana Kerja" {{ $suratKeluar->kategori == 'Rencana Kerja' ? 'selected' : '' }}>Rencana Kerja</option>
-                            <option value="Dokumen Keuangan" {{ $suratKeluar->kategori == 'Dokumen Keuangan' ? 'selected' : '' }}>Dokumen Keuangan</option>
-                            <option value="Data dan Statistik" {{ $suratKeluar->kategori == 'Data dan Statistik' ? 'selected' : '' }}>Data dan Statistik</option>
-                            <option value="Surat Permohonan" {{ $suratKeluar->kategori == 'Surat Permohonan' ? 'selected' : '' }}>Surat Permohonan</option>
-                            <option value="Pengumuman" {{ $suratKeluar->kategori == 'Pengumuman' ? 'selected' : '' }}>Pengumuman</option>
-                            <option value="Penyuluhan dan Edukasi" {{ $suratKeluar->kategori == 'Penyuluhan dan Edukasi' ? 'selected' : '' }}>Penyuluhan dan Edukasi</option>
-                            <option value="Protokol" {{ $suratKeluar->kategori == 'Protokol' ? 'selected' : '' }}>Protokol</option>
-                            <option value="Kontrak dan Perjanjian" {{ $suratKeluar->kategori == 'Kontrak dan Perjanjian' ? 'selected' : '' }}>Kontrak dan Perjanjian</option>
-                            <option value="Lainnya" {{ $suratKeluar->kategori == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+                        <select id="kategori" name="kategori" class="form-control" required>
+                            <option value="" disabled selected>Pilih Kategori</option>
+                            @foreach ($kategori_surat as $kategori)
+                                <option value="{{ $kategori->kategori_surat }}" {{ old('kategori') == $kategori->kategori_surat ? 'selected' : '' }}>
+                                    {{ $kategori->kategori_surat }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
 

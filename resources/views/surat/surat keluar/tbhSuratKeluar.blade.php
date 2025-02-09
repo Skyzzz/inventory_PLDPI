@@ -66,19 +66,12 @@
                     <div class="form-group">
                         <label for="kategori" class="form-control-label">Kategori</label>
                         <select id="kategori" name="kategori" class="form-control" required>
-                            <option value="Surat Keputusan" {{ old('kategori') == 'Surat Keputusan' ? 'selected' : '' }}>Surat Keputusan (SK)</option>
-                            <option value="Laporan" {{ old('kategori') == 'Laporan' ? 'selected' : '' }}>Laporan</option>
-                            <option value="Peraturan" {{ old('kategori') == 'Peraturan' ? 'selected' : '' }}>Peraturan</option>
-                            <option value="Dokumen Administrasi" {{ old('kategori') == 'Dokumen Administrasi' ? 'selected' : '' }}>Dokumen Administrasi</option>
-                            <option value="Rencana Kerja" {{ old('kategori') == 'Rencana Kerja' ? 'selected' : '' }}>Rencana Kerja</option>
-                            <option value="Dokumen Keuangan" {{ old('kategori') == 'Dokumen Keuangan' ? 'selected' : '' }}>Dokumen Keuangan</option>
-                            <option value="Data dan Statistik" {{ old('kategori') == 'Data dan Statistik' ? 'selected' : '' }}>Data dan Statistik</option>
-                            <option value="Surat Permohonan" {{ old('kategori') == 'Surat Permohonan' ? 'selected' : '' }}>Surat Permohonan</option>
-                            <option value="Pengumuman" {{ old('kategori') == 'Pengumuman' ? 'selected' : '' }}>Pengumuman</option>
-                            <option value="Penyuluhan dan Edukasi" {{ old('kategori') == 'Penyuluhan dan Edukasi' ? 'selected' : '' }}>Penyuluhan dan Edukasi</option>
-                            <option value="Protokol" {{ old('kategori') == 'Protokol' ? 'selected' : '' }}>Protokol</option>
-                            <option value="Kontrak dan Perjanjian" {{ old('kategori') == 'Kontrak dan Perjanjian' ? 'selected' : '' }}>Kontrak dan Perjanjian</option>
-                            <option value="Lainnya" {{ old('kategori') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+                            <option value="" disabled selected>Pilih Kategori</option>
+                            @foreach ($kategori_surat as $kategori)
+                                <option value="{{ $kategori->kategori_surat }}" {{ old('kategori') == $kategori->kategori_surat ? 'selected' : '' }}>
+                                    {{ $kategori->kategori_surat }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
 

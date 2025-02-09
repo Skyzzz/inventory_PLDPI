@@ -17,14 +17,15 @@ class CreateSuratMasuksTable extends Migration
             $table->id();
             $table->string('id_surat')->unique(); 
             $table->string('nomor_surat');
+            $table->string('nama_surat');
             $table->date('tanggal_surat');
             $table->date('tanggal_terima');
             $table->string('pengirim');
             $table->string('perihal')->nullable();
             $table->string('kategori')->nullable();
-            $table->string('sifat')->nullable();
             $table->string('file_surat')->nullable();
             $table->text('keterangan')->nullable();
+            $table->string('diupload_oleh');
             $table->timestamps();
         });
     }

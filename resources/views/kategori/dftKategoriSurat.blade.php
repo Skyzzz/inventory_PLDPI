@@ -1,0 +1,125 @@
+@extends('layout.main')
+
+@section('kategoriSurat', 'active')
+
+@section('content')
+
+<a data-toggle="modal" data-target="#tambah" href="#" class="btn btn-primary btn-sm mb-3"><i class="fa fa-plus"></i>
+    Tambah Kategori Surat</a>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <strong class="card-title">Daftar Kategori Surat</strong>
+            </div>
+            <div class="card-body">
+                <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Kode Kategori Surat</th>
+                            <th>Nama Kategori Surat</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($kategoriSurat as $item)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $item->kode_kategori_surat }}</td>
+                            <td>{{ $item->kategori_surat }}</td>
+                            <td>
+                                <a data-toggle="modal" data-target="#edit{{ $item->id_kategori_surat }}"
+                                    class="btn btn-sm btn-success"><i class="fa fa-pencil-square-o"></i></a>
+                                <a href="/hpsKategoriSurat/{{ $item->id_kategori_surat }}" class="btn btn-sm btn-danger"><i
+                                        class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Tambah Kategori Surat -->
+<div class="modal fade" id="tambah" tabindex="-1" role="dialog" aria-labelledby="tambahLabel" aria-hidden="true"
+    data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="tambahLabel"><b>Tambah Kategori Surat</b></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="/tbhKategoriSurat" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="kode_kategori_surat" class="form-label">Kode Kategori Surat</label>
+                        <input type="text" class="form-control" id="kode_kategori_surat" name="kode_kategori_surat"
+                            value="{{ $kode_ks }}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="kategori_surat" class="form-label">Nama Kategori Surat</label>
+                        <input type="text" class="form-control" id="kategori_surat" name="kategori_surat">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="submit">Simpan</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Edit Kategori Surat -->
+@foreach ($kategoriSurat as $item)
+<div class="modal fade" id="edit{{ $item->id_kategori_surat }}" tabindex="-1" role="dialog" aria-labelledby="editLabel"
+    aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editLabel"><b>Edit Kategori Surat</b></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="/edtKategoriSurat/{{ $item->id_kategori_surat }}" method="POST">
+                @method('put')
+                @csrf
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="kode_kategori_surat" class="form-label">Kode Kategori Surat</label>
+                        <input type="text" class="form-control" id="kode_kategori_surat" name="kode_kategori_surat"
+                            value="{{ $item->kode_kategori_surat }}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="kategori_surat" class="form-label">Nama Kategori Surat</label>
+                        <input type="text" class="form-control" id="kategori_surat" name="kategori_surat"
+                            value="{{ $item->kategori_surat }}">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="submit">Edit</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@endforeach
+
+@endsection
+
+@section('table')
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#bootstrap-data-table-export').DataTable();
+    });
+</script>
+@endsection
