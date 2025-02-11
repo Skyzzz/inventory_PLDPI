@@ -43,9 +43,9 @@ class SuratMasukController extends Controller
              // Ambil surat terakhir untuk bulan dan tahun ini
              $last = SuratMasuk::whereYear('tanggal_terima', Carbon::now()->year)
                                ->whereMonth('tanggal_terima', Carbon::now()->month)
-                               ->orderByDesc('id_surat')
+                               ->orderByDesc('kode_surat')
                                ->first();
-             $awal = (int)substr($last->id_surat, -3) + 1;  // Ambil urutan dari 3 digit terakhir
+             $awal = (int)substr($last->kode_surat, -3) + 1;  // Ambil urutan dari 3 digit terakhir
              $kode_surat = $var . $thn . str_pad($awal, 3, '0', STR_PAD_LEFT);  // Format SMYYYYMMxxx
          }
      
@@ -58,6 +58,7 @@ class SuratMasukController extends Controller
      {
          $request->validate([
              'nomor_surat' => 'required|string|max:255',
+             'kategori_surat_id' => 'required|exists:kategori_surat,id_kategori_surat',
              'nama_surat' => 'required|string|max:255',
              'tanggal_surat' => 'required|date',
              'tanggal_terima' => 'required|date',
@@ -68,23 +69,36 @@ class SuratMasukController extends Controller
              'keterangan' => 'nullable|string',
          ]);
      
-         $thn = Carbon::now()->year;
-         $var = 'SM';  // Kode tetap untuk Surat Masuk
-         $tahun_bulan = Carbon::now()->format('Ym');  // Tahun dan bulan dalam format YYYYMM
-         $nomor_urut = SuratMasuk::where('id_surat', 'LIKE', $var . $tahun_bulan . '%')->count() + 1;  // Hitung nomor urut berdasarkan bulan aktif
-         $nomor_urut_padded = str_pad($nomor_urut, 3, '0', STR_PAD_LEFT);  // Tambahkan leading zero
+         $prefix = 'SM'; // Kode tetap untuk Surat Masuk
+         $tahun_bulan = Carbon::now()->format('Ym'); // Tahun dan bulan dalam format YYYYMM
      
-         $kode_surat = $var . $tahun_bulan . $nomor_urut_padded;  // Format SMYYYYMMxxx
+         // Ambil kode surat terakhir untuk bulan yang sama
+         $lastSurat = SuratMasuk::where('kode_surat', 'LIKE', $prefix . $tahun_bulan . '%')
+             ->orderBy('kode_surat', 'desc')
+             ->first();
+     
+         if ($lastSurat) {
+             // Ambil angka terakhir dari kode_surat, lalu tambahkan 1
+             $lastNumber = (int) substr($lastSurat->kode_surat, -3);
+             $nomor_urut = $lastNumber + 1;
+         } else {
+             // Jika belum ada surat untuk bulan ini, mulai dari 1
+             $nomor_urut = 1;
+         }
+     
+         $nomor_urut_padded = str_pad($nomor_urut, 3, '0', STR_PAD_LEFT); // Tambahkan leading zero
+         $kode_surat = $prefix . $tahun_bulan . $nomor_urut_padded; // Format SMYYYYMMxxx
      
          // Cek apakah ada file yang diupload
          $filePath = null;
          if ($request->hasFile('file_surat')) {
-             $filePath = $request->file('file_surat')->store('uploads/surat_masuk');
+             $filePath = $request->file('file_surat')->store('uploads/surat_masuk', 'public');
          }
      
          // Simpan data surat masuk ke database
          SuratMasuk::create([
-             'id_surat' => $kode_surat,
+             'kode_surat' => $kode_surat,
+             'kategori_surat_id' => $request->kategori_surat_id,
              'nomor_surat' => $request->nomor_surat,
              'nama_surat' => $request->nama_surat,
              'tanggal_surat' => $request->tanggal_surat,
@@ -94,12 +108,13 @@ class SuratMasukController extends Controller
              'kategori' => $request->kategori,
              'file_surat' => $filePath,
              'keterangan' => $request->keterangan,
-             'diupload_oleh' => auth()->user()->nama,
+             'diupload_oleh' => auth()->user()->id_user,
          ]);
      
          alert()->success('Berhasil', 'Surat masuk berhasil ditambahkan.');
          return redirect('/surat_masuk');
      }
+     
      
     
 
@@ -125,7 +140,9 @@ class SuratMasukController extends Controller
     {
         $suratMasuk = SuratMasuk::findOrFail($id);
         $kategori_surat = \App\Models\KategoriSurat::all();
-        return view('surat.surat masuk.edtSuratMasuk', compact('suratMasuk', 'kategori_surat'));
+        return view('surat.surat masuk.edtSuratMasuk', compact('suratMasuk', 'kategori_surat'))->with([
+            'selectedKategori' => $suratMasuk->kategori
+        ]);
     }
 
     /**

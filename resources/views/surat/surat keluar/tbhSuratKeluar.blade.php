@@ -14,6 +14,16 @@
                 <form action="{{ route('tbhSuratKeluar') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
+                        <label for="nama_surat" class="form-control-label">Nama Surat</label>
+                        <input type="text" id="nama_surat" name="nama_surat" class="form-control" value="{{ old('nama_surat') }}" required>
+                        @if ($errors->has('nama_surat'))
+                            <div class="alert alert-danger">
+                                {{ $errors->first('nama_surat') }}
+                            </div>
+                        @endif
+                    </div>
+
+                    <div class="form-group">
                         <label for="nomor_surat" class="form-control-label">Nomor Surat</label>
                         <input type="text" id="nomor_surat" name="nomor_surat" class="form-control" value="{{ old('nomor_surat') }}" required>
                         @if ($errors->has('nomor_surat'))
@@ -65,15 +75,16 @@
 
                     <div class="form-group">
                         <label for="kategori" class="form-control-label">Kategori</label>
-                        <select id="kategori" name="kategori" class="form-control" required>
-                            <option value="" disabled selected>Pilih Kategori</option>
+                        <select id="kategori" name="kategori" class="form-control" onchange="updateKategoriID()">
+                            <option value="">-- Pilih Kategori --</option>
                             @foreach ($kategori_surat as $kategori)
-                                <option value="{{ $kategori->kategori_surat }}" {{ old('kategori') == $kategori->kategori_surat ? 'selected' : '' }}>
+                                <option value="{{ $kategori->kategori_surat }}" data-id="{{ $kategori->id_kategori_surat }}">
                                     {{ $kategori->kategori_surat }}
                                 </option>
                             @endforeach
                         </select>
                     </div>
+                    <input type="hidden" id="kategori_surat_id" name="kategori_surat_id">
 
                     <div class="form-group">
                         <label for="file_surat" class="form-control-label">File Surat</label>
@@ -92,5 +103,12 @@
         </div>
     </div>
 </div>
-
+<script>
+    function updateKategoriID() {
+        var select = document.getElementById("kategori");
+        var selectedOption = select.options[select.selectedIndex]; 
+        var kategoriID = selectedOption.getAttribute("data-id"); // Ambil ID dari atribut data-id
+        document.getElementById("kategori_surat_id").value = kategoriID; // Masukkan ke hidden input
+    }
+</script>
 @endsection

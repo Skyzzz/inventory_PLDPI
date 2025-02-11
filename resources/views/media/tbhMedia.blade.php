@@ -24,12 +24,18 @@
                     </div>
                     <div class="form-group">
                         <label for="kategori" class="form-control-label">Kategori</label>
-                        <select id="kategori" name="kategori" class="form-control">
+                        <select id="kategori" name="kategori" class="form-control" onchange="updateKategoriID()">
+                            <option value="" disabled selected>-- Pilih Kategori --</option>
                             @foreach ($kategoriMedia as $kategori)
-                                <option value="{{ $kategori->kategori_media }}">{{ $kategori->kategori_media }}</option>
+                                <option value="{{ $kategori->kategori_media }}" data-id="{{ $kategori->id_kategori_media }}">
+                                    {{ $kategori->kategori_media }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
+                    <!-- Hidden input untuk menyimpan ID kategori -->
+                    <input type="hidden" id="kategori_media_id" name="kategori_media_id">
+
                     <button type="submit" class="btn btn-sm btn-primary">Upload</button>
                     <a href="/media" class="btn btn-sm btn-danger">Batal</a>
                 </form>
@@ -37,5 +43,14 @@
         </div>
     </div>
 </div>
+<script>
+    function updateKategoriID() {
+        var select = document.getElementById("kategori");
+        var selectedOption = select.options[select.selectedIndex]; 
+        var kategoriID = selectedOption.getAttribute("data-id"); // Ambil ID dari atribut data-id
+        document.getElementById("kategori_media_id").value = kategoriID; // Masukkan ke hidden input
+    }
+</script>
+
 
 @endsection

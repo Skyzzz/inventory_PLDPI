@@ -14,7 +14,7 @@ class CreateKategoriMediaTable extends Migration
     public function up()
     {
         Schema::create('kategori_media', function (Blueprint $table) {
-            $table->increments('id_kategori_media');
+            $table->Increments('id_kategori_media'); 
             $table->string('kode_kategori_media');
             $table->string('kategori_media');
             $table->timestamps();

@@ -25,7 +25,7 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>ID Surat</th>
+                                <th>Kode Surat</th>
                                 <th>Nomor Surat</th>
                                 <th>Nama Surat</th>
                                 <th>Tanggal Surat</th>
@@ -40,14 +40,14 @@
                             @foreach ($suratMasuk as $item)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->id_surat }}</td>
+                                <td>{{ $item->kode_surat }}</td>
                                 <td>{{ $item->nomor_surat }}</td>
                                 <td>{{ $item->nama_surat }}</td>
                                 <td>{{ $item->tanggal_surat->format('d-m-Y') }}</td>
                                 <td>{{ $item->pengirim }}</td>
                                 <td>{{ $item->perihal }}</td>
                                 <td>{{ $item->tanggal_terima->format('d-m-Y') }}</td>
-                                <td>{{ $item->diupload_oleh }}</td>
+                                <td>{{ $item->user->nama }}</td>
                                 <td>
                                     <a href="/edtSuratMasuk/{{ $item->id }}" class="btn btn-sm btn-success"><i class="fa fa-edit"></i> Edit</a>
                                     <a href="/hpsSuratMasuk/{{ $item->id }}" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Hapus</a>

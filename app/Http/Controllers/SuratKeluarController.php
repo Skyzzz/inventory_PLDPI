@@ -42,9 +42,9 @@ class SuratKeluarController extends Controller
              // Ambil surat terakhir untuk bulan dan tahun ini
              $last = SuratKeluar::whereYear('tanggal_keluar', Carbon::now()->year)
                                ->whereMonth('tanggal_keluar', Carbon::now()->month)
-                               ->orderByDesc('id_surat')
+                               ->orderByDesc('kode_surat')
                                ->first();
-             $awal = (int)substr($last->id_surat, -3) + 1;  // Ambil urutan dari 3 digit terakhir
+             $awal = (int)substr($last->kode_surat, -3) + 1;  // Ambil urutan dari 3 digit terakhir
              $kode_surat = $var . $thn . str_pad($awal, 3, '0', STR_PAD_LEFT);  // Format SMYYYYMMxxx
          }
      
@@ -56,6 +56,7 @@ class SuratKeluarController extends Controller
      public function store(Request $request)
      {
          $request->validate([
+             'kategori_surat_id' => 'required|exists:kategori_surat,id_kategori_surat',
              'nomor_surat' => 'required|string|max:255',
              'nama_surat' => 'required|string|max:255',
              'tanggal_surat' => 'required|date',
@@ -67,23 +68,36 @@ class SuratKeluarController extends Controller
              'keterangan' => 'nullable|string',
          ]);
      
-         $thn = Carbon::now()->year;
-         $var = 'SM';  // Kode tetap untuk Surat Keluar
-         $tahun_bulan = Carbon::now()->format('Ym');  // Tahun dan bulan dalam format YYYYMM
-         $nomor_urut = SuratKeluar::where('id_surat', 'LIKE', $var . $tahun_bulan . '%')->count() + 1;  // Hitung nomor urut berdasarkan bulan aktif
-         $nomor_urut_padded = str_pad($nomor_urut, 3, '0', STR_PAD_LEFT);  // Tambahkan leading zero
+         $prefix = 'SM'; // Kode tetap untuk Surat Keluar
+         $tahun_bulan = Carbon::now()->format('Ym'); // Tahun dan bulan dalam format YYYYMM
      
-         $kode_surat = $var . $tahun_bulan . $nomor_urut_padded;  // Format SMYYYYMMxxx
+         // Ambil kode surat terakhir untuk bulan yang sama
+         $lastSurat = SuratKeluar::where('kode_surat', 'LIKE', $prefix . $tahun_bulan . '%')
+             ->orderBy('kode_surat', 'desc')
+             ->first();
+     
+         if ($lastSurat) {
+             // Ambil angka terakhir dari kode_surat, lalu tambahkan 1
+             $lastNumber = (int) substr($lastSurat->kode_surat, -3);
+             $nomor_urut = $lastNumber + 1;
+         } else {
+             // Jika belum ada surat untuk bulan ini, mulai dari 1
+             $nomor_urut = 1;
+         }
+     
+         $nomor_urut_padded = str_pad($nomor_urut, 3, '0', STR_PAD_LEFT); // Tambahkan leading zero
+         $kode_surat = $prefix . $tahun_bulan . $nomor_urut_padded; // Format SMYYYYMMxxx
      
          // Cek apakah ada file yang diupload
          $filePath = null;
          if ($request->hasFile('file_surat')) {
-             $filePath = $request->file('file_surat')->store('uploads/surat_keluar');
+             $filePath = $request->file('file_surat')->store('uploads/surat_keluar', 'public');
          }
      
          // Simpan data surat keluar ke database
          SuratKeluar::create([
-             'id_surat' => $kode_surat,
+             'kode_surat' => $kode_surat,
+             'kategori_surat_id' => $request->kategori_surat_id,
              'nomor_surat' => $request->nomor_surat,
              'nama_surat' => $request->nama_surat,
              'tanggal_surat' => $request->tanggal_surat,
@@ -93,12 +107,12 @@ class SuratKeluarController extends Controller
              'kategori' => $request->kategori,
              'file_surat' => $filePath,
              'keterangan' => $request->keterangan,
-             'diupload_oleh' => auth()->user()->nama,
+             'diupload_oleh' => auth()->user()->id_user,
          ]);
      
          alert()->success('Berhasil', 'Surat keluar berhasil ditambahkan.');
          return redirect('/surat_keluar');
-     }
+     }     
 
          /**
      * Show the form for editing the specified resource.

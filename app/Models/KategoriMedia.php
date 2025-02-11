@@ -15,13 +15,8 @@ class KategoriMedia extends Model
         'kategori_media'
     ];
 
-    public function pegawai()
-    {
-        return $this->hasMany(Pegawai::class);
-    }
-
     public function media()
     {
-        return $this->hasMany(Media::class);
+        return $this->hasMany(Media::class, 'kategori_media_id', 'id_kategori_media');
     }
 }

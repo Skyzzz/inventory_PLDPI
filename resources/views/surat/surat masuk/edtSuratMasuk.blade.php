@@ -16,6 +16,11 @@
                     @method('PUT') <!-- Atur untuk mengirimkan request POST -->
 
                     <div class="form-group">
+                        <label for="nama_surat" class="form-control-label">Nama Surat</label>
+                        <input type="text" id="nama_surat" name="nama_surat" class="form-control" value="{{ old('nama_surat', $suratMasuk->nama_surat) }}" required>
+                    </div>
+
+                    <div class="form-group">
                         <label for="nomor_surat" class="form-control-label">Nomor Surat</label>
                         <input type="text" id="nomor_surat" name="nomor_surat" class="form-control" value="{{ old('nomor_surat', $suratMasuk->nomor_surat) }}" required>
                     </div>
@@ -43,9 +48,9 @@
                     <div class="form-group">
                         <label for="kategori" class="form-control-label">Kategori</label>
                         <select id="kategori" name="kategori" class="form-control" required>
-                            <option value="" disabled selected>Pilih Kategori</option>
+                            <option value="" disabled selected> --Pilih Kategori-- </option>
                             @foreach ($kategori_surat as $kategori)
-                                <option value="{{ $kategori->kategori_surat }}" {{ old('kategori') == $kategori->kategori_surat ? 'selected' : '' }}>
+                                <option value="{{ $kategori->kategori_surat }}" {{ old('kategori', $selectedKategori) == $kategori->kategori_surat ? 'selected' : '' }}>
                                     {{ $kategori->kategori_surat }}
                                 </option>
                             @endforeach

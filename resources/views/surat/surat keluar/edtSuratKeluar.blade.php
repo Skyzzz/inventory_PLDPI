@@ -16,6 +16,11 @@
                     @method('PUT') <!-- Atur untuk mengirimkan request POST -->
 
                     <div class="form-group">
+                        <label for="nama_surat" class="form-control-label">Nama Surat</label>
+                        <input type="text" id="nama_surat" name="nama_surat" class="form-control" value="{{ old('nama_surat', $suratKeluar->nama_surat) }}" required>
+                    </div>
+                    
+                    <div class="form-group">
                         <label for="nomor_surat" class="form-control-label">Nomor Surat</label>
                         <input type="text" id="nomor_surat" name="nomor_surat" class="form-control" value="{{ old('nomor_surat', $suratKeluar->nomor_surat) }}" required>
                     </div>

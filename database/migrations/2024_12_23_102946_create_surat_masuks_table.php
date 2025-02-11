@@ -15,7 +15,8 @@ class CreateSuratMasuksTable extends Migration
     {
         Schema::create('surat_masuk', function (Blueprint $table) {
             $table->id();
-            $table->string('id_surat')->unique(); 
+            $table->string('kode_surat')->unique(); 
+            $table->unsignedInteger('kategori_surat_id'); 
             $table->string('nomor_surat');
             $table->string('nama_surat');
             $table->date('tanggal_surat');
@@ -25,8 +26,12 @@ class CreateSuratMasuksTable extends Migration
             $table->string('kategori')->nullable();
             $table->string('file_surat')->nullable();
             $table->text('keterangan')->nullable();
-            $table->string('diupload_oleh');
+            $table->unsignedInteger('diupload_oleh');
             $table->timestamps();
+
+            $table->foreign('kategori_surat_id')->references('id_kategori_surat')->on('kategori_surat');
+            $table->foreign('diupload_oleh')->references('id_user')->on('users');
+
         });
     }
 

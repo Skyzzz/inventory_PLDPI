@@ -26,4 +26,19 @@ class Pegawai extends Model
         return $this->hasMany(Barang::class);
     }
 
+    public function media()
+    {
+        return $this->hasMany(Media::class);
+    }
+
+    public function surat_masuk()
+    {
+        return $this->hasMany(SuratMasuk::class);
+    }
+
+    public function surat_keluar()
+    {
+        return $this->hasMany(Suratkeluar::class);
+    }
+
 }

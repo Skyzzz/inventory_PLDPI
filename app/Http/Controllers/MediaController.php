@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Media;
+use App\Models\KategoriMedia;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
@@ -16,7 +18,7 @@ class MediaController extends Controller
      */
     public function index()
     {
-        $media = Media::all();
+        $media = Media::with('user')->get(); // Load relasi user
         return view('media.dftMedia', compact('media'));
     }
 
@@ -56,15 +58,30 @@ class MediaController extends Controller
     {
         $request->validate([
             'file' => 'required|file|max:10240',
-            'kategori' => 'nullable|string',
+            'kategori_media_id' => 'required|exists:kategori_media,id_kategori_media',
+            'kategori' => 'required|string',
         ]);
     
         $prefix = 'MD'; // Kode tetap untuk media
         $tahun_bulan = Carbon::now()->format('Ym'); // Tahun dan bulan dalam format YYYYMM
-        $nomor_urut = Media::where('kode_media', 'LIKE', $prefix . $tahun_bulan . '%')->count() + 1; // Hitung nomor urut berdasarkan bulan aktif
-        $nomor_urut_padded = str_pad($nomor_urut, 3, '0', STR_PAD_LEFT); // Tambahkan leading zero
     
+        // Ambil kode terakhir yang ada dalam database untuk bulan yang sama
+        $lastMedia = Media::where('kode_media', 'LIKE', $prefix . $tahun_bulan . '%')
+            ->orderBy('kode_media', 'desc')
+            ->first();
+    
+        if ($lastMedia) {
+            // Ambil angka terakhir dari kode_media, lalu tambahkan 1
+            $lastNumber = (int) substr($lastMedia->kode_media, -3);
+            $nomor_urut = $lastNumber + 1;
+        } else {
+            // Jika belum ada kode_media di bulan ini, mulai dari 1
+            $nomor_urut = 1;
+        }
+    
+        $nomor_urut_padded = str_pad($nomor_urut, 3, '0', STR_PAD_LEFT); // Tambahkan leading zero
         $kode_media = $prefix . $tahun_bulan . $nomor_urut_padded;
+    
         $file = $request->file('file');
         $nama_file = $file->getClientOriginalName();
     
@@ -81,18 +98,20 @@ class MediaController extends Controller
     
         // Simpan data ke dalam database
         Media::create([
+            'kategori_media_id' => $request->kategori_media_id,
             'kode_media' => $kode_media,
             'nama_file' => $nama_file,
             'tipe_file' => $tipe_file,
             'ukuran_file' => $ukuran_file,
             'kategori' => $request->kategori,
-            'diupload_oleh' => auth()->user()->nama,
+            'diupload_oleh' => auth()->user()->id_user,
             'path' => $path,
         ]);
     
         alert()->success('Berhasil', 'Media berhasil diunggah.');
         return redirect('/media');
     }
+    
 
     /**
      * Remove the specified resource from storage.

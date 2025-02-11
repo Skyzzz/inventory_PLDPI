@@ -42,7 +42,7 @@
                                 <td>{{ $item->nama_file }}</td>
                                 <td>{{ number_format($item->ukuran_file / 1048576, 2) }} MB</td>
                                 <td>{{ $item->kategori }}</td>
-                                <td>{{ $item->diupload_oleh }}</td>
+                                <td>{{ $item->user->nama }}</td>
                                 <td>{{ $item->created_at }}</td>
                                 <td>
                                     <a href="{{ asset('storage/uploads/media/' . $item->nama_file) }}" class="btn btn-sm btn-info" target="_blank"><i class="fa fa-eye"></i></a>
