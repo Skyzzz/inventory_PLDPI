@@ -62,11 +62,10 @@ class SuratMasukController extends Controller
      public function store(Request $request)
      {
          $request->validate([
-             'nomor_surat' => 'required|string|max:255',
              'kategori_surat_id' => 'required|exists:kategori_surat,id_kategori_surat',
-             'nama_surat' => 'required|string|max:255',
+             'nomor_surat' => 'required|string|max:255',
              'tanggal_surat' => 'required|date',
-             'tanggal_terima' => 'required|date',
+             'tanggal_keluar' => 'required|date',
              'pengirim' => 'required|string|max:255',
              'perihal' => 'required|string|max:255',
              'kategori' => 'nullable|string|max:255',
@@ -74,40 +73,52 @@ class SuratMasukController extends Controller
              'keterangan' => 'nullable|string',
          ]);
      
-         $prefix = 'SM'; // Kode tetap untuk Surat Masuk
+         $prefix = 'SK'; // Kode tetap untuk Surat Keluar
          $tahun_bulan = Carbon::now()->format('Ym'); // Tahun dan bulan dalam format YYYYMM
      
          // Ambil kode surat terakhir untuk bulan yang sama
-         $lastSurat = SuratMasuk::where('kode_surat', 'LIKE', $prefix . $tahun_bulan . '%')
+         $lastSurat = SuratKeluar::where('kode_surat', 'LIKE', $prefix . $tahun_bulan . '%')
              ->orderBy('kode_surat', 'desc')
              ->first();
      
-         if ($lastSurat) {
-             // Ambil angka terakhir dari kode_surat, lalu tambahkan 1
-             $lastNumber = (int) substr($lastSurat->kode_surat, -3);
-             $nomor_urut = $lastNumber + 1;
-         } else {
-             // Jika belum ada surat untuk bulan ini, mulai dari 1
-             $nomor_urut = 1;
-         }
+         $nomor_urut = $lastSurat ? ((int) substr($lastSurat->kode_surat, -3)) + 1 : 1;
+         $nomor_urut_padded = str_pad($nomor_urut, 3, '0', STR_PAD_LEFT);
+         $kode_surat = $prefix . $tahun_bulan . $nomor_urut_padded;
      
-         $nomor_urut_padded = str_pad($nomor_urut, 3, '0', STR_PAD_LEFT); // Tambahkan leading zero
-         $kode_surat = $prefix . $tahun_bulan . $nomor_urut_padded; // Format SMYYYYMMxxx
-     
-         // Cek apakah ada file yang diupload
+         // Cek apakah ada file yang diunggah
          $filePath = null;
+         $nama_surat = $request->nama_surat; // Default dari input jika tidak ada file
+     
          if ($request->hasFile('file_surat')) {
-             $filePath = $request->file('file_surat')->store('uploads/surat_masuk', 'public');
+             $file = $request->file('file_surat');
+             $nama_surat = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME); // Ambil nama file tanpa ekstensi
+     
+             // Cek apakah nama surat sudah ada di database
+             if (SuratKeluar::where('nama_surat', $nama_surat)->exists()) {
+                 return redirect()->back()->withErrors([
+                     'file_surat' => 'Surat dengan nama yang sama sudah ada. Harap gunakan nama file lain atau ubah nama surat sebelum mengunggah.',
+                 ]);
+             }
+     
+             // Simpan file ke storage
+             $filePath = $file->store('uploads/surat_keluar', 'public');
+         } else {
+             // Jika tidak ada file, pastikan nama_surat tidak duplikat dari input manual
+             if (SuratKeluar::where('nama_surat', $nama_surat)->exists()) {
+                 return redirect()->back()->withErrors([
+                     'nama_surat' => 'Nama surat sudah ada. Harap gunakan nama yang berbeda.',
+                 ]);
+             }
          }
      
-         // Simpan data surat masuk ke database
-         SuratMasuk::create([
+         // Simpan data surat keluar ke database
+         SuratKeluar::create([
              'kode_surat' => $kode_surat,
              'kategori_surat_id' => $request->kategori_surat_id,
              'nomor_surat' => $request->nomor_surat,
-             'nama_surat' => $request->nama_surat,
+             'nama_surat' => $nama_surat, // Nama surat diambil dari file atau input manual
              'tanggal_surat' => $request->tanggal_surat,
-             'tanggal_terima' => $request->tanggal_terima,
+             'tanggal_keluar' => $request->tanggal_keluar,
              'pengirim' => $request->pengirim,
              'perihal' => $request->perihal,
              'kategori' => $request->kategori,
@@ -116,9 +127,11 @@ class SuratMasukController extends Controller
              'diupload_oleh' => auth()->user()->id_user,
          ]);
      
-         alert()->success('Berhasil', 'Surat masuk berhasil ditambahkan.');
-         return redirect('/surat_masuk');
+         alert()->success('Berhasil', 'Surat keluar berhasil ditambahkan.');
+         return redirect('/surat_keluar');
      }
+     
+     
      
      
     
@@ -248,5 +261,13 @@ class SuratMasukController extends Controller
 
         alert()->success('Berhasil', 'Surat masuk berhasil dihapus.');
         return back();
+    }
+
+    public function streamSuratMasuk($id)
+    {
+        $surat_masuk = SuratMasuk::findOrFail($id);
+        $path = storage_path("app/public/" . $surat_masuk->file_surat);
+
+        return view('stream.streamViewSuratMasuk', compact('surat_masuk', 'path'));
     }
 }

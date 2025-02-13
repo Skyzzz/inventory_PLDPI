@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
+use Symfony\Component\HttpFoundation\Response;
 
 class MediaController extends Controller
 {
@@ -178,11 +179,12 @@ class MediaController extends Controller
         return back();
     }
 
-    public function viewMedia($id)
+    public function streamMedia($id)
     {
         $media = Media::findOrFail($id);
-        return view('view', compact('media'));
-    }
+        $path = storage_path("app/public/" . $media->path);
 
+        return view('stream.streamViewMedia', compact('media', 'path'));
+    }
     
 }

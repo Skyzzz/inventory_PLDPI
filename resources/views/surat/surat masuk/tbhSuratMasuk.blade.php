@@ -13,7 +13,7 @@
             <div class="card-body">
                 <form action="{{ route('tbhSuratMasuk') }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label for="nama_surat" class="form-control-label">Nama Surat</label>
                         <input type="text" id="nama_surat" name="nama_surat" class="form-control" value="{{ old('nama_surat') }}" required>
                         @if ($errors->has('nama_surat'))
@@ -21,7 +21,7 @@
                                 {{ $errors->first('nama_surat') }}
                             </div>
                         @endif
-                    </div>
+                    </div> -->
 
                     <div class="form-group">
                         <label for="nomor_surat" class="form-control-label">Nomor Surat</label>
@@ -95,6 +95,17 @@
                             </div>
                         @endif
                     </div>
+
+                    <div class="form-group">
+                        <label for="keterangan" class="form-control-label">Keterangan</label>
+                        <textarea id="keterangan" name="keterangan" class="form-control" rows="4"></textarea>
+                        @if ($errors->has('keterangan'))
+                            <div class="alert alert-danger">
+                                {{ $errors->first('keterangan') }}
+                            </div>
+                        @endif
+                    </div>
+
 
                     <button type="submit" class="btn btn-sm btn-primary">Upload</button>
                     <a href="/surat_masuk" class="btn btn-sm btn-danger">Batal</a>

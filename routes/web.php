@@ -18,6 +18,9 @@ use App\Models\BarangKeluar;
 use App\Http\Controllers\SuratMasukController;
 use App\Http\Controllers\SuratKeluarController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Response;
+use App\Models\Media;
 
 /*
 |--------------------------------------------------------------------------
@@ -125,6 +128,8 @@ Route::middleware(['user'])->group(function () {
     Route::get('/laporan', [DashboardController::class, 'laporan']);
     Route::post('/laporan', [DashboardController::class, 'cetak_laporan'])->name('cetak_laporan');
     
-    Route::get('/viewMedia/{id}', [MediaController::class, 'viewMedia'])->name('viewMedia');
+    Route::get('/streamMedia/{id}', [MediaController::class, 'streamMedia'])->name('streamMedia');
+    Route::get('/streamSuratMasuk/{id}', [SuratMasukController::class, 'streamSuratMasuk'])->name('streamSuratMasuk');
+    Route::get('/streamSuratKeluar/{id}', [SuratKeluarController::class, 'streamSuratKeluar'])->name('streamSuratKeluar');
 
 });

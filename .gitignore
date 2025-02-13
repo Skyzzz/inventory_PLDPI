@@ -1,5 +1,8 @@
 /node_modules
 /public/hot
+/storage
+/public/uploads
+/public/storage
 .env.backup
 .phpunit.result.cache
 docker-compose.override.yml
