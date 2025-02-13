@@ -1,6 +1,6 @@
 @extends('layout.main')
 
-@section('media', 'active')
+@section('media_detail', 'active')
 
 @section('content')
 
@@ -18,7 +18,7 @@
         <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <strong class="card-title">Daftar Media</strong>
-            <a href="/media_detail" class="btn btn-md btn-outline-primary">List Detail</a>
+            <a href="/media" class="btn btn-md btn-outline-primary">List Sederhana</a>
         </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -26,31 +26,29 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <!-- <th>Kode Media</th> -->
+                                <th>Kode Media</th>
                                 <th>Nama File</th>
-                                <!-- <th>Ukuran File</th> -->
+                                <th>Ukuran File</th>
                                 <th>Kategori</th>
-                                <!-- <th>Diupload Oleh</th>
-                                <th>Tanggal Upload</th> -->
+                                <th>Diupload Oleh</th>
+                                <th>Tanggal Upload</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($media as $item)
+                            @foreach ($media_detail as $item)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <!-- <td>{{ $item->kode_media }}</td> -->
+                                <td>{{ $item->kode_media }}</td>
                                 <td>{{ $item->nama_file }}</td>
-                                <!-- <td>{{ number_format($item->ukuran_file / 1048576, 2) }} MB</td> -->
+                                <td>{{ number_format($item->ukuran_file / 1048576, 2) }} MB</td>
                                 <td>{{ $item->kategori }}</td>
-                                <!-- <td>{{ $item->user->nama }}</td>
-                                <td>{{ $item->created_at }}</td> -->
+                                <td>{{ $item->user->nama }}</td>
+                                <td>{{ $item->created_at }}</td>
                                 <td>
-                                    <!-- <a href="{{ asset('storage/' . $item->path) }}" class="btn btn-sm btn-info" target="_blank" data-bs-toggle="tooltip" title="Lihat"><i class="fa fa-eye"></i></a> -->
-                                    <a href="{{ route('viewMedia', $item->id) }}" class="btn btn-sm btn-info" data-bs-toggle="tooltip" title="Lihat"><i class="fa fa-eye"></i></a>
-                                    <a href="{{ asset('storage/' . $item->path) }}" class="btn btn-sm btn-primary" download data-bs-toggle="tooltip" title="Download"><i class="fa fa-download"></i></a>
-                                    <a href="/hpsMedia/{{ $item->id }}" class="btn btn-sm btn-danger" data-bs-toggle="tooltip" title="Hapus"><i class="fa fa-trash"></i></a>
-                                    <a href="/detailMedia/{{ $item->id }}" class="btn btn-sm btn-primary"data-bs-toggle="tooltip" title="Detail"><i class="fa fa-info-circle"></i></a>  
+                                    <a href="{{ asset('storage/uploads/media/' . $item->nama_file) }}" class="btn btn-sm btn-info" target="_blank" data-bs-toggle="tooltip" title="Lihat"><i class="fa fa-eye"></i></a>
+                                    <a href="{{ asset('storage/uploads/media/' . $item->id) }}" class="btn btn-sm btn-success" download data-bs-toggle="tooltip" title="Download"><i class="fa fa-download"></i></a>
+                                    <a href="/hpsMedia/{{ $item->id }}" class="btn btn-sm btn-danger" data-bs-toggle="tooltip" title="Hapus"><i class="fa fa-trash"></i></a>  
                                 </td>
                             </tr>
                             @endforeach
@@ -61,6 +59,7 @@
         </div>
     </div>
 </div>
+
 @endsection
 
 @section('table')

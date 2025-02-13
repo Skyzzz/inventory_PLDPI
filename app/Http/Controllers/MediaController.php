@@ -21,6 +21,17 @@ class MediaController extends Controller
         $media = Media::with('user')->get(); // Load relasi user
         return view('media.dftMedia', compact('media'));
     }
+    public function index_detail()
+    {
+        $media_detail = Media::with('user')->get(); // Load relasi user
+        return view('media.dftMediaDetail', compact('media_detail'));
+    }
+    public function detail (Request $request, $id)
+    {
+        // $media_detail = Media::with('user')->findOrFail($id); // Ambil data berdasarkan ID dengan relasi user
+        $media_detail = Media::findOrFail($id);
+        return view('media.detailMedia', compact('media_detail'));
+    }    
 
     /**
      * Show the form for creating a new resource.
@@ -70,16 +81,8 @@ class MediaController extends Controller
             ->orderBy('kode_media', 'desc')
             ->first();
     
-        if ($lastMedia) {
-            // Ambil angka terakhir dari kode_media, lalu tambahkan 1
-            $lastNumber = (int) substr($lastMedia->kode_media, -3);
-            $nomor_urut = $lastNumber + 1;
-        } else {
-            // Jika belum ada kode_media di bulan ini, mulai dari 1
-            $nomor_urut = 1;
-        }
-    
-        $nomor_urut_padded = str_pad($nomor_urut, 3, '0', STR_PAD_LEFT); // Tambahkan leading zero
+        $nomor_urut = $lastMedia ? ((int) substr($lastMedia->kode_media, -3)) + 1 : 1;
+        $nomor_urut_padded = str_pad($nomor_urut, 3, '0', STR_PAD_LEFT);
         $kode_media = $prefix . $tahun_bulan . $nomor_urut_padded;
     
         $file = $request->file('file');
@@ -92,7 +95,15 @@ class MediaController extends Controller
             ]);
         }
     
-        $path = $file->storeAs('uploads/media', $file->getClientOriginalName(), 'public'); // Simpan file ke dalam storage
+        // Simpan file ke dalam storage
+        if ($request->hasFile('file')) { 
+            $path = $request->file('file')->store('uploads/media', 'public');
+        } else {
+            return redirect()->back()->withErrors([
+                'file' => 'File harus diunggah.',
+            ]);
+        }
+    
         $tipe_file = $file->getClientMimeType(); 
         $ukuran_file = $file->getSize();
     
@@ -112,6 +123,7 @@ class MediaController extends Controller
         return redirect('/media');
     }
     
+    
 
     /**
      * Remove the specified resource from storage.
@@ -125,9 +137,16 @@ class MediaController extends Controller
          $media = Media::findOrFail($id);
  
          // Hapus file fisik dari storage jika ada
-         if (Storage::exists($media->path)) {
-             Storage::delete($media->path);
-         }
+         if ($media->path) {
+            // Hapus file dengan Storage Laravel
+            Storage::disk('public')->delete($media->path);
+
+            // Cek apakah file masih ada di `public/storage`
+            $filePath = public_path('storage/' . $media->path);
+            if (file_exists($filePath)) {
+                @unlink($filePath);
+            }
+        }
  
          // Hapus data dari database
          $media->delete();
@@ -136,13 +155,21 @@ class MediaController extends Controller
          alert()->success('Berhasil', 'Media berhasil dihapus.');
          return redirect('/media');
      }
-     
+
     public function delete($id)
     {
         $media = Media::findOrFail($id);
 
-        // Hapus file dari storage
-        Storage::delete($media->path);
+        if ($media->path) {
+            // Hapus file dengan Storage Laravel
+            Storage::disk('public')->delete($media->path);
+
+            // Cek apakah file masih ada di `public/storage`
+            $filePath = public_path('storage/' . $media->path);
+            if (file_exists($filePath)) {
+                @unlink($filePath);
+            }
+        }
 
         // Hapus data dari database
         $media->delete();
@@ -150,4 +177,12 @@ class MediaController extends Controller
         alert()->success('Berhasil', 'Media berhasil dihapus.');
         return back();
     }
+
+    public function viewMedia($id)
+    {
+        $media = Media::findOrFail($id);
+        return view('view', compact('media'));
+    }
+
+    
 }

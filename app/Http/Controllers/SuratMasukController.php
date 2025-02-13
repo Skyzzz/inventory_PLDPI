@@ -20,6 +20,11 @@ class SuratMasukController extends Controller
         $suratMasuk = SuratMasuk::orderBy('tanggal_terima', 'desc')->get();
         return view('surat.surat masuk.dftSuratMasuk', compact('suratMasuk'));
     }
+    public function index_detail()
+    {
+        $suratMasuk = SuratMasuk::orderBy('tanggal_terima', 'desc')->get();
+        return view('surat.surat masuk.dftSuratMasukDetail', compact('suratMasuk'));
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -203,6 +208,22 @@ class SuratMasukController extends Controller
     }
 
     /**
+     * Detail the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function detail (Request $request, $id)
+    {
+        $suratMasuk = SuratMasuk::findOrFail($id);
+        $kategori_surat = \App\Models\KategoriSurat::all();
+        return view('surat.surat masuk.detailSuratMasuk', compact('suratMasuk', 'kategori_surat'))->with([
+            'selectedKategori' => $suratMasuk->kategori
+        ]);
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -212,8 +233,15 @@ class SuratMasukController extends Controller
     {
         $suratMasuk = SuratMasuk::findOrFail($id);
 
-        if ($suratMasuk->file_surat && Storage::exists($suratMasuk->file_surat)) {
-            Storage::delete($suratMasuk->file_surat);
+        if ($suratMasuk->file_surat) {
+            // Hapus file dengan Storage Laravel
+            Storage::disk('public')->delete($suratMasuk->file_surat);
+
+            // Cek apakah file masih ada di `public/storage`
+            $filePath = public_path('storage/' . $suratMasuk->file_surat);
+            if (file_exists($filePath)) {
+                @unlink($filePath);
+            }
         }
 
         $suratMasuk->delete();

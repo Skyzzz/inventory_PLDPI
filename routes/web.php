@@ -93,6 +93,8 @@ Route::middleware(['user'])->group(function () {
     Route::get('/hpsKategoriMedia/{id}', [KategoriMediaController::class, 'destroy']);
 
     Route::get('/media', [MediaController::class, 'index']);
+    Route::get('/media_detail', [MediaController::class, 'index_detail']);
+    Route::get('/detailMedia/{id}', [MediaController::class, 'detail']);
     Route::get('/tbhMedia', [MediaController::class, 'create']);
     Route::get('/hpsMedia/{id}', [MediaController::class, 'destroy']);
     Route::post('/tbhMedia', [MediaController::class, 'store'])->name('tbhMedia');
@@ -103,19 +105,26 @@ Route::middleware(['user'])->group(function () {
     Route::get('/hpsKategoriSurat/{id}', [KategoriSuratController::class, 'destroy']);
 
     Route::get('/surat_masuk', [SuratMasukController::class, 'index']);
+    Route::get('/surat_masuk_detail', [SuratMasukController::class, 'index_detail']);
     Route::get('/tbhSuratMasuk', [SuratMasukController::class, 'create']);
     Route::post('/surat_masuk', [SuratMasukController::class, 'store'])->name('tbhSuratMasuk');
     Route::get('/edtSuratMasuk/{id}', [SuratMasukController::class, 'edit']);
+    Route::get('/detailSuratMasuk/{id}', [SuratMasukController::class, 'detail']);
     Route::put('/surat_masuk/{id}', [SuratMasukController::class, 'update']);
     Route::get('/hpsSuratMasuk/{id}', [SuratMasukController::class, 'destroy']);
 
     Route::get('/surat_keluar', [SuratKeluarController::class, 'index']);
+    Route::get('/surat_keluar_detail', [SuratKeluarController::class, 'index_detail']);
     Route::get('/tbhSuratKeluar', [SuratKeluarController::class, 'create']);
     Route::post('/surat_keluar', [SuratKeluarController::class, 'store'])->name('tbhSuratKeluar');
     Route::get('/edtSuratKeluar/{id}', [SuratKeluarController::class, 'edit']);
+    Route::get('/detailSuratKeluar/{id}', [SuratKeluarController::class, 'detail']);
     Route::put('/surat_keluar/{id}', [SuratKeluarController::class, 'update']);
     Route::get('/hpsSuratKeluar/{id}', [SuratKeluarController::class, 'destroy']);
 
     Route::get('/laporan', [DashboardController::class, 'laporan']);
     Route::post('/laporan', [DashboardController::class, 'cetak_laporan'])->name('cetak_laporan');
+    
+    Route::get('/viewMedia/{id}', [MediaController::class, 'viewMedia'])->name('viewMedia');
+
 });

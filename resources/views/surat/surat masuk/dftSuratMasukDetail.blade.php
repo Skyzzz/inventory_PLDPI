@@ -11,14 +11,14 @@
     } */
 </style>
 @if (auth()->user()->role == 'Admin')
-<a href="/tbhSuratKeluar" class="btn btn-sm btn-primary mb-3"><i class="fa fa-plus"></i> Tambah Surat Keluar</a>
+<a href="/tbhSuratMasuk" class="btn btn-sm btn-primary mb-3"><i class="fa fa-plus"></i> Tambah Surat Masuk</a>
 @endif
 <div class="row">
     <div class="col-md-12">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <strong class="card-title">Daftar Surat Keluar</strong>
-                <a href="/surat_masuk_detail" class="btn btn-md btn-outline-primary">List Detail</a>
+                <strong class="card-title">Daftar Surat Masuk</strong>
+                <a href="/surat_masuk" class="btn btn-md btn-outline-primary">List Sederhana</a>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -26,34 +26,33 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <!-- <th>Kode Surat</th>
-                                <th>Nomor Surat</th> -->
+                                <th>Kode Surat</th>
+                                <th>Nomor Surat</th>
                                 <th>Nama Surat</th>
                                 <th>Tanggal Surat</th>
                                 <th>Pengirim</th>
-                                <!-- <th>Perihal</th> -->
-                                <th>Tanggal Keluar</th>
+                                <th>Perihal</th>
+                                <th>Tanggal Terima</th>
                                 <th>Diupload Oleh</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($suratKeluar as $item)
+                            @foreach ($suratMasuk as $item)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <!-- <td>{{ $item->kode_surat }}</td>
-                                <td>{{ $item->nomor_surat }}</td> -->
+                                <td>{{ $item->kode_surat }}</td>
+                                <td>{{ $item->nomor_surat }}</td>
                                 <td>{{ $item->nama_surat }}</td>
                                 <td>{{ $item->tanggal_surat->format('d-m-Y') }}</td>
                                 <td>{{ $item->pengirim }}</td>
-                                <!-- <td>{{ $item->perihal }}</td> -->
-                                <td>{{ $item->tanggal_keluar->format('d-m-Y') }}</td>
+                                <td>{{ $item->perihal }}</td>
+                                <td>{{ $item->tanggal_terima->format('d-m-Y') }}</td>
                                 <td>{{ $item->user->nama }}</td>
                                 <td>
-                                    <a href="/edtSuratKeluar/{{ $item->id }}" class="btn btn-sm btn-success"data-bs-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i></a>
+                                    <a href="/edtSuratMasuk/{{ $item->id }}" class="btn btn-sm btn-success"data-bs-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i></a>
                                     <a href="{{ asset('storage/' . $item->file_surat) }}" class="btn btn-sm btn-primary" download data-bs-toggle="tooltip" title="Download"><i class="fa fa-download"></i></a>
-                                    <a href="/hpsSuratKeluar/{{ $item->id }}" class="btn btn-sm btn-danger"data-bs-toggle="tooltip" title="Hapus"><i class="fa fa-trash"></i></a>
-                                    <a href="/detailSuratKeluar/{{ $item->id }}" class="btn btn-sm btn-primary"data-bs-toggle="tooltip" title="Detail"><i class="fa fa-info-circle"></i></a>
+                                    <a href="/hpsSuratMasuk/{{ $item->id }}" class="btn btn-sm btn-danger"data-bs-toggle="tooltip" title="Hapus"><i class="fa fa-trash"></i></a>
                                 </td>
                             </tr>
                             @endforeach

@@ -18,7 +18,7 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <strong class="card-title">Daftar Surat Keluar</strong>
-                <a href="/surat_masuk_detail" class="btn btn-md btn-outline-primary">List Detail</a>
+                <a href="/surat_masuk" class="btn btn-md btn-outline-primary">List Detail</a>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -53,7 +53,6 @@
                                     <a href="/edtSuratKeluar/{{ $item->id }}" class="btn btn-sm btn-success"data-bs-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i></a>
                                     <a href="{{ asset('storage/' . $item->file_surat) }}" class="btn btn-sm btn-primary" download data-bs-toggle="tooltip" title="Download"><i class="fa fa-download"></i></a>
                                     <a href="/hpsSuratKeluar/{{ $item->id }}" class="btn btn-sm btn-danger"data-bs-toggle="tooltip" title="Hapus"><i class="fa fa-trash"></i></a>
-                                    <a href="/detailSuratKeluar/{{ $item->id }}" class="btn btn-sm btn-primary"data-bs-toggle="tooltip" title="Detail"><i class="fa fa-info-circle"></i></a>
                                 </td>
                             </tr>
                             @endforeach

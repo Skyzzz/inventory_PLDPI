@@ -19,6 +19,11 @@ class SuratKeluarController extends Controller
         $suratKeluar = SuratKeluar::orderBy('tanggal_keluar', 'desc')->get();
         return view('surat.surat keluar.dftSuratKeluar', compact('suratKeluar'));
     }
+    public function index_detail()
+    {
+        $suratKeluar = SuratKeluar::orderBy('tanggal_keluar', 'desc')->get();
+        return view('surat.surat keluar.dftSuratKeluarDetail', compact('suratKeluar'));
+    }
 
         /**
      * Show the form for creating a new resource.
@@ -127,6 +132,15 @@ class SuratKeluarController extends Controller
 
         return view('surat.surat keluar.edtSuratKeluar', compact('suratKeluar', 'kategori_surat'));
     }
+    public function detail($id)
+    {
+        $suratKeluar = SuratKeluar::findOrFail($id);
+        $kategori_surat = \App\Models\KategoriSurat::all();
+
+        return view('surat.surat keluar.detailSuratKeluar', compact('suratKeluar', 'kategori_surat'))->with([
+            'selectedKategori' => $suratKeluar->kategori
+        ]);
+    }
 
          /**
      * Update the specified resource in storage.
@@ -195,13 +209,20 @@ class SuratKeluarController extends Controller
     {
         $suratKeluar = SuratKeluar::findOrFail($id);
 
-        if ($suratKeluar->file_surat && Storage::exists($suratKeluar->file_surat)) {
-            Storage::delete($suratKeluar->file_surat);
+        if ($suratKeluar->file_surat) {
+            // Hapus file dengan Storage Laravel
+            Storage::disk('public')->delete($suratKeluar->file_surat);
+
+            // Cek apakah file masih ada di `public/storage`
+            $filePath = public_path('storage/' . $suratKeluar->file_surat);
+            if (file_exists($filePath)) {
+                @unlink($filePath);
+            }
         }
 
         $suratKeluar->delete();
 
-        alert()->success('Berhasil', 'Surat keluar berhasil dihapus.');
+        alert()->success('Berhasil', 'Surat masuk berhasil dihapus.');
         return back();
     }
 }
