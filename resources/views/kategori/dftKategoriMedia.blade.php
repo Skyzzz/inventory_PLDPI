@@ -30,10 +30,8 @@
                             <td>{{ $item->kode_kategori_media }}</td>
                             <td>{{ $item->kategori_media }}</td>
                             <td>
-                                <a data-toggle="modal" data-target="#edit{{ $item->id_kategori_media }}"
-                                    class="btn btn-sm btn-success"><i class="fa fa-pencil-square-o"></i></a>
-                                <a href="/hpsKategoriMedia/{{ $item->id_kategori_media }}" class="btn btn-sm btn-danger"><i
-                                        class="fa fa-trash"></i></a>
+                                <a data-toggle="modal" data-target="#edit{{ $item->id_kategori_media }}"class="btn btn-sm btn-success"data-bs-toggle="tooltip" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+                                <a href="/hpsKategoriMedia/{{ $item->id_kategori_media }}" class="btn btn-sm btn-danger"data-bs-toggle="tooltip" title="Hapus"><i class="fa fa-trash"></i></a>
                             </td>
                         </tr>
                         @endforeach
@@ -120,6 +118,13 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('#bootstrap-data-table-export').DataTable();
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
     });
 </script>
 @endsection

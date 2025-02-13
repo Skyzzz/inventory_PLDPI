@@ -25,12 +25,12 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Kode Surat</th>
-                                <th>Nomor Surat</th>
+                                <!-- <th>Kode Surat</th>
+                                <th>Nomor Surat</th> -->
                                 <th>Nama Surat</th>
                                 <th>Tanggal Surat</th>
                                 <th>Pengirim</th>
-                                <th>Perihal</th>
+                                <!-- <th>Perihal</th> -->
                                 <th>Tanggal Keluar</th>
                                 <th>Diupload Oleh</th>
                                 <th>Aksi</th>
@@ -40,18 +40,18 @@
                             @foreach ($suratKeluar as $item)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->kode_surat }}</td>
-                                <td>{{ $item->nomor_surat }}</td>
+                                <!-- <td>{{ $item->kode_surat }}</td>
+                                <td>{{ $item->nomor_surat }}</td> -->
                                 <td>{{ $item->nama_surat }}</td>
                                 <td>{{ $item->tanggal_surat->format('d-m-Y') }}</td>
                                 <td>{{ $item->pengirim }}</td>
-                                <td>{{ $item->perihal }}</td>
+                                <!-- <td>{{ $item->perihal }}</td> -->
                                 <td>{{ $item->tanggal_keluar->format('d-m-Y') }}</td>
                                 <td>{{ $item->user->nama }}</td>
                                 <td>
-                                    <a href="/edtSuratKeluar/{{ $item->id }}" class="btn btn-sm btn-success"><i class="fa fa-edit"></i> Edit</a>
-                                    <a href="/hpsSuratKeluar/{{ $item->id }}" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Hapus</a>
-                                    <a href="{{ asset('storage/uploads/media/' . $item->nama_file) }}" class="btn btn-sm btn-success" download><i class="fa fa-download"></i> Unduh</a>
+                                    <a href="/edtSuratKeluar/{{ $item->id }}" class="btn btn-sm btn-success"data-bs-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i></a>
+                                    <a href="{{ asset('storage/uploads/media/' . $item->nama_file) }}" class="btn btn-sm btn-success" downloaddata-bs-toggle="tooltip" title="Download"><i class="fa fa-download"></i></a>
+                                    <a href="/hpsSuratKeluar/{{ $item->id }}" class="btn btn-sm btn-danger"data-bs-toggle="tooltip" title="Hapus"><i class="fa fa-trash"></i></a>
                                 </td>
                             </tr>
                             @endforeach
@@ -69,6 +69,13 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('#bootstrap-data-table').DataTable();
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
     });
 </script>
 @endsection
