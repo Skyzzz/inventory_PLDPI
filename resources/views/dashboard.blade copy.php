@@ -25,7 +25,7 @@
     }
 
     .category-title {
-    font-size: 1.1rem;
+    font-size: 1.5rem;
     font-weight: bold;
     margin-bottom: 1rem;
     color: #333;
@@ -53,7 +53,7 @@
     }
 </style>
 
-<div>
+<div class="row mt-4 mb-4">
     <div class="col-12">
         <div class="category-title">PENGGUNA</div>
     </div>
@@ -100,7 +100,7 @@
     <!--/.col-->
 </div>
 
-<div>
+<div class="row mt-4 mb-4">
     <div class="col-12">
         <div class="category-title">DATA BARANG</div>
     </div>
@@ -147,7 +147,7 @@
     <!--/.col-->
 </div>
 
-<div>
+<div class="row mt-4 mb-4">
     <div class="col-12">
         <div class="category-title">DATA FILE DAN SURAT</div>
     </div>
