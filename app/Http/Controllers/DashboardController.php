@@ -5,6 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Barang;
 use App\Models\BarangKeluar;
 use App\Models\BarangMasuk;
+use App\Models\User;
+use App\Models\Pegawai;
+use App\Models\Pemasok;
+use App\Models\Media;
+use App\Models\SuratMasuk;
+use App\Models\SuratKeluar;
 use Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -16,7 +22,14 @@ class DashboardController extends Controller
         $barang = Barang::count('id_barang');
         $barang_masuk = BarangMasuk::count('id_barang_masuk');
         $barang_keluar = BarangKeluar::count('id_barang_keluar');
-        return view('dashboard', compact('barang', 'barang_masuk', 'barang_keluar'));
+        $users = User::count('id_user');
+        $pegawai = Pegawai::count('id_pegawai');
+        $pemasok = Pemasok::count('id_pemasok');
+        $media = Media::count('id');
+        $surat_masuk = SuratMasuk::count('id');
+        $surat_keluar = SuratKeluar::count('id');
+        
+        return view('dashboard', compact('barang', 'barang_masuk', 'barang_keluar', 'users', 'pegawai', 'pemasok', 'media', 'surat_masuk', 'surat_keluar'));
     }
 
     public function laporan()
