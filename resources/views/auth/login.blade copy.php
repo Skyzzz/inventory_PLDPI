@@ -1,248 +1,190 @@
 <!doctype html>
-<html>
+<html lang="en">
 
 <head>
-    <meta charset='utf-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Sistem Inventori Barang</title>
-    <link rel="apple-touch-icon" href="{{ asset('images/kantor.png') }}">
-    <link rel="shortcut icon" href="{{ asset('images/kantor.png') }}">
-    <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' rel='stylesheet'>
-    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' rel='stylesheet'>
-    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+    <link rel="icon" href="{{ asset('images/kantor.png') }}" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/modern-css-reset/dist/reset.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        body {
-            color: #000;
-            overflow-x: hidden;
-            height: 100%;
-            background-color: #B0BEC5;
-            background-repeat: no-repeat
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --light: #f8f9fa;
+            --dark: #212529;
         }
 
-        .card0 {
-            box-shadow: 0px 4px 8px 0px #757575;
-            border-radius: 0px
-        }
-
-        .card2 {
-            margin: 0px 40px
-        }
-
-        .logo {
-            width: 110px;
-            height: 100px;
-            margin-top: 35px;
-            margin-left: 35px
-        }
-
-        .image {
-            /* width: 360px; */
-            height: 300px;
-            margin-top: 30px;
-        }
-
-        .border-line {
-            border-right: 1px solid #EEEEEE
-        }
-
-        .facebook {
-            background-color: #3b5998;
-            color: #fff;
-            font-size: 18px;
-            padding-top: 5px;
-            border-radius: 50%;
-            width: 35px;
-            height: 35px;
-            cursor: pointer
-        }
-
-        .twitter {
-            background-color: #1DA1F2;
-            color: #fff;
-            font-size: 18px;
-            padding-top: 5px;
-            border-radius: 50%;
-            width: 35px;
-            height: 35px;
-            cursor: pointer
-        }
-
-        .linkedin {
-            background-color: #2867B2;
-            color: #fff;
-            font-size: 18px;
-            padding-top: 5px;
-            border-radius: 50%;
-            width: 35px;
-            height: 35px;
-            cursor: pointer
-        }
-
-        .line {
-            height: 1px;
-            width: 45%;
-            background-color: #E0E0E0;
-            margin-top: 10px
-        }
-
-        .or {
-            width: 10%;
-            font-weight: bold
-        }
-
-        .text-sm {
-            font-size: 14px !important
-        }
-
-        ::placeholder {
-            color: #BDBDBD;
-            opacity: 1;
-            font-weight: 300
-        }
-
-        :-ms-input-placeholder {
-            color: #BDBDBD;
-            font-weight: 300
-        }
-
-        ::-ms-input-placeholder {
-            color: #BDBDBD;
-            font-weight: 300
-        }
-
-        input,
-        textarea {
-            padding: 10px 12px 10px 12px;
-            border: 1px solid lightgrey;
-            border-radius: 2px;
-            margin-bottom: 5px;
-            margin-top: 2px;
-            width: 100%;
+        * {
+            font-family: 'Poppins', sans-serif;
             box-sizing: border-box;
-            color: #2C3E50;
-            font-size: 14px;
-            letter-spacing: 1px
         }
 
-        input:focus,
-        textarea:focus {
-            -moz-box-shadow: none !important;
-            -webkit-box-shadow: none !important;
-            box-shadow: none !important;
-            border: 1px solid #304FFE;
-            outline-width: 0
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #e3f2fd 0%, #f3e8ff 100%);
+            padding: 2rem;
         }
 
-        button:focus {
-            -moz-box-shadow: none !important;
-            -webkit-box-shadow: none !important;
-            box-shadow: none !important;
-            outline-width: 0
+        .login-container {
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            max-width: 1000px;
+            width: 100%;
+            overflow: hidden;
         }
 
-        a {
-            color: inherit;
-            cursor: pointer
+        .hero-section {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            padding: 4rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
         }
 
-        .btn-blue {
-            background-color: #1A237E;
-            width: 150px;
-            color: #fff; 
-            border-radius: 2px;
-            transition: background-color 0.3s ease, color 0.3s ease; 
+        .hero-image {
+            width: 200px;
+            margin-bottom: 2rem;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
         }
 
-        .btn-blue:hover {
-            background-color: #3949AB; /
-            color: #fff; 
+        .form-section {
+            padding: 4rem;
+            position: relative;
+        }
+
+        .form-header {
+            margin-bottom: 3rem;
+        }
+
+        .form-header h1 {
+            color: var(--dark);
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-header p {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        .input-group label {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            background: white;
+            padding: 0 0.5rem;
+        }
+
+        .input-group input:focus + label,
+        .input-group input:not(:placeholder-shown) + label {
+            top: 0;
+            font-size: 0.8rem;
+            color: var(--primary);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 500;
             cursor: pointer;
+            transition: all 0.3s ease;
         }
 
-        .bg-blue {
-            color: #fff;
-            background-color: #1A237E
+        .login-btn:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
         }
 
-        @media screen and (max-width: 991px) {
-            .logo {
-                margin-left: 0px
+        @media (max-width: 768px) {
+            .login-container {
+                grid-template-columns: 1fr;
             }
 
-            .image {
-                width: 300px;
-                height: 220px
+            .hero-section {
+                padding: 2rem;
+                display: none;
             }
 
-            .border-line {
-                border-right: none
-            }
-
-            .card2 {
-                border-top: 1px solid #EEEEEE !important;
-                margin: 0px 15px
+            .form-section {
+                padding: 2rem;
             }
         }
-
     </style>
 </head>
 
-<body oncontextmenu='return false' class='snippet-body'>
+<body>
     @include('sweetalert::alert')
-    <div class="container-fluid px-1 px-md-5 px-lg-1 px-xl-5 py-5 mx-auto">
-        <div class="card card-0 border-0">
-            <div class="row d-flex">
-                <div class="col-lg-6">
-                    <div class="card1 pb-5">
-                        <div class="row px-3 justify-content-center mt-3 mb-2 border-line"> <img
-                            src="{{ asset('images/kantor.png') }}" class="image"> </div>
-                            <div class="row justify-content-center text-center pb-0 pt-2 border-line">
-                                <h4><b>Sistem Inventori Barang</b><br>
-                                    <b>Pusat Layanan Disabilitas dan Pendidikan Inklusi Prov. Kalsel (PLDPI)</b></h4>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="card2 card border-0 px-4 py-5">
-                                <div class="row px-3 mb-4 mt-5">
-                                    <h3><strong class="or ml-1 mr-1 text-center">Login</strong></h3>
-
-                                </div>
-                                <form action="/login" method="POST">
-                                    @csrf
-                                    <div class="row px-3">
-                                        <label class="mb-1">
-                                            <h6 class="mb-0 text-sm">Email Address</h6>
-                                        </label>
-                                        <input class="mb-4" type="email" name="email" id="email"
-                                        placeholder="Enter a valid email address">
-                                    </div>
-                                    <div class="row px-3">
-                                        <label class="mb-1">
-                                            <h6 class="mb-0 text-sm">Password</h6>
-                                        </label>
-                                        <input type="password" name="password" id="password" placeholder="Enter password">
-                                    </div>
-                                    <div class="row mb-3 px-3 mt-4">
-                                        <button type="submit" class="btn btn-blue text-center">Login</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-blue py-4">
-                        <div class="row px-3"> <small class="ml-4 ml-sm-5 mb-2">Copyright &copy; 2024. All rights
-                        reserved.</small>
-                        <div class="social-contact ml-4 ml-sm-auto"> </div>
-                    </div>
-                </div>
-            </div>
+    <div class="login-container">
+        <div class="hero-section">
+            <img src="{{ asset('images/kantor.png') }}" alt="Inventory System" class="hero-image">
+            <h2>Sistem Inventori Barang</h2>
+            <p>Pusat Layanan Disabilitas dan Pendidikan Inklusi Prov. Kalsel (PLDPI)</p>
         </div>
-        <script type='text/javascript' src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js'>
-        </script>
-        <script type='text/javascript' src=''></script>
-        <script type='text/javascript' src=''></script>
-        <script type='text/Javascript'></script>
-    </body>
 
-    </html>
+        <div class="form-section">
+            <div class="form-header">
+                <h1>Selamat Datang</h1>
+                <p>Silakan masuk dengan akun Anda</p>
+            </div>
+
+            <form action="/login" method="POST">
+                @csrf
+                <div class="input-group">
+                    <input type="email" name="email" id="email" placeholder=" " required>
+                    <label for="email">Email</label>
+                </div>
+
+                <div class="input-group">
+                    <input type="password" name="password" id="password" placeholder=" " required>
+                    <label for="password">Password</label>
+                </div>
+
+                <button type="submit" class="login-btn">Masuk</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

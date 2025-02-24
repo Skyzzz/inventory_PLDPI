@@ -4,6 +4,19 @@
 
 @section('content')
 
+<style>
+    .card{
+        border-radius: 20px;
+     }
+
+    .btn{
+        border-radius: 5px;
+    }
+    .table{
+        border-radius: 10px;
+    }
+</style>
+
 <a data-toggle="modal" data-target="#tambah" href="#" class="btn btn-primary btn-sm mb-3"><i class="fa fa-plus"></i>
     Tambah Kategori Media</a>
 

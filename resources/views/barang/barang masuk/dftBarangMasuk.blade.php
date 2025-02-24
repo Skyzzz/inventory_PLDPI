@@ -4,14 +4,18 @@
 
 @section('content')
 
-<!-- <style>
-    div.dataTables_wrapper {
-        width: 980px;
-        margin: 0 auto;
+<style>
+    .card{
+        border-radius: 20px;
+     }
+
+    .btn{
+        border-radius: 5px;
     }
-
-</style> -->
-
+    .table{
+        border-radius: 10px;
+    }
+</style>
 
 <div class="row">
     <div class="col-md-12">

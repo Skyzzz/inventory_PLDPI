@@ -4,6 +4,19 @@
 
 @section('content')
 
+<style>
+    .card{
+        border-radius: 20px;
+     }
+
+    .btn{
+        border-radius: 5px;
+    }
+    .table{
+        border-radius: 10px;
+    }
+</style>
+
 <div class="row">
     <div class="col-lg">
         <div class="card">

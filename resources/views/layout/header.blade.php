@@ -3,6 +3,8 @@
     .header {
         background-color: #ffffff;
         border-bottom: 1px solid #e9ecef;
+        
+        
     }
 
     .user-area .dropdown-toggle {

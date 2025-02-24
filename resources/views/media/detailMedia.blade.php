@@ -4,6 +4,17 @@
 
 @section('content')
 
+.card{
+        border-radius: 20px;
+     }
+
+    .btn{
+        border-radius: 5px;
+    }
+    .table{
+        border-radius: 10px;
+    }
+
 <div class="row">
     <div class="col-12">
         <div class="card shadow-lg h-100 w-100">

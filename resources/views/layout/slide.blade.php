@@ -1,3 +1,21 @@
+<style>
+    /* Efek hover untuk sidebar */
+    .left-panel .navbar-nav li a {
+        transition: all 0.3s ease-in-out;
+        color: #ffffff;
+    }
+
+    .left-panel .navbar-nav li a:hover {
+        background-color: #007bff; /* Warna latar belakang saat hover */
+        color: #ffffff; /* Warna teks saat hover */
+        padding-left: 15px; /* Sedikit pergeseran ke kanan untuk efek dinamis */
+    }
+
+    .left-panel .navbar-nav li.active a {
+        background-color: #0056b3; /* Warna khusus untuk menu aktif */
+        color: #ffffff;
+    }
+</style>
 <aside id="left-panel" class="left-panel">
     <nav class="navbar navbar-expand-sm navbar-default">
 

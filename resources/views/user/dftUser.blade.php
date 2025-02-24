@@ -3,6 +3,18 @@
 @section('user', 'active')
 
 @section('content')
+<style>
+    .card{
+        border-radius: 20px;
+     }
+
+    .btn{
+        border-radius: 5px;
+    }
+    .table{
+        border-radius: 10px;
+    }
+</style>
 
 <a href="{{ url('/tbhUser') }}" class="btn btn-primary btn-sm mb-3"><i class="fa fa-plus"></i> Tambah User</a>
 

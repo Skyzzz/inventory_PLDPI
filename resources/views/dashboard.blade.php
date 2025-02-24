@@ -51,6 +51,9 @@
         transform: scaleX(1);
         transform-origin: left;
     }
+    .card{
+        border-radius: 20px;
+    }
 </style>
 
 <div>

@@ -5,13 +5,22 @@
 @section('content')
 
 <style>
-    /* div.dataTables_wrapper {
-        width: 980px;
-        margin: 0 auto;
+    .card{
+        border-radius: 20px;
+     }
+
+    .btn{
+        border-radius: 5px;
+    }
+    .table{
+        border-radius: 10px;
+    }
+    /* .card-header{
+        background-color:rgb(179, 193, 255);
     } */
 </style>
 @if (auth()->user()->role == 'Admin')
-<a href="/tbhMedia" class="btn btn-sm btn-primary mb-3"><i class="fa fa-plus"></i> Tambah Media</a>
+<a href="/tbhMedia" class="btn btn-sm btn-primary mb-3 "><i class="fa fa-plus"></i> Tambah Media</a>
 @endif
 <div class="row">
     <div class="col-md-12">

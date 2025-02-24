@@ -5,10 +5,16 @@
 @section('content')
 
 <style>
-    /* div.dataTables_wrapper {
-        width: 980px;
-        margin: 0 auto;
-    } */
+    .card{
+        border-radius: 20px;
+     }
+
+    .btn{
+        border-radius: 5px;
+    }
+    .table{
+        border-radius: 10px;
+    }
 </style>
 @if (auth()->user()->role == 'Admin')
 <a href="/tbhSuratKeluar" class="btn btn-sm btn-primary mb-3"><i class="fa fa-plus"></i> Tambah Surat Keluar</a>
