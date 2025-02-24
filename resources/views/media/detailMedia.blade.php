@@ -4,7 +4,8 @@
 
 @section('content')
 
-.card{
+<style>
+    .card{
         border-radius: 20px;
      }
 
@@ -15,6 +16,7 @@
         border-radius: 10px;
     }
 
+</style>
 <div class="row">
     <div class="col-12">
         <div class="card shadow-lg h-100 w-100">
