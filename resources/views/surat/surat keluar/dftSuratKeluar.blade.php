@@ -24,7 +24,7 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <strong class="card-title">Daftar Surat Keluar</strong>
-                <a href="/surat_masuk_detail" class="btn btn-md btn-outline-primary">List Detail</a>
+                <a href="/surat_keluar_detail" class="btn btn-md btn-outline-primary">List Detail</a>
             </div>
             <div class="card-body">
                 <div class="table-responsive">

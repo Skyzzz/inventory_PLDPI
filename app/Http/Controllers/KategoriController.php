@@ -53,9 +53,13 @@ class KategoriController extends Controller
             'kode_kategori' => 'required',
             'kategori' => 'required'
         ]);
-
-        Kategori::create($kategori);
-        alert()->success('Berhasil','Kategori Baru Berhasil Ditambahkan.');
+        
+        try {
+            Kategori::create($request->only(['kode_kategori', 'kategori']));
+            alert()->success('Berhasil', 'Kategori Baru Berhasil Ditambahkan.');
+        } catch (\Exception $e) {
+            alert()->error('Gagal', 'Kategori sudah ada!');
+        }
         return back();
     }
 

@@ -16,7 +16,7 @@
         border-radius: 10px;
     }
 </style>
-
+<a href="/tbhBarang_keluar" class="btn btn-sm btn-primary mb-3"><i class="fa fa-plus"></i> Tambah Barang Keluar</a>
 <div class="row">
     <div class="col-md-12">
         <div class="card">

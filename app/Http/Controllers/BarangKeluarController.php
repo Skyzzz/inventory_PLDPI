@@ -102,7 +102,7 @@ class BarangKeluarController extends Controller
                     'tanggal' => $tgl,
                 ]);
                 alert()->success('Berhasil','Kegiatan Berhasil Ditambahkan.');
-                return back();
+                return redirect('/barang_keluar');
             }
         }
     }

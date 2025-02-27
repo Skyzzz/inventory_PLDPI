@@ -51,17 +51,31 @@ class PegawaiController extends Controller
      */
     public function store(Request $request)
     {
-        $pegawai = $request->validate([
+        $request->validate([
             'kode_pegawai' => 'required',
             'nama_pegawai' => 'required',
-            'email' => 'required|email|unique:pegawai'
+            'email' => 'required|email'
         ]);
-        // dd($pegawai);
-
-        Pegawai::create($pegawai);
-        alert()->success('Berhasil','Pegawai Baru Berhasil Ditambahkan.');
-        return back();
+    
+        // Cek apakah pegawai dengan email yang sama sudah ada
+        $existingPegawai = Pegawai::where('email', $request->email)->first();
+    
+        if ($existingPegawai) {
+            alert()->error('Gagal', 'Email sudah terdaftar dalam sistem.');
+            return redirect()->back()->withInput();
+        }
+    
+        // Simpan pegawai jika belum ada
+        $pegawai = new Pegawai();
+        $pegawai->kode_pegawai = $request->kode_pegawai;
+        $pegawai->nama_pegawai = $request->nama_pegawai;
+        $pegawai->email = $request->email;
+        $pegawai->save();
+    
+        alert()->success('Berhasil', 'Pegawai Baru Berhasil Ditambahkan.');
+        return redirect('/pegawai');
     }
+    
 
     public function konfir(Request $request, $id)
     {
@@ -82,7 +96,7 @@ class PegawaiController extends Controller
         $pegawai->save();
 
         alert()->success('Berhasil','Role Pegawai Berhasil Diperbaharui.');
-        return back();
+        return redirect('/pegawai');
     }
 
     public function edit($id)

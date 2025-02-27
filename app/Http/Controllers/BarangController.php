@@ -67,7 +67,7 @@ class BarangController extends Controller
          $barang->save();
 
          alert()->success('Berhasil','Barang Baru Berhasil Ditambahkan.');
-         return back();
+         return redirect('/barang');
     }
 
     public function edit($id)

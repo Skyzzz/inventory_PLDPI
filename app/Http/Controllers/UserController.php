@@ -40,18 +40,35 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $user = $request->validate([
+        $request->validate([
             'nama' => 'required',
-            'email' => 'required|unique:users',
+            'email' => 'required|email',
             'password' => 'required|min:5',
             'role' => 'required'
         ]);
-
-        $user['password'] = bcrypt($user['password']);
-        User::create($user);
-        alert()->success('Berhasil','User Berhasil Ditambahkan.');
-        return back();
+    
+        // Cek apakah user dengan nama dan email yang sama sudah ada
+        $existingUser = User::where('nama', $request->nama)
+                            ->where('email', $request->email)
+                            ->first();
+    
+        if ($existingUser) {
+            alert()->error('Gagal', 'User dengan nama dan email yang sama sudah ada.');
+            return redirect()->back()->withInput();
+        }
+    
+        // Simpan user jika belum ada
+        $user = new User();
+        $user->nama = $request->nama;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->role = $request->role;
+        $user->save();
+    
+        alert()->success('Berhasil', 'User Berhasil Ditambahkan.');
+        return redirect('/user');
     }
+    
 
     /**
      * Display the specified resource.

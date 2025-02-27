@@ -36,17 +36,35 @@ class PemasokController extends Controller
      */
     public function store(Request $request)
     {
-        $pemasok = $request->validate([
+        $request->validate([
             'nama' => 'required',
             'alamat' => 'required',
-            'email' => 'required|unique:pemasok',
-            'telepon' => 'required|unique:pemasok'
+            'email' => 'required|email',
+            'telepon' => 'required'
         ]);
-
-        Pemasok::create($pemasok);
-        alert()->success('Berhasil','Supplier Baru Berhasil Ditambahkan.');
-        return back();
+    
+        // Cek apakah pemasok dengan email atau telepon yang sama sudah ada
+        $existingPemasok = Pemasok::where('email', $request->email)
+                                  ->orWhere('telepon', $request->telepon)
+                                  ->first();
+    
+        if ($existingPemasok) {
+            alert()->error('Gagal', 'Email atau Telepon sudah terdaftar dalam sistem.');
+            return redirect()->back()->withInput();
+        }
+    
+        // Simpan pemasok jika belum ada
+        $pemasok = new Pemasok();
+        $pemasok->nama = $request->nama;
+        $pemasok->alamat = $request->alamat;
+        $pemasok->email = $request->email;
+        $pemasok->telepon = $request->telepon;
+        $pemasok->save();
+    
+        alert()->success('Berhasil', 'Supplier Baru Berhasil Ditambahkan.');
+        return redirect('/pemasok');
     }
+    
 
     /**
      * Display the specified resource.

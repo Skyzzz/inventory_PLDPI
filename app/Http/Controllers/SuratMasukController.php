@@ -65,7 +65,7 @@ class SuratMasukController extends Controller
              'kategori_surat_id' => 'required|exists:kategori_surat,id_kategori_surat',
              'nomor_surat' => 'required|string|max:255',
              'tanggal_surat' => 'required|date',
-             'tanggal_keluar' => 'required|date',
+             'tanggal_terima' => 'required|date',
              'pengirim' => 'required|string|max:255',
              'perihal' => 'required|string|max:255',
              'kategori' => 'nullable|string|max:255',
@@ -73,11 +73,11 @@ class SuratMasukController extends Controller
              'keterangan' => 'nullable|string',
          ]);
      
-         $prefix = 'SK'; // Kode tetap untuk Surat Keluar
+         $prefix = 'SM'; // Kode tetap untuk Surat Keluar
          $tahun_bulan = Carbon::now()->format('Ym'); // Tahun dan bulan dalam format YYYYMM
      
          // Ambil kode surat terakhir untuk bulan yang sama
-         $lastSurat = SuratKeluar::where('kode_surat', 'LIKE', $prefix . $tahun_bulan . '%')
+         $lastSurat = SuratMasuk::where('kode_surat', 'LIKE', $prefix . $tahun_bulan . '%')
              ->orderBy('kode_surat', 'desc')
              ->first();
      
@@ -94,17 +94,17 @@ class SuratMasukController extends Controller
              $nama_surat = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME); // Ambil nama file tanpa ekstensi
      
              // Cek apakah nama surat sudah ada di database
-             if (SuratKeluar::where('nama_surat', $nama_surat)->exists()) {
+             if (SuratMasuk::where('nama_surat', $nama_surat)->exists()) {
                  return redirect()->back()->withErrors([
                      'file_surat' => 'Surat dengan nama yang sama sudah ada. Harap gunakan nama file lain atau ubah nama surat sebelum mengunggah.',
                  ]);
              }
      
              // Simpan file ke storage
-             $filePath = $file->store('uploads/surat_keluar', 'public');
+             $filePath = $file->store('uploads/surat_masuk', 'public');
          } else {
              // Jika tidak ada file, pastikan nama_surat tidak duplikat dari input manual
-             if (SuratKeluar::where('nama_surat', $nama_surat)->exists()) {
+             if (SuratMasuk::where('nama_surat', $nama_surat)->exists()) {
                  return redirect()->back()->withErrors([
                      'nama_surat' => 'Nama surat sudah ada. Harap gunakan nama yang berbeda.',
                  ]);
@@ -112,13 +112,13 @@ class SuratMasukController extends Controller
          }
      
          // Simpan data surat keluar ke database
-         SuratKeluar::create([
+         SuratMasuk::create([
              'kode_surat' => $kode_surat,
              'kategori_surat_id' => $request->kategori_surat_id,
              'nomor_surat' => $request->nomor_surat,
              'nama_surat' => $nama_surat, // Nama surat diambil dari file atau input manual
              'tanggal_surat' => $request->tanggal_surat,
-             'tanggal_keluar' => $request->tanggal_keluar,
+             'tanggal_terima' => $request->tanggal_terima,
              'pengirim' => $request->pengirim,
              'perihal' => $request->perihal,
              'kategori' => $request->kategori,
@@ -127,8 +127,8 @@ class SuratMasukController extends Controller
              'diupload_oleh' => auth()->user()->id_user,
          ]);
      
-         alert()->success('Berhasil', 'Surat keluar berhasil ditambahkan.');
-         return redirect('/surat_keluar');
+         alert()->success('Berhasil', 'Surat masuk berhasil ditambahkan.');
+         return redirect('/surat_masuk');
      }
      
      

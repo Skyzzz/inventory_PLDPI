@@ -106,7 +106,7 @@ class BarangMasukController extends Controller
         }
 
         alert()->success('Berhasil','Data Barang Berhasil Ditambahkan.');
-        return redirect('/tbhBarang_masuk');
+        return redirect('/barang_masuk');
 
     }
 
