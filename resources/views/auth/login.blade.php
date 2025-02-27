@@ -153,7 +153,7 @@
         }
 
         .btn-blue:hover {
-            background-color:rgb(22, 57, 216); /
+            background-color:rgb(22, 57, 216);
             color: #ffffff; 
             cursor: pointer;
         }
@@ -246,9 +246,9 @@
                         </div>
                     </div>
                     <div class="bg-blue py-4">
-                        <!-- <div class="row px-3 rounded"> <small class="ml-4 ml-sm-5 mb-2">Copyright &copy; 2024. All rights
+                        <div class="row px-3 rounded"> <small class="ml-4 ml-sm-5 mb-2">Copyright &copy; 2025. All rights
                         reserved.</small>
-                        <div class="social-contact ml-4 ml-sm-auto"> </div> -->
+                        <!-- <div class="social-contact ml-4 ml-sm-auto"> </div> -->
                     </div>
                 </div>
             </div>
