@@ -1,6 +1,6 @@
 @extends('layout.main')
 
-@section('media_detail', 'active')
+@section('media', 'active')
 
 @section('content')
 

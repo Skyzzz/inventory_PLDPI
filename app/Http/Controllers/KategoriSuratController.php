@@ -38,15 +38,29 @@ class KategoriSuratController extends Controller
      */
     public function store(Request $request)
     {
-        $kategoriSurat = $request->validate([
+        $request->validate([
             'kode_kategori_surat' => 'required',
             'kategori_surat' => 'required'
         ]);
-
-        KategoriSurat::create($kategoriSurat);
+    
+        // Cek apakah kategori surat sudah ada di database
+        $existingKategoriSurat = KategoriSurat::where('kategori_surat', $request->kategori_surat)->first();
+    
+        if ($existingKategoriSurat) {
+            alert()->error('Gagal', 'Kategori Surat sudah terdaftar dalam sistem.');
+            return back()->withInput();
+        }
+    
+        // Simpan kategori surat jika belum ada
+        $kategoriSurat = new KategoriSurat();
+        $kategoriSurat->kode_kategori_surat = $request->kode_kategori_surat;
+        $kategoriSurat->kategori_surat = $request->kategori_surat;
+        $kategoriSurat->save();
+    
         alert()->success('Berhasil', 'Kategori Surat Baru Berhasil Ditambahkan.');
         return back();
     }
+    
 
     /**
      * Update the specified resource in storage.

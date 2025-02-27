@@ -38,15 +38,29 @@ class KategoriMediaController extends Controller
      */
     public function store(Request $request)
     {
-        $kategoriMedia = $request->validate([
+        $request->validate([
             'kode_kategori_media' => 'required',
             'kategori_media' => 'required'
         ]);
-
-        KategoriMedia::create($kategoriMedia);
-        alert()->success('Berhasil','Kategori Media Baru Berhasil Ditambahkan.');
+    
+        // Cek apakah kategori media sudah ada di database
+        $existingKategoriMedia = KategoriMedia::where('kategori_media', $request->kategori_media)->first();
+    
+        if ($existingKategoriMedia) {
+            alert()->error('Gagal', 'Kategori Media sudah terdaftar dalam sistem.');
+            return back()->withInput();
+        }
+    
+        // Simpan kategori media jika belum ada
+        $kategoriMedia = new KategoriMedia();
+        $kategoriMedia->kode_kategori_media = $request->kode_kategori_media;
+        $kategoriMedia->kategori_media = $request->kategori_media;
+        $kategoriMedia->save();
+    
+        alert()->success('Berhasil', 'Kategori Media Baru Berhasil Ditambahkan.');
         return back();
     }
+    
 
     /**
      * Update the specified resource in storage.

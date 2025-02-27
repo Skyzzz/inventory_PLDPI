@@ -1,6 +1,6 @@
 @extends('layout.main')
 
-@section('detail_surat_masuk', 'active')
+@section('surat_masuk', 'active')
 
 @section('content')
 

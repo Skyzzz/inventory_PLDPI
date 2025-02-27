@@ -80,20 +80,20 @@
                     </ul>
                 </li>
                 <h3 class="menu-title">Data Media</h3><!-- /.menu-title -->
-                <li class="@yield('kategori')">
+                <li class="@yield('kategori_media')">
                     <a href="{{ url('/kategori_media') }}"> <i class="menu-icon fa fa-folder-open"></i>Daftar Kategori Media</a>
                 </li>
                 <li class="@yield('media')">
                     <a href="{{ url('/media') }}"> <i class="menu-icon fa fa-folder"></i>Daftar File</a>
                 </li>
                 <h3 class="menu-title">Data Surat</h3><!-- /.menu-title -->
-                <li class="@yield('kategori')">
+                <li class="@yield('kategori_surat')">
                     <a href="{{ url('/kategori_surat') }}"> <i class="menu-icon fa fa-folder-open"></i>Daftar Kategori Surat</a>
                 </li>
-                <li class="@yield('surat')">
+                <li class="@yield('surat_masuk')">
                     <a href="{{ url('/surat_masuk') }}"> <i class="menu-icon fa fa-download"></i>Surat Masuk</a>
                 </li>
-                <li class="@yield('surat')">
+                <li class="@yield('surat_keluar')">
                     <a href="{{ url('/surat_keluar') }}"> <i class="menu-icon fa fa-paper-plane"></i>Surat Keluar</a>
                 </li>
                 <h3 class="menu-title">Laporan</h3><!-- /.menu-title -->
