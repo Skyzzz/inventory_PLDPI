@@ -44,7 +44,9 @@
                             <td>{{ $item->kategori_media }}</td>
                             <td>
                                 <a data-toggle="modal" data-target="#edit{{ $item->id_kategori_media }}"class="btn btn-sm btn-success"data-bs-toggle="tooltip" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
-                                <a href="/hpsKategoriMedia/{{ $item->id_kategori_media }}" class="btn btn-sm btn-danger"data-bs-toggle="tooltip" title="Hapus"><i class="fa fa-trash"></i></a>
+                                <!-- <a href="/hpsKategoriMedia/{{ $item->id_kategori_media }}" class="btn btn-sm btn-danger"data-bs-toggle="tooltip" title="Hapus"><i class="fa fa-trash"></i></a> -->
+                                <a class="btn btn-sm btn-danger" data-bs-toggle="tooltip" title="Hapus" onclick="confirmation(event)" href="{{ url('/hpsKategoriMedia', $item->id_kategori_media) }}"><i class="fa fa-trash"></i></a>
+                                
                             </td>
                         </tr>
                         @endforeach
@@ -56,8 +58,7 @@
 </div>
 
 <!-- Modal Tambah Kategori Media -->
-<div class="modal fade" id="tambah" tabindex="-1" role="dialog" aria-labelledby="tambahLabel" aria-hidden="true"
-    data-backdrop="static">
+<div class="modal fade" id="tambah" tabindex="-1" role="dialog" aria-labelledby="tambahLabel" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -71,17 +72,23 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="kode_kategori_media" class="form-label">Kode Kategori Media</label>
-                        <input type="text" class="form-control" id="kode_kategori_media" name="kode_kategori_media"
-                            value="{{ $kode_km }}" readonly>
+                        <input type="text" class="form-control @error('kode_kategori_media') is-invalid @enderror" 
+                            id="kode_kategori_media" name="kode_kategori_media" 
+                            value="{{ old('kode_kategori_media', $kode_km) }}" readonly>
+                        @error('kode_kategori_media')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="mb-3">
                         <label for="kategori_media" class="form-label">Nama Kategori Media</label>
-                        <input type="text" class="form-control" id="kategori_media" name="kategori_media">
+                        <input type="text" class="form-control" 
+                            id="kategori_media" name="kategori_media" 
+                            value="{{ old('kategori_media') }}">
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" type="submit">Simpan</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
                 </div>
             </form>
         </div>
@@ -124,6 +131,44 @@
     </div>
 </div>
 @endforeach
+
+@if ($errors->any())
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal Menambahkan Kategori Media',
+            text: '{{ $errors->first("kategori_media") }}'
+        });
+    });
+</script>
+@endif
+
+@if(session('success'))
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: '{{ session("success") }}',
+            showConfirmButton: true,
+        });
+    });
+</script>
+@endif
+
+@if(session('error'))
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal Menghapus!',
+            text: '{{ session("error") }}',
+            showConfirmButton: true,
+        });
+    });
+</script>
+@endif
 
 @endsection
 

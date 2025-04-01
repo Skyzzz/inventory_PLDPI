@@ -48,7 +48,7 @@
                             <td>
                                 <!-- <a href="/edtBarangKeluar/{{ $item->id_barang }}" class="btn btn-sm btn-success"><i
                                         class="fa fa-pencil-square-o"></i></a> -->
-                                <a href="/hpsBarang_keluar/{{ $item->id_barang_keluar }}" class="btn btn-sm btn-danger"><i
+                                <a class="btn btn-sm btn-danger" data-bs-toggle="tooltip" title="Hapus" onclick="confirmation(event)" href="{{url('/hpsBarang_keluar', $item->id_barang_keluar)}}"><i
                                         class="fa fa-trash"></i></a>
                             </td>
                         </tr>

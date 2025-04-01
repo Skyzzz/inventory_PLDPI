@@ -5,20 +5,22 @@
 @section('content')
 
 <style>
-    .card{
+    .card {
         border-radius: 20px;
-     }
+    }
 
-    .btn{
+    .btn {
         border-radius: 5px;
     }
-    .table{
+
+    .table {
         border-radius: 10px;
     }
 </style>
 
-<a data-toggle="modal" data-target="#tambah" href="#" class="btn btn-primary btn-sm mb-3"><i class="fa fa-plus"></i>
-    Tambah Kategori Surat</a>
+<a data-toggle="modal" data-target="#tambah" href="#" class="btn btn-primary btn-sm mb-3">
+    <i class="fa fa-plus"></i> Tambah Kategori Surat
+</a>
 
 <div class="row">
     <div class="col-md-12">
@@ -33,7 +35,7 @@
                             <th>No</th>
                             <th>Kode Kategori Surat</th>
                             <th>Nama Kategori Surat</th>
-                            <th></th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -43,8 +45,8 @@
                             <td>{{ $item->kode_kategori_surat }}</td>
                             <td>{{ $item->kategori_surat }}</td>
                             <td>
-                                <a data-toggle="modal" data-target="#edit{{ $item->id_kategori_surat }}"class="btn btn-sm btn-success"data-bs-toggle="tooltip" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
-                                <a href="/hpsKategoriSurat/{{ $item->id_kategori_surat }}" class="btn btn-sm btn-danger"data-bs-toggle="tooltip" title="Hapus"><i class="fa fa-trash"></i></a>
+                                <a data-toggle="modal" data-target="#edit{{ $item->id_kategori_surat }}" class="btn btn-sm btn-success" data-bs-toggle="tooltip" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+                                <a class="btn btn-sm btn-danger" data-bs-toggle="tooltip" title="Hapus" onclick="confirmation(event)" href="{{ url('/hpsKategoriSurat', $item->id_kategori_surat) }}"><i class="fa fa-trash"></i></a>
                             </td>
                         </tr>
                         @endforeach
@@ -56,8 +58,7 @@
 </div>
 
 <!-- Modal Tambah Kategori Surat -->
-<div class="modal fade" id="tambah" tabindex="-1" role="dialog" aria-labelledby="tambahLabel" aria-hidden="true"
-    data-backdrop="static">
+<div class="modal fade" id="tambah" tabindex="-1" role="dialog" aria-labelledby="tambahLabel" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -71,12 +72,14 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="kode_kategori_surat" class="form-label">Kode Kategori Surat</label>
-                        <input type="text" class="form-control" id="kode_kategori_surat" name="kode_kategori_surat"
-                            value="{{ $kode_ks }}" readonly>
+                        <input type="text" class="form-control" id="kode_kategori_surat" name="kode_kategori_surat" 
+                               value="{{ old('kode_kategori_surat', $kode_ks ?? '') }}" readonly>
                     </div>
                     <div class="mb-3">
                         <label for="kategori_surat" class="form-label">Nama Kategori Surat</label>
-                        <input type="text" class="form-control" id="kategori_surat" name="kategori_surat">
+                        <input type="text" class="form-control" 
+                               id="kategori_surat" name="kategori_surat" 
+                               value="{{ old('kategori_surat') }}">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -90,8 +93,7 @@
 
 <!-- Modal Edit Kategori Surat -->
 @foreach ($kategoriSurat as $item)
-<div class="modal fade" id="edit{{ $item->id_kategori_surat }}" tabindex="-1" role="dialog" aria-labelledby="editLabel"
-    aria-hidden="true" data-backdrop="static">
+<div class="modal fade" id="edit{{ $item->id_kategori_surat }}" tabindex="-1" role="dialog" aria-labelledby="editLabel" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -106,13 +108,11 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="kode_kategori_surat" class="form-label">Kode Kategori Surat</label>
-                        <input type="text" class="form-control" id="kode_kategori_surat" name="kode_kategori_surat"
-                            value="{{ $item->kode_kategori_surat }}" readonly>
+                        <input type="text" class="form-control" id="kode_kategori_surat" name="kode_kategori_surat" value="{{ $item->kode_kategori_surat }}" readonly>
                     </div>
                     <div class="mb-3">
                         <label for="kategori_surat" class="form-label">Nama Kategori Surat</label>
-                        <input type="text" class="form-control" id="kategori_surat" name="kategori_surat"
-                            value="{{ $item->kategori_surat }}">
+                        <input type="text" class="form-control" id="kategori_surat" name="kategori_surat" value="{{ $item->kategori_surat }}">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -125,12 +125,50 @@
 </div>
 @endforeach
 
+@if ($errors->any())
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal Menambahkan Kategori Surat',
+            text: '{{ $errors->first("kategori_surat") }}'
+        });
+    });
+</script>
+@endif
+
+@if(session('success'))
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: '{{ session("success") }}',
+            showConfirmButton: true,
+        });
+    });
+</script>
+@endif
+
+@if(session('error'))
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal Menghapus!',
+            text: '{{ session("error") }}',
+            showConfirmButton: true,
+        });
+    });
+</script>
+@endif
+
 @endsection
 
 @section('table')
 <script type="text/javascript">
     $(document).ready(function () {
-        $('#bootstrap-data-table-export').DataTable();
+        $('#bootstrap-data-table').DataTable();
     });
 
     document.addEventListener("DOMContentLoaded", function () {

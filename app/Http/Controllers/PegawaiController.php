@@ -54,6 +54,7 @@ class PegawaiController extends Controller
         $request->validate([
             'kode_pegawai' => 'required',
             'nama_pegawai' => 'required',
+            'jabatan' => 'required',
             'email' => 'required|email'
         ]);
     
@@ -69,6 +70,7 @@ class PegawaiController extends Controller
         $pegawai = new Pegawai();
         $pegawai->kode_pegawai = $request->kode_pegawai;
         $pegawai->nama_pegawai = $request->nama_pegawai;
+        $pegawai->jabatan = $request->jabatan;
         $pegawai->email = $request->email;
         $pegawai->save();
     
@@ -80,23 +82,31 @@ class PegawaiController extends Controller
     public function konfir(Request $request, $id)
     {
         $request->validate([
-            'id_pegawai' => 'required',
-            'nama_pegawai' => 'required',
-            'jabatan' => 'required',
-            'email' => 'required|unique:users',
-            'password' => 'required'
+            'id_pegawai' => 'required|exists:pegawai,id_pegawai',
+            'nama_pegawai' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'jabatan' => 'required|in:Admin',
+            'password' => 'required_if:jabatan,Admin|min:5'
         ]);
-        // dd($request->all());
 
-        $pegawai = new User;
-        $pegawai->nama = $request->nama_pegawai;
-        $pegawai->email = $request->email;
-        $pegawai->password = bcrypt($request->password);
-        $pegawai->role = $request->jabatan;
-        $pegawai->save();
+        try {
+            $user = User::updateOrCreate(
+                ['email' => $request->email],
+                [
+                    'nama' => $request->nama_pegawai,
+                    'password' => bcrypt($request->password),
+                    'role' => $request->jabatan
+                ]
+            );
 
-        alert()->success('Berhasil','Role Pegawai Berhasil Diperbaharui.');
-        return redirect('/pegawai');
+            return response()->json(['success' => true]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
     public function edit($id)

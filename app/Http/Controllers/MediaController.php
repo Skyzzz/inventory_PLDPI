@@ -41,6 +41,8 @@ class MediaController extends Controller
      */
     public function create()
     {
+        $kategori_media = \App\Models\KategoriMedia::all(); // Ambil semua kategori dari tabel kategori_media
+
         $thn = Carbon::now()->year;
         $var = 'MD';
         $media_count = Media::count();
@@ -54,9 +56,8 @@ class MediaController extends Controller
             $kode_media = $var . $thn . $awal;
         }
 
-        $kategoriMedia = \App\Models\KategoriMedia::all(); // Ambil semua kategori dari tabel kategori_media
 
-        return view('media.tbhMedia', compact('kode_media', 'kategoriMedia'));
+        return view('media.tbhMedia', compact('kode_media', 'kategori_media'));
     }
 
 

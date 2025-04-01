@@ -17,6 +17,6 @@ class KategoriMedia extends Model
 
     public function media()
     {
-        return $this->hasMany(Media::class, 'kategori_media_id', 'id_kategori_media');
+        return $this->hasMany(Media::class);
     }
 }

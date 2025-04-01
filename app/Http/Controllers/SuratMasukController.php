@@ -61,17 +61,16 @@ class SuratMasukController extends Controller
      
      public function store(Request $request)
      {
-         $request->validate([
-             'kategori_surat_id' => 'required|exists:kategori_surat,id_kategori_surat',
-             'nomor_surat' => 'required|string|max:255',
-             'tanggal_surat' => 'required|date',
-             'tanggal_terima' => 'required|date',
-             'pengirim' => 'required|string|max:255',
-             'perihal' => 'required|string|max:255',
-             'kategori' => 'nullable|string|max:255',
-             'file_surat' => 'nullable|file|mimes:pdf|max:10240',
-             'keterangan' => 'nullable|string',
-         ]);
+        $request->validate([
+            'kategori_surat_id' => 'required|exists:kategori_surat,id_kategori_surat',
+            'nomor_surat' => 'required|string|max:255',
+            'tanggal_surat' => 'required|date',
+            'tanggal_terima' => 'required|date',
+            'pengirim' => 'required|string|max:255',
+            'perihal' => 'required|string|max:255',
+            'file_surat' => 'required|file|mimes:pdf|max:10240',
+            'keterangan' => 'nullable|string',
+        ]);        
      
          $prefix = 'SM'; // Kode tetap untuk Surat Keluar
          $tahun_bulan = Carbon::now()->format('Ym'); // Tahun dan bulan dalam format YYYYMM
@@ -180,7 +179,6 @@ class SuratMasukController extends Controller
             'tanggal_terima' => 'required|date',
             'pengirim' => 'required|string|max:255',
             'perihal' => 'required|string|max:255',
-            'kategori' => 'nullable|string|max:255',
             'file_surat' => 'nullable|file|mimes:pdf|max:10240',
             'keterangan' => 'nullable|string',
         ]);

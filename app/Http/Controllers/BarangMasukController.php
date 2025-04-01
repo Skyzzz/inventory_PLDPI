@@ -69,7 +69,15 @@ class BarangMasukController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate(['tgl_masuk' => 'required']);
+        $request->validate([
+            'tgl_masuk' => 'required|date|before_or_equal:today',
+            'supplier' => 'required',
+            
+        ], [
+            'tgl_masuk.required' => 'Kolom tanggal masuk wajib diisi.',
+            'tgl_masuk.date' => 'Format Tanggal tidak valid',
+            'tgl_masuk.before_or_equal' => 'Tanggal masuk tidak boleh lebih dari hari ini',
+        ]);
 
         $kode_bm = $request->kode_bm;
         $id_barang = $request->id_barang;

@@ -8,12 +8,14 @@
     .card{
         border-radius: 20px;
      }
-
     .btn{
         border-radius: 5px;
     }
     .table{
         border-radius: 10px;
+    }
+    .invalid-feedback {
+        display: block;
     }
 </style>
 
@@ -43,10 +45,18 @@
                             <td>{{ $item->kode_kategori }}</td>
                             <td>{{ $item->kategori }}</td>
                             <td>
-                                <a data-toggle="modal" data-target="#edit{{ $item->id_kategori }}"
-                                    class="btn btn-sm btn-success"><i class="fa fa-pencil-square-o"></i></a>
-                                <a href="/hpsKategori/{{ $item->id_kategori }}" class="btn btn-sm btn-danger"><i
-                                        class="fa fa-trash"></i></a>
+                                <a data-toggle="modal" data-bs-toggle="tooltip" title="Edit" 
+                                   data-target="#edit{{ $item->id_kategori }}" 
+                                   class="btn btn-sm btn-success">
+                                   <i class="fa fa-pencil-square-o"></i>
+                                </a>
+                                <a href="/hpsKategori/{{ $item->id_kategori }}" 
+                                   onclick="confirmation(event)" 
+                                   data-bs-toggle="tooltip" 
+                                   title="Hapus" 
+                                   class="btn btn-sm btn-danger">
+                                   <i class="fa fa-trash"></i>
+                                </a>
                             </td>
                         </tr>
                         @endforeach
@@ -58,8 +68,7 @@
 </div>
 
 <!-- Modal Tambah Kategori -->
-<div class="modal fade" id="tambah" tabindex="-1" role="dialog" aria-labelledby="tambahLabel" aria-hidden="true"
-    data-backdrop="static">
+<div class="modal fade" id="tambah" tabindex="-1" role="dialog" aria-labelledby="tambahLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -72,18 +81,23 @@
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="id_kategori" class="form-label">Kode Kategori</label>
-                        <input type="text" class="form-control" id="kode_kategori" name="kode_kategori"
-                            value="{{ $kode_kt }}" readonly>
+                        <label for="kode_kategori" class="form-label">Kode Kategori</label>
+                        <input type="text" class="form-control @error('kode_kategori') is-invalid @enderror" 
+                            id="kode_kategori" name="kode_kategori" 
+                            value="{{ old('kode_kategori', $kode_kt) }}" readonly>
+                        @error('kode_kategori')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="mb-3">
                         <label for="kategori" class="form-label">Nama Kategori</label>
-                        <input type="text" class="form-control" id="kategori" name="kategori">
+                        <input type="text" class="form-control" id="kategori" name="kategori" 
+                            value="{{ old('kategori') }}">
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" type="submit">Simpan</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
                 </div>
             </form>
         </div>
@@ -127,13 +141,47 @@
 </div>
 @endforeach
 
+@if ($errors->any())
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal Menambahkan Kategori',
+            text: '{{ $errors->first("kategori") }}'
+        });
+    });
+</script>
+@endif
+
+@if(session('success'))
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: '{{ session("success") }}',
+            showConfirmButton: true,
+            // timer: 2000
+        });
+    });
+</script>
+@endif
+
 @endsection
 
 @section('table')
 <script type="text/javascript">
-    $(document).ready(function () {
-        $('#bootstrap-data-table-export').DataTable();
+    $(document).ready(function() {
+        $('#bootstrap-data-table').DataTable({
+            lengthMenu: [
+                [10, 20, 50, -1],
+                [10, 20, 50, "All"]
+            ],
+            language: {
+                search: "_INPUT_",
+                searchPlaceholder: "Cari...",
+            }
+        });
     });
-
 </script>
 @endsection

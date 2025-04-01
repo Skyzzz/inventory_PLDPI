@@ -117,7 +117,7 @@ class UserController extends Controller
 
         User::where('id_user', $id)->update($validate);
         alert()->success('Berhasil','User Berhasil Diedit.');
-        return back();
+        return redirect('/user');
     }
 
     /**

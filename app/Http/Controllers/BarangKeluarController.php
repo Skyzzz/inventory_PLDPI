@@ -68,7 +68,12 @@ class BarangKeluarController extends Controller
         // dd($request->all());
         $request->validate([
             'nama_pegawai' => 'required',
-            'tgl_keluar' => 'required'
+            'tgl_keluar' => 'required|date|before_or_equal:today',
+            'nama_barang' => 'required',
+        ], [
+            'tgl_keluar.required' => 'Kolom tanggal masuk wajib diisi.',
+            'tgl_keluar.date' => 'Format Tanggal Salah',
+            'tgl_keluar.before_or_equal' => 'Tanggal Keluar Tidak Boleh Lebih Dari Hari Ini',
         ]);
 
         $kode_bk = $request->kode_bk;

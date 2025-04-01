@@ -51,13 +51,15 @@
                                 <!-- <td>{{ $item->kode_media }}</td> -->
                                 <td>{{ Str::limit($item->nama_file, 70) }}</td>
                                 <!-- <td>{{ number_format($item->ukuran_file / 1048576, 2) }} MB</td> -->
-                                <td>{{ $item->kategori }}</td>
+                                <td>{{ $item->kategori_media->kategori_media }}</td>
                                 <!-- <td>{{ $item->user->nama }}</td>
                                 <td>{{ $item->created_at }}</td> -->
                                 <td>
                                     <a href="{{ route('streamMedia', $item->id) }}" target="_blank" class="btn btn-sm btn-info" data-bs-toggle="tooltip" title="Lihat"><i class="fa fa-eye"></i></a>
                                     <a href="{{ asset('storage/' . $item->path) }}" class="btn btn-sm btn-primary" download="{{ $item->nama_file }}" data-bs-toggle="tooltip" title="Download"><i class="fa fa-download"></i></a>
-                                    <a href="/hpsMedia/{{ $item->id }}" class="btn btn-sm btn-danger" data-bs-toggle="tooltip" title="Hapus"><i class="fa fa-trash"></i></a>
+                                    <!-- <a href="/hpsMedia/{{ $item->id }}" class="btn btn-sm btn-danger" data-bs-toggle="tooltip" title="Hapus"><i class="fa fa-trash"></i></a> -->
+                                    <a class="btn btn-sm btn-danger" data-bs-toggle="tooltip" title="Hapus" onclick="confirmation(event)" href="{{url('/hpsMedia', $item->id)}}"><i
+                                    class="fa fa-trash"></i></a>
                                     <a href="/detailMedia/{{ $item->id }}" class="btn btn-sm btn-primary"data-bs-toggle="tooltip" title="Detail"><i class="fa fa-info-circle"></i></a>  
                                 </td>
                             </tr>

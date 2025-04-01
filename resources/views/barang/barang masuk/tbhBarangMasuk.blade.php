@@ -28,35 +28,33 @@
                     @csrf
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label for="">Kode Barang Masuk</label>
-                            <input type="text" class="form-control" id="kode_mb" name="kode_bm" value="{{ $kode_bm }}"
-                                readonly>
+                            <label for="kode_bm">Kode Barang Masuk</label>
+                            <input type="text" class="form-control @error('kode_bm') is-invalid @enderror" 
+                                id="kode_bm" name="kode_bm" value="{{ old('kode_bm', $kode_bm) }}" readonly>
+                            @error('kode_bm')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="form-group col-md-4">
                             <label for="supplier">Supplier</label>
-                            @if (isset($id))
-                            <select id="supplier" class="form-control" name="supplier" onchange="supplier_id()">
-                                <option selected>Pilih Supplier...</option>
+                            <select id="supplier" class="form-control @error('supplier') is-invalid @enderror" name="supplier" onchange="supplier_id()">
+                                <option disabled selected>Pilih Supplier...</option>
                                 @foreach ($supplier as $item)
-                                <option value="{{ $item->id_pemasok }}"
-                                    {{ ($id == $item->id_pemasok) ? 'selected' : '' }}>
-                                    {{ $item->nama }}
-                                </option>
+                                    <option value="{{ $item->id_pemasok }}" {{ old('supplier', $id ?? '') == $item->id_pemasok ? 'selected' : '' }}> {{ $item->nama }}
+                                    </option>
                                 @endforeach
                             </select>
-                            @else
-                            <select id="supplier" class="form-control" name="supplier" onchange="supplier_id()">
-                                <option selected>Pilih Supplier...</option>
-                                @foreach ($supplier as $item)
-                                <option value="{{ $item->id_pemasok }}">{{ $item->nama }}
-                                </option>
-                                @endforeach
-                            </select>
-                            @endif
+                            @error('supplier')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="form-group col-md-4">
                             <label for="tgl_masuk">Tanggal Masuk</label>
-                            <input type="date" class="form-control" id="tgl_masuk" name="tgl_masuk">
+                            <input type="date" class="form-control @error('tgl_masuk') is-invalid @enderror" 
+                                id="tgl_masuk" name="tgl_masuk" value="{{ old('tgl_masuk') }}">
+                            @error('tgl_masuk')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
 
@@ -89,7 +87,11 @@
                                         <td>
                                             <input type="hidden" name="id_barang[]" value="{{ $item->id_barang }}">
                                             <input type="hidden" name="kategori_id[]" value="{{ $item->kategori_id }}">
-                                            <input class="form-control" name="jumlah[]" type="number" min="0" value="0">
+                                            <input class="form-control @error('jumlah.' . $loop->index) is-invalid @enderror" 
+                                                name="jumlah[]" type="number" min="0" value="{{ old('jumlah.' . $loop->index, 0) }}">
+                                            @error('jumlah.' . $loop->index)
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                         </td>
                                     </tr>
                                     @endforeach

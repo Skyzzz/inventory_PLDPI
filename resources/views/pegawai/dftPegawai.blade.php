@@ -5,17 +5,41 @@
 @section('content')
 
 <style>
-    .card{
+    .card {
         border-radius: 20px;
-     }
+    }
 
-    .btn{
+    .btn {
         border-radius: 5px;
     }
-    .table{
+
+    .table {
         border-radius: 10px;
     }
 </style>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function confirmation(ev) {
+        ev.preventDefault();
+        var urlToRedirect = ev.currentTarget.getAttribute('href'); //get the URL to redirect to
+        console.log(urlToRedirect);
+        Swal.fire({
+            title: 'Apakah Anda Yakin?',
+            text: "Data yang dihapus tidak bisa dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, Hapus!',
+            cancelButtonText: 'Batal',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = urlToRedirect;
+            }
+        });
+    }
+</script>
 
 <a href="{{ url('/tbhPegawai') }}" class="btn btn-primary btn-sm mb-3"><i class="fa fa-plus"></i> Tambah Pegawai</a>
 
@@ -32,8 +56,9 @@
                             <th>No</th>
                             <th>Kode Pegawai</th>
                             <th>Nama</th>
+                            <th>Jabatan</th>
                             <th>Email</th>
-                            <th></th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -42,14 +67,18 @@
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $item->kode_pegawai }}</td>
                             <td>{{ $item->nama_pegawai }}</td>
+                            <td>{{ $item->jabatan }}</td>
                             <td>{{ $item->email }}</td>
                             <td>
-                                <a data-toggle="modal" data-target="#key{{ $item->id_pegawai }}"
-                                    class="btn btn-sm btn-warning"><i class="fa fa-key"></i></a>
-                                <a href="/edtPegawai/{{ $item->id_pegawai }}" class="btn btn-sm btn-success"><i
-                                        class="fa fa-pencil-square-o"></i></a>
-                                <a href="/hpsPegawai/{{ $item->id_pegawai }}" class="btn btn-sm btn-danger"><i
-                                        class="fa fa-trash"></i></a>
+                                <button onclick="handleRole('{{ $item->id_pegawai }}', '{{ $item->nama_pegawai }}', '{{ $item->email }}')" 
+                                        class="btn btn-sm btn-warning">
+                                    <i class="fa fa-key"></i>
+                                </button>
+                                <a href="/edtPegawai/{{ $item->id_pegawai }}" class="btn btn-sm btn-success">
+                                    <i class="fa fa-pencil-square-o"></i>
+                                </a>
+                                <a class="btn btn-sm btn-danger" data-bs-toggle="tooltip" title="Hapus" onclick="confirmation(event)" href="{{url('/hpsPegawai', $item->id_pegawai)}}"><i
+                                    class="fa fa-trash"></i></a>
                             </td>
                         </tr>
                         @endforeach
@@ -60,72 +89,74 @@
     </div>
 </div>
 
-@foreach ($pegawai as $item)
-<div class="modal fade" id="key{{ $item->id_pegawai }}" tabindex="-1" role="dialog" aria-labelledby="keyLabel"
-    aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="keyLabel"><b>Hak Akses</b></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form action="{{ route('konfir', ['id'=>$item->id_pegawai]) }}" method="POST">
-                @method('put')
-                @csrf
-                <input type="hidden" name="id_pegawai" value="{{ $item->id_pegawai }}">
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="kode_pegawai" class="form-label">Kode pegawai</label>
-                        <input type="text" class="form-control" id="kode_pegawai" name="kode_pegawai"
-                            value="{{ $item->kode_pegawai }}" readonly>
-                    </div>
-                    <div class="mb-3">
-                        <label for="nama_pegawai" class="form-label">Nama pegawai</label>
-                        <input type="hidden" name="email" value="{{ $item->email }}">
-                        <input type="text" class="form-control" id="nama_pegawai" name="nama_pegawai"
-                            value="{{ $item->nama_pegawai }}" readonly>
-                    </div>
-                    <div class="mb-3">
-                        <label for="jabatan" class="form-label">Hak Akses</label>
-                        <select name="jabatan" id="jabatan" class="form-control" onchange="konfirmasi()">
-                            <option value="">Pilih Hak Akses..</option>
-                            <option value="Admin">Admin</option>
-                            <option value="Special">Special</option>
-                        </select>
-                    </div>
-                    <div class="mb-3" id="isi_password">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-warning btn-sm" type="submit">Konfir</button>
-                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancel</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-@endforeach
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-@endsection
-
-@section('lihat-barang')
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#data-pegawai').DataTable();
-    });
-
-    function konfirmasi() {
-        // console.log('hasil');
-        document.getElementById("isi_password").innerHTML = ' <label for="' +
-            'password " class="' +
-            ' form - label ">Password</label> <' +
-            'input type = "password"' +
-            'class = "form-control"' +
-            'id = "password"' +
-            ' name = "password" > ';
-    }
-
+<script>
+function handleRole(id, name, email) {
+    Swal.fire({
+        title: 'Konfirmasi Hak Akses',
+        html: `Yakin ingin memberikan hak akses admin kepada <b>${name}</b>?`,
+        icon: 'question',
+        showCancelButton: true,
+        cancelButtonText: 'Batal',
+        confirmButtonText: 'Ya, Jadikan Admin',
+        showLoaderOnConfirm: true,
+        reverseButtons: true,
+        preConfirm: () => {
+            return new Promise((resolve) => {
+                Swal.fire({
+                    title: 'Buat Password',
+                    html: `<input type="password" 
+                                  id="password" 
+                                  class="swal2-input" 
+                                  placeholder="Masukkan password"
+                                  required>`,
+                    focusConfirm: false,
+                    preConfirm: () => {
+                        const password = Swal.getPopup().querySelector('#password').value
+                        if (!password) {
+                            Swal.showValidationMessage('Password wajib diisi')
+                            return false
+                        }
+                        return { password: password }
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '/keyPegawai/' + id,
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            data: {
+                                id_pegawai: id,
+                                nama_pegawai: name,
+                                email: email,
+                                jabatan: 'Admin',
+                                password: result.value.password
+                            },
+                            success: function(response) {
+                                Swal.fire({
+                                    title: 'Berhasil!',
+                                    text: 'Hak akses admin berhasil diberikan',
+                                    icon: 'success'
+                                })
+                            },
+                            error: function(xhr) {
+                                Swal.fire({
+                                    title: 'Gagal!',
+                                    text: xhr.responseJSON.message || 'Terjadi kesalahan',
+                                    icon: 'error'
+                                })
+                            }
+                        })
+                    }
+                })
+            })
+        }
+    })
+}
 </script>
-@endsection
+
+@endsection 

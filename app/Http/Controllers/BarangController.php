@@ -47,65 +47,90 @@ class BarangController extends Controller
             'nama' =>'required',
             'satuan' => 'required',
             'harga_ambil' => 'required',
-            'gambar' => 'required|mimes:jpg,jpeg,png'
+            'gambar' => 'nullable|mimes:jpg,jpeg,png' // Buat gambar opsional
         ]);
-        // dd($request->all());
-
-         $gm = $request->gambar;
-         $namaFile = $gm->getClientOriginalName();
-
-         $barang = new Barang;
-         $barang->kode_barang = $request->kode_barang;
-         $barang->kategori_id = $request->kategori_id;
-         $barang->pemasok_id = $request->pemasok_id;
-         $barang->nama = $request->nama;
-         $barang->jumlah = 0;
-         $barang->satuan = $request->satuan;
-         $barang->harga_ambil = $request->harga_ambil;
-         $barang->gambar = $namaFile;
-         $gm->move(public_path() . '/Image', $namaFile);
-         $barang->save();
-
-         alert()->success('Berhasil','Barang Baru Berhasil Ditambahkan.');
-         return redirect('/barang');
+    
+        // **Menghapus "Rp" dan format angka dari harga_ambil**
+        $harga = str_replace(['Rp', '.', ','], '', $request->harga_ambil); 
+        $hargaBersih = (int) $harga; // Ubah ke integer agar tidak ada karakter lain
+    
+        $barang = new Barang;
+        $barang->kode_barang = $request->kode_barang;
+        $barang->kategori_id = $request->kategori_id;
+        $barang->pemasok_id = $request->pemasok_id;
+        $barang->nama = $request->nama;
+        $barang->jumlah = 0;
+        $barang->satuan = $request->satuan;
+        $barang->harga_ambil = $hargaBersih; // Simpan harga dalam format angka bersih
+    
+        // Cek apakah ada gambar yang diunggah
+        if ($request->hasFile('gambar')) {
+            $gm = $request->file('gambar');
+            $namaFile = $gm->getClientOriginalName();
+            $gm->move(public_path('/Image'), $namaFile);
+            $barang->gambar = $namaFile;
+        } else {
+            $barang->gambar = 'default.png'; 
+        }
+    
+        $barang->save();
+    
+        alert()->success('Berhasil', 'Barang Baru Berhasil Ditambahkan.');
+        return redirect('/barang');
     }
 
     public function edit($id)
-    {
-        $barang = Barang::where('id_barang', $id)->get();
-        $kategori = Kategori::where('id_kategori','!=', $barang[0]->kategori_id)->get();
-        $supplier = Pemasok::where('id_pemasok', '!=', $barang[0]->pemasok_id)->get();
-        // dd($barang);
-        return view('barang.edtBarang', compact('barang', 'kategori', 'supplier'));
+{
+    // Ambil satu data barang
+    $barang = Barang::findOrFail($id);
+
+    $kategori = Kategori::all();
+    $supplier = Pemasok::all();
+
+    return view('barang.edtBarang', compact('barang', 'kategori', 'supplier'));
+}
+
+public function update(Request $request, $id)
+{
+    // Validasi input
+    $request->validate([
+        'kode_barang' => 'required',
+        'kategori_id' => 'required',
+        'pemasok_id' => 'required',
+        'nama' => 'required',
+        'satuan' => 'required',
+        'harga_ambil' => 'required',
+        'gambar' => 'nullable|mimes:jpg,jpeg,png'
+    ]);
+
+    // Ambil data barang yang akan diperbarui
+    $barang = Barang::findOrFail($id);
+
+    // Menghilangkan format Rp dan koma dari harga
+    $harga = str_replace(['Rp', '.', ','], '', $request->harga_ambil);
+
+    // Simpan perubahan data
+    $barang->kode_barang = $request->kode_barang;
+    $barang->kategori_id = $request->kategori_id;
+    $barang->pemasok_id = $request->pemasok_id;
+    $barang->nama = $request->nama;
+    $barang->satuan = $request->satuan;
+    $barang->harga_ambil = (int) $harga; // Pastikan disimpan sebagai angka
+
+    // Jika ada file gambar baru, update gambar
+    if ($request->hasFile('gambar')) {
+        $gm = $request->file('gambar');
+        $namaFile = $gm->getClientOriginalName();
+        $gm->move(public_path('/Image'), $namaFile);
+        $barang->gambar = $namaFile;
     }
 
-    public function update(Request $request, $id)
-    {
-        $rules = [
-            'kode_barang' => 'required',
-            'kategori_id' => 'required',
-            'pemasok_id' => 'required',
-            'nama' =>'required',
-            'satuan' => 'required',
-            'harga_ambil' => 'required',
-            'gambar' => 'mimes:jpg,jpeg,png'
-        ];
+    // Simpan perubahan ke database
+    $barang->save();
 
-        $validate = $request->validate($rules);
-
-        if ($request->file('gambar')) {
-            $gm = $request->gambar;
-            $namaFile = $gm->getClientOriginalName();
-
-            $validate['gambar'] = $namaFile;
-            $gm->move(public_path() . '/Image', $namaFile);
-        }
-
-        DB::table('barang')->where('id_barang', $id)->update($validate);
-
-        alert()->success('Berhasil','Data Barang Berhasil Diupdate.');
-        return redirect('/barang');
-    }
+    alert()->success('Berhasil', 'Data Barang Berhasil Diupdate.');
+    return redirect('/barang');
+}
 
     public function destroy($id)
     {

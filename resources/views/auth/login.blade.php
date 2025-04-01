@@ -221,8 +221,17 @@
                             <div class="card2 card border-0 px-4 py-5">
                                 <div class="row px-3 mb-4 mt-5">
                                     <h3><strong class="or ml-1 mr-1 text-center">Login</strong></h3>
-
                                 </div>
+                                {{-- Menampilkan error jika ada --}}
+                                @if ($errors->any())
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
                                 <form action="/login" method="POST">
                                     @csrf
                                     <div class="row px-3">

@@ -32,7 +32,7 @@
                             <th>Nama</th>
                             <th>Email</th>
                             <th>Role</th>
-                            <th></th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -43,9 +43,9 @@
                             <td>{{ $item->email }}</td>
                             <td>{{ $item->role }}</td>
                             <td>
-                                <a href="/edtUser/{{ $item->id_user }}" class="btn btn-sm btn-success"><i
+                                <a href="/edtUser/{{ $item->id_user }}" data-bs-toggle="tooltip" title="Edit" class="btn btn-sm btn-success"><i
                                         class="fa fa-pencil-square-o"></i></a>
-                                <a href="/hpsUser/{{ $item->id_user }}" class="btn btn-sm btn-danger"><i
+                                <a class="btn btn-sm btn-danger" data-bs-toggle="tooltip" title="Hapus" onclick="confirmation(event)" href="{{url('/hpsUser', $item->id_user)}}"><i
                                         class="fa fa-trash"></i></a>
                             </td>
                         </tr>
@@ -60,10 +60,10 @@
 @endsection
 
 @section('table')
+
 <script type="text/javascript">
     $(document).ready(function () {
         $('#bootstrap-data-table-export').DataTable();
     });
-
 </script>
 @endsection

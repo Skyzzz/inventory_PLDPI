@@ -17,6 +17,7 @@ class CreatePegawaiTable extends Migration
             $table->Increments('id_pegawai');
             $table->string('kode_pegawai');
             $table->string('nama_pegawai');
+            $table->string('jabatan');
             $table->string('email')->unique();
             $table->timestamps();
         });        

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Kategori;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Database\QueryException;
 
 class KategoriController extends Controller
 {
@@ -49,19 +50,24 @@ class KategoriController extends Controller
      */
     public function store(Request $request)
     {
-        $kategori = $request->validate([
+        $request->validate([
             'kode_kategori' => 'required',
-            'kategori' => 'required'
+            'kategori' => 'required|max:50|unique:kategori,kategori'
+        ], [
+            'kode_kategori.required' => 'Kode kategori wajib diisi.',
+            'kategori.required' => 'Nama kategori wajib diisi.',
+            'kategori.unique' => 'Kategori sudah ada!',
+            'kategori.max' => 'Nama kategori maksimal 50 karakter.'
         ]);
-        
+    
         try {
             Kategori::create($request->only(['kode_kategori', 'kategori']));
-            alert()->success('Berhasil', 'Kategori Baru Berhasil Ditambahkan.');
+            return redirect()->back()->with('success', 'Kategori Baru Berhasil Ditambahkan.');
         } catch (\Exception $e) {
-            alert()->error('Gagal', 'Kategori sudah ada!');
+            return redirect()->back()->with('error', 'Gagal menambahkan kategori. Coba lagi!');
         }
-        return back();
     }
+    
 
     /**
      * Display the specified resource.
@@ -94,11 +100,24 @@ class KategoriController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validate = $request->validate(['kategori' => 'required']);
-        Kategori::where('id_kategori', $id)->update($validate);
-        alert()->success('Berhasil','Kategori Berhasil Diedit.');
-        return back();
+        $request->validate([
+            'kategori' => 'required|max:50|unique:kategori,kategori,' . $id . ',id_kategori'
+        ], [
+            'kategori.required' => 'Nama kategori wajib diisi.',
+            'kategori.unique' => 'Kategori sudah ada!',
+            'kategori.max' => 'Nama kategori maksimal 50 karakter.'
+        ]);
+    
+        try {
+            Kategori::where('id_kategori', $id)->update([
+                'kategori' => $request->kategori
+            ]);
+            return redirect()->back()->with('success', 'Kategori berhasil diperbarui.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with(['error' => 'Gagal mengupdate kategori.', 'error_id' => $id]);
+        }
     }
+    
 
     /**
      * Remove the specified resource from storage.
@@ -106,10 +125,16 @@ class KategoriController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        Kategori::where('id_kategori', $id)->delete();
-        alert()->success('Berhasil','Kategori Berhasil Dihapus.');
-        return back();
-    }
+     public function destroy($id)
+     {
+         try {
+             Kategori::where('id_kategori', $id)->delete();
+             alert()->success('Berhasil','Kategori Berhasil Dihapus.');
+         } catch (QueryException $e) {
+             alert()->error('Gagal', 'Kategori tidak dapat dihapus karena masih digunakan di tabel lain.');
+         }
+         return back();
+     }
+     
+    
 }

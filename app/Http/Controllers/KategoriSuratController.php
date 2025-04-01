@@ -5,13 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\KategoriSurat;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Database\QueryException;
 
 class KategoriSuratController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Menampilkan daftar kategori surat.
      */
     public function index()
     {
@@ -19,74 +18,68 @@ class KategoriSuratController extends Controller
         $thn = Carbon::now()->year;
         $var = 'KS';
         $kts = KategoriSurat::count();
-        if ($kts == 0) {
-            $awal = 10001;
-            $kode_ks = $var.$thn.$awal;
-        } else {
-            $last = KategoriSurat::all()->last();
-            $awal = (int)substr($last->kode_kategori_surat, -5) + 1;
-            $kode_ks = $var.$thn.$awal;
-        }
+
+        $kode_ks = ($kts == 0) 
+            ? $var . $thn . '10001' 
+            : $var . $thn . ((int)substr(KategoriSurat::latest()->first()->kode_kategori_surat, -5) + 1);
+
         return view('kategori.dftKategoriSurat', compact('kategoriSurat', 'kode_ks'));
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * Menyimpan kategori surat baru.
      */
     public function store(Request $request)
     {
         $request->validate([
-            'kode_kategori_surat' => 'required',
-            'kategori_surat' => 'required'
+            'kode_kategori_surat' => 'required|unique:kategori_surat,kode_kategori_surat',
+            'kategori_surat' => 'required|max:50|unique:kategori_surat,kategori_surat'
+        ], [
+            'kode_kategori_surat.required' => 'Kode kategori surat wajib diisi.',
+            'kategori_surat.required' => 'Nama kategori surat wajib diisi.',
+            'kategori_surat.unique' => 'Kategori surat sudah terdaftar!',
+            'kategori_surat.max' => 'Nama kategori surat maksimal 50 karakter.'
         ]);
-    
-        // Cek apakah kategori surat sudah ada di database
-        $existingKategoriSurat = KategoriSurat::where('kategori_surat', $request->kategori_surat)->first();
-    
-        if ($existingKategoriSurat) {
-            alert()->error('Gagal', 'Kategori Surat sudah terdaftar dalam sistem.');
-            return back()->withInput();
+
+        try {
+            KategoriSurat::create($request->only(['kode_kategori_surat', 'kategori_surat']));
+            return back()->with('success', 'Kategori Surat Baru Berhasil Ditambahkan.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal menambahkan kategori surat. Coba lagi!');
         }
-    
-        // Simpan kategori surat jika belum ada
-        $kategoriSurat = new KategoriSurat();
-        $kategoriSurat->kode_kategori_surat = $request->kode_kategori_surat;
-        $kategoriSurat->kategori_surat = $request->kategori_surat;
-        $kategoriSurat->save();
-    
-        alert()->success('Berhasil', 'Kategori Surat Baru Berhasil Ditambahkan.');
-        return back();
     }
-    
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Mengupdate kategori surat yang ada.
      */
     public function update(Request $request, $id)
     {
-        $validate = $request->validate(['kategori_surat' => 'required']);
-        KategoriSurat::where('id_kategori_surat', $id)->update($validate);
-        alert()->success('Berhasil', 'Kategori Surat Berhasil Diedit.');
-        return back();
+        $request->validate([
+            'kategori_surat' => 'required|max:50|unique:kategori_surat,kategori_surat,' . $id . ',id_kategori_surat'
+        ], [
+            'kategori_surat.required' => 'Nama kategori surat wajib diisi.',
+            'kategori_surat.unique' => 'Kategori surat sudah ada!',
+            'kategori_surat.max' => 'Nama kategori surat maksimal 50 karakter.'
+        ]);
+
+        try {
+            KategoriSurat::where('id_kategori_surat', $id)->update($request->only('kategori_surat'));
+            return back()->with('success', 'Kategori Surat Berhasil Diedit.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal mengedit kategori surat. Coba lagi!');
+        }
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Menghapus kategori surat.
      */
     public function destroy($id)
     {
-        KategoriSurat::where('id_kategori_surat', $id)->delete();
-        alert()->success('Berhasil', 'Kategori Surat Berhasil Dihapus.');
-        return back();
+        try {
+            KategoriSurat::where('id_kategori_surat', $id)->delete();
+            return back()->with('success', 'Kategori Surat Berhasil Dihapus.');
+        } catch (QueryException $e) {
+            return back()->with('error', 'Kategori Surat tidak dapat dihapus karena masih digunakan di tabel lain.');
+        }
     }
 }

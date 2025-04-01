@@ -48,13 +48,15 @@
                                 <td>{{ $item->kode_media }}</td>
                                 <td>{{ $item->nama_file }}</td>
                                 <td>{{ number_format($item->ukuran_file / 1048576, 2) }} MB</td>
-                                <td>{{ $item->kategori }}</td>
+                                <td>{{ $item->kategori_media->kategori_media }}</td>
                                 <td>{{ $item->user->nama }}</td>
                                 <td>{{ $item->created_at }}</td>
                                 <td>
                                     <a href="{{ asset('storage/uploads/media/' . $item->nama_file) }}" class="btn btn-sm btn-info" target="_blank" data-bs-toggle="tooltip" title="Lihat"><i class="fa fa-eye"></i></a>
                                     <a href="{{ asset('storage/uploads/media/' . $item->id) }}" class="btn btn-sm btn-success" download data-bs-toggle="tooltip" title="Download"><i class="fa fa-download"></i></a>
-                                    <a href="/hpsMedia/{{ $item->id }}" class="btn btn-sm btn-danger" data-bs-toggle="tooltip" title="Hapus"><i class="fa fa-trash"></i></a>  
+                                    <!-- <a href="/hpsMedia/{{ $item->id }}" class="btn btn-sm btn-danger" data-bs-toggle="tooltip" title="Hapus"><i class="fa fa-trash"></i></a>   -->
+                                    <a class="btn btn-sm btn-danger" data-bs-toggle="tooltip" title="Hapus" onclick="confirmation(event)" href="{{url('/hpsMedia', $item->id)}}"><i
+                                    class="fa fa-trash"></i></a>
                                 </td>
                             </tr>
                             @endforeach

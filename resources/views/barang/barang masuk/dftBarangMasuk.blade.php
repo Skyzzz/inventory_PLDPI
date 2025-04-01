@@ -16,6 +16,7 @@
         border-radius: 10px;
     }
 </style>
+
 <a href="/tbhBarang_masuk" class="btn btn-sm btn-primary mb-3"><i class="fa fa-plus"></i> Tambah Barang Masuk</a>
 <div class="row">
     <div class="col-md-12">
@@ -50,7 +51,10 @@
                                 <td>{{ number_format($item->jumlah) }} {{ $item->satuan }}</td>
                                 <td>Rp. {{ number_format($item->tot_pengeluaran) }}</td>
                                 <td>{{ date('d F Y', strtotime($item->tanggal)) }}</td>
-                                <td><a href="/hpsBarang_masuk/{{ $item->id_barang_masuk }}" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a></td>
+                                <td>
+                                    <a class="btn btn-sm btn-danger" data-bs-toggle="tooltip" title="Hapus" onclick="confirmation(event)" href="{{url('/hpsBarang_masuk', $item->id_barang_masuk)}}"><i
+                                        class="fa fa-trash"></i></a>
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>

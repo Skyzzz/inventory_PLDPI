@@ -40,7 +40,7 @@ class PemasokController extends Controller
             'nama' => 'required',
             'alamat' => 'required',
             'email' => 'required|email',
-            'telepon' => 'required'
+            'telepon' => 'required|numeric|digits_between:10,15|unique:pemasok,telepon'
         ]);
     
         // Cek apakah pemasok dengan email atau telepon yang sama sudah ada
@@ -98,30 +98,30 @@ class PemasokController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $pemasok = Pemasok::where('id_pemasok', $id)->get();
-        // dd($pemasok[0]->email);
-
+        $pemasok = Pemasok::where('id_pemasok', $id)->firstOrFail(); // Menggunakan firstOrFail() agar langsung error jika tidak ditemukan
+        
         $rules = [
-            'nama' => 'required',
-            'alamat' => 'required',
+            'nama' => 'required|string|max:255',
+            'alamat' => 'required|string|max:255',
         ];
-
-        if ($request->email != $pemasok[0]->email) {
-            $rules['email'] = 'required|email|unique:pemasok';
+    
+        if ($request->email != $pemasok->email) {
+            $rules['email'] = 'required|email|unique:pemasok,email';
         }
-
-        if ($request->telepon != $pemasok[0]->telepon) {
-            $rules['telepon'] = 'required|unique:pemasok';
+    
+        if ($request->telepon != $pemasok->telepon) {
+            $rules['telepon'] = 'required|numeric|digits_between:10,15|unique:pemasok,telepon';
         }
-
-        $validate = $request->validate($rules);
-        // dd($validate);
-
-        Pemasok::where('id_pemasok', $id)->update($validate);
-        alert()->success('Berhasil','Supplier Berhasil Diedit.');
-
-        return back();
+    
+        $validatedData = $request->validate($rules);
+    
+        // Perbarui data pemasok
+        $pemasok->update($validatedData);
+    
+        alert()->success('Berhasil', 'Supplier Berhasil Diedit.');
+        return redirect('/pemasok');
     }
+    
 
     /**
      * Remove the specified resource from storage.

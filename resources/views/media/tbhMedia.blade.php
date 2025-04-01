@@ -28,28 +28,32 @@
                     @csrf
                     <div class="form-group">
                         <label for="file" class="form-control-label">File Media</label>
-                        <input type="file" id="file" name="file" class="form-control" required>
-                        @if ($errors->has('file'))
-                            <div class="alert alert-danger">
-                                {{ $errors->first('file') }}
-                            </div>
-                        @endif
+                        <input type="file" id="file" name="file" class="form-control @error('file') is-invalid @enderror">
+                        @error('file')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="form-group">
                         <label for="kategori" class="form-control-label">Kategori</label>
-                        <select id="kategori" name="kategori" class="form-control" onchange="updateKategoriID()">
-                            <option value="" disabled selected>-- Pilih Kategori --</option>
+                        <select id="kategori" name="kategori" class="form-control @error('kategori') is-invalid @enderror" onchange="updateKategoriID()">
+                            <option value="" disabled {{ old('kategori') ? '' : 'selected' }}>-- Pilih Kategori --</option>
                             @foreach ($kategoriMedia as $kategori)
-                                <option value="{{ $kategori->kategori_media }}" data-id="{{ $kategori->id_kategori_media }}">
+                                <option value="{{ $kategori->kategori_media }}" 
+                                        data-id="{{ $kategori->id_kategori_media }}" 
+                                        {{ old('kategori') == $kategori->kategori_media ? 'selected' : '' }}>
                                     {{ $kategori->kategori_media }}
                                 </option>
                             @endforeach
                         </select>
+                        @error('kategori')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
+
                     <!-- Hidden input untuk menyimpan ID kategori -->
                     <input type="hidden" id="kategori_media_id" name="kategori_media_id">
 
-                    <button type="submit" class="btn btn-sm btn-primary">Upload</button>
+                    <button type="submit" class="btn btn-sm btn-primary">Simpan</button>
                     <a href="/media" class="btn btn-sm btn-danger">Batal</a>
                 </form>
             </div>

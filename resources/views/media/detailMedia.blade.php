@@ -37,7 +37,7 @@
                         <h5 class="fw-bold text-dark"><i class="fa fa-user text-primary"></i> Pengupload & Kategori</h5>
                         <hr>
                         <p class="fs-5 text-dark"><strong>Pengupload:</strong> {{ $media_detail->user->nama }}</p>
-                        <p class="fs-5 text-dark"><strong>Kategori:</strong> {{ $media_detail->kategori }}</p>
+                        <p class="fs-5 text-dark"><strong>Kategori:</strong> {{ $media_detail->kategori_media->kategori_media }}</p>
                     </div>
                 </div>
 

@@ -53,9 +53,9 @@
                                 <td>Rp. {{ number_format($item->harga_ambil) }}</td>
                                 <td><img src="{{ asset('Image/'.$item->gambar) }}" alt=""></td>
                                 <td>
-                                    <a href="/edtBarang/{{ $item->id_barang }}" class="btn btn-sm btn-success"><i
+                                    <a href="/edtBarang/{{ $item->id_barang }}" data-bs-toggle="tooltip" title="Edit" class="btn btn-sm btn-success"><i
                                             class="fa fa-pencil-square-o"></i></a>
-                                    <a href="/hpsBarang/{{ $item->id_barang }}" class="btn btn-sm btn-danger"><i
+                                    <a class="btn btn-sm btn-danger" data-bs-toggle="tooltip" title="Hapus" onclick="confirmation(event)" href="{{url('/hpsBarang', $item->id_barang)}}"><i
                                             class="fa fa-trash"></i></a>
                                 </td>
                             </tr>

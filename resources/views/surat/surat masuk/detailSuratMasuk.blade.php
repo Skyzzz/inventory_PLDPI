@@ -40,7 +40,7 @@
                         <hr>
                         <p class="fs-5 text-dark"><strong>Pengirim:</strong> {{ $suratMasuk->pengirim }}</p>
                         <p class="fs-5 text-dark"><strong>Perihal:</strong> {{ $suratMasuk->perihal }}</p>
-                        <p class="fs-5 text-dark"><strong>Kategori:</strong> {{ $selectedKategori }}</p>
+                        <p class="fs-5 text-dark"><strong>Kategori:</strong> {{ $suratMasuk->kategori_surat->kategori_surat }}</p>
                     </div>
                 </div>
 

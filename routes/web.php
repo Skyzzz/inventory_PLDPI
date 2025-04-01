@@ -53,7 +53,7 @@ Route::middleware(['user'])->group(function () {
     Route::get('/pegawai', [PegawaiController::class, 'index']);
     Route::get('/tbhPegawai', [PegawaiController::class, 'create']);
     Route::post('/tbhPegawai', [PegawaiController::class, 'store'])->name('tbhPegawai');
-    Route::put('/keyPegawai/{id}', [PegawaiController::class, 'konfir'])->name('konfir');
+    Route::post('/keyPegawai/{id}', [PegawaiController::class, 'konfir'])->name('konfir');
     Route::get('/edtPegawai/{id}', [PegawaiController::class, 'edit']);
     Route::put('/edtPegawai/{id}', [PegawaiController::class, 'update'])->name('uptPegawai');
     Route::get('/hpsPegawai/{id}', [PegawaiController::class, 'destroy']);

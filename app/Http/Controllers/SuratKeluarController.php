@@ -68,7 +68,7 @@ class SuratKeluarController extends Controller
              'pengirim' => 'required|string|max:255',
              'perihal' => 'required|string|max:255',
              'kategori' => 'nullable|string|max:255',
-             'file_surat' => 'nullable|file|mimes:pdf|max:10240',
+             'file_surat' => 'required|file|mimes:pdf|max:10240',
              'keterangan' => 'nullable|string',
          ]);
      

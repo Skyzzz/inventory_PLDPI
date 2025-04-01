@@ -16,6 +16,7 @@
         border-radius: 10px;
     }
 </style>
+
 @if (auth()->user()->role == 'Admin')
 <a href="/tbhSuratMasuk" class="btn btn-sm btn-primary mb-3"><i class="fa fa-plus"></i> Tambah Surat Masuk</a>
 @endif
@@ -39,6 +40,7 @@
                                 <th>Pengirim</th>
                                 <!-- <th>Perihal</th> -->
                                 <th>Tanggal Terima</th>
+                                <th>Kategori</th>
                                 <!-- <th>Diupload Oleh</th> -->
                                 <th>Aksi</th>
                             </tr>
@@ -54,12 +56,15 @@
                                 <td>{{ $item->pengirim }}</td>
                                 <!-- <td>{{ $item->perihal }}</td> -->
                                 <td>{{ $item->tanggal_terima->format('d-m-Y') }}</td>
+                                <td>{{ $item->kategori_surat->kategori_surat }}</td>
                                 <!-- <td>{{ $item->user->nama }}</td> -->
                                 <td>
                                     <a href="{{ route('streamSuratMasuk', $item->id) }}" target="_blank" class="btn btn-sm btn-info" data-bs-toggle="tooltip" title="Lihat"><i class="fa fa-eye"></i></a>
                                     <a href="/edtSuratMasuk/{{ $item->id }}" class="btn btn-sm btn-success"data-bs-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i></a>
                                     <a href="{{ asset('storage/' . $item->file_surat) }}" class="btn btn-sm btn-primary" download="{{ $item->nama_surat }}" data-bs-toggle="tooltip" title="Download"><i class="fa fa-download"></i></a>
-                                    <a href="/hpsSuratMasuk/{{ $item->id }}" class="btn btn-sm btn-danger"data-bs-toggle="tooltip" title="Hapus"><i class="fa fa-trash"></i></a>
+                                    <!-- <a href="/hpsSuratMasuk/{{ $item->id }}" class="btn btn-sm btn-danger" data-bs-toggle="tooltip" title="Hapus"><i class="fa fa-trash"></i></a> -->
+                                    <a class="btn btn-sm btn-danger" data-bs-toggle="tooltip" title="Hapus" onclick="confirmation(event)" href="{{url('/hpsSuratMasuk', $item->id)}}"><i
+                                        class="fa fa-trash"></i></a>
                                     <a href="/detailSuratMasuk/{{ $item->id }}" class="btn btn-sm btn-primary"data-bs-toggle="tooltip" title="Detail"><i class="fa fa-info-circle"></i></a>
                                 </td>
                             </tr>

@@ -38,6 +38,7 @@
                                 <th>Tanggal Surat</th>
                                 <th>Pengirim</th>
                                 <th>Perihal</th>
+                                <th>Kategori</th>
                                 <th>Tanggal Terima</th>
                                 <th>Diupload Oleh</th>
                                 <th>Aksi</th>
@@ -53,12 +54,15 @@
                                 <td>{{ $item->tanggal_surat->format('d-m-Y') }}</td>
                                 <td>{{ $item->pengirim }}</td>
                                 <td>{{ $item->perihal }}</td>
+                                <td>{{ $item->kategori_surat->kategori_surat }}</td>
                                 <td>{{ $item->tanggal_terima->format('d-m-Y') }}</td>
                                 <td>{{ $item->user->nama }}</td>
                                 <td>
                                     <a href="/edtSuratMasuk/{{ $item->id }}" class="btn btn-sm btn-success"data-bs-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i></a>
                                     <a href="{{ asset('storage/' . $item->file_surat) }}" class="btn btn-sm btn-primary" download data-bs-toggle="tooltip" title="Download"><i class="fa fa-download"></i></a>
-                                    <a href="/hpsSuratMasuk/{{ $item->id }}" class="btn btn-sm btn-danger"data-bs-toggle="tooltip" title="Hapus"><i class="fa fa-trash"></i></a>
+                                    <!-- <a href="/hpsSuratMasuk/{{ $item->id }}" class="btn btn-sm btn-danger"data-bs-toggle="tooltip" title="Hapus"><i class="fa fa-trash"></i></a> -->
+                                    <a class="btn btn-sm btn-danger" data-bs-toggle="tooltip" title="Hapus" onclick="confirmation(event)" href="{{url('/hpsSuratMasuk', $item->id)}}"><i
+                                    class="fa fa-trash"></i></a>
                                 </td>
                             </tr>
                             @endforeach
