@@ -37,7 +37,7 @@
                         <label for="kategori" class="form-control-label">Kategori</label>
                         <select id="kategori" name="kategori" class="form-control @error('kategori') is-invalid @enderror" onchange="updateKategoriID()">
                             <option value="" disabled {{ old('kategori') ? '' : 'selected' }}>-- Pilih Kategori --</option>
-                            @foreach ($kategoriMedia as $kategori)
+                            @foreach ($kategori_media as $kategori)
                                 <option value="{{ $kategori->kategori_media }}" 
                                         data-id="{{ $kategori->id_kategori_media }}" 
                                         {{ old('kategori') == $kategori->kategori_media ? 'selected' : '' }}>

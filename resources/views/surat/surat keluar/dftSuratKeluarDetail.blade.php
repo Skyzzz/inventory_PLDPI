@@ -56,6 +56,7 @@
                                 <td>{{ $item->tanggal_keluar->format('d-m-Y') }}</td>
                                 <td>{{ $item->user->nama }}</td>
                                 <td>
+                                    <a href="{{ route('streamSuratKeluar', $item->id) }}" target="_blank" class="btn btn-sm btn-info" data-bs-toggle="tooltip" title="Lihat"><i class="fa fa-eye"></i></a>
                                     <a href="/edtSuratKeluar/{{ $item->id }}" class="btn btn-sm btn-success"data-bs-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i></a>
                                     <a href="{{ asset('storage/' . $item->file_surat) }}" class="btn btn-sm btn-primary" download data-bs-toggle="tooltip" title="Download"><i class="fa fa-download"></i></a>
                                     <!-- <a href="/hpsSuratKeluar/{{ $item->id }}" class="btn btn-sm btn-danger"data-bs-toggle="tooltip" title="Hapus"><i class="fa fa-trash"></i></a> -->

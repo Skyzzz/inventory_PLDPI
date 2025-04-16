@@ -42,10 +42,18 @@ class UserController extends Controller
     {
         $request->validate([
             'nama' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users,email',
             'password' => 'required|min:5',
             'role' => 'required'
-        ]);
+        ], [
+            'nama.required' => 'Nama wajib diisi.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.unique' => 'Email sudah digunakan oleh user lain.',
+            'password.required' => 'Password wajib diisi.',
+            'password.min' => 'Password minimal 5 karakter.',
+            'role.required' => 'Role wajib dipilih.'
+        ]);        
     
         // Cek apakah user dengan nama dan email yang sama sudah ada
         $existingUser = User::where('nama', $request->nama)
