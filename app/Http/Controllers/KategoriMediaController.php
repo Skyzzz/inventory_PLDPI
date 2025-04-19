@@ -30,10 +30,11 @@ class KategoriMediaController extends Controller
     {
         $request->validate([
             'kode_kategori_media' => 'required',
-            'kategori_media' => 'required|max:50|unique:kategori_media,kategori_media'
+            'kategori_media' => ['required','max:50','unique:kategori,kategori','regex:/^[a-zA-Z\s()]+$/'],
         ], [
             'kode_kategori_media.required' => 'Kode kategori media wajib diisi.',
             'kategori_media.required' => 'Nama kategori media wajib diisi.',
+            'kategori_media.regex' => 'Nama kategori media hanya boleh mengandung huruf, spasi dan tanda kurung.',
             'kategori_media.unique' => 'Kategori media sudah ada!',
             'kategori_media.max' => 'Nama kategori media maksimal 50 karakter.'
         ]);

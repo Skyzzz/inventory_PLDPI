@@ -52,13 +52,13 @@ class KategoriController extends Controller
     {
         $request->validate([
             'kode_kategori' => 'required',
-            'kategori' => 'required|max:50|unique:kategori,kategori'
+            'kategori' => ['required','max:50','unique:kategori,kategori','regex:/^[a-zA-Z\s]+$/'],
         ], [
             'kode_kategori.required' => 'Kode kategori wajib diisi.',
-            'kategori.required' => 'Nama kategori wajib diisi.',
-            'kategori.unique' => 'Kategori sudah ada!',
-            'kategori.max' => 'Nama kategori maksimal 50 karakter.'
-        ]);
+            'kategori.required'      => 'Nama kategori wajib diisi.',
+            'kategori.unique'        => 'Kategori sudah ada!',
+            'kategori.regex'         => 'Nama kategori hanya boleh mengandung huruf dan spasi.'
+        ]);        
     
         try {
             Kategori::create($request->only(['kode_kategori', 'kategori']));

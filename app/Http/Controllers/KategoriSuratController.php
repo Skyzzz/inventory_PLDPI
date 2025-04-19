@@ -33,10 +33,11 @@ class KategoriSuratController extends Controller
     {
         $request->validate([
             'kode_kategori_surat' => 'required|unique:kategori_surat,kode_kategori_surat',
-            'kategori_surat' => 'required|max:50|unique:kategori_surat,kategori_surat'
+            'kategori_surat' => ['required','max:50','unique:kategori,kategori','regex:/^[a-zA-Z\s()]+$/'],
         ], [
             'kode_kategori_surat.required' => 'Kode kategori surat wajib diisi.',
             'kategori_surat.required' => 'Nama kategori surat wajib diisi.',
+            'kategori_surat.regex' => 'Nama kategori surat hanya boleh mengandung huruf, spasi dan tanda kurung.',
             'kategori_surat.unique' => 'Kategori surat sudah terdaftar!',
             'kategori_surat.max' => 'Nama kategori surat maksimal 50 karakter.'
         ]);

@@ -63,14 +63,60 @@ class SuratMasukController extends Controller
      {
         $request->validate([
             'kategori_surat_id' => 'required|exists:kategori_surat,id_kategori_surat',
-            'nomor_surat' => 'required|string|max:255',
-            'tanggal_surat' => 'required|date',
-            'tanggal_terima' => 'required|date',
-            'pengirim' => 'required|string|max:255',
-            'perihal' => 'required|string|max:255',
-            'file_surat' => 'required|file|mimes:pdf|max:10240',
-            'keterangan' => 'nullable|string',
-        ]);        
+            'nomor_surat'       => [
+                'required',
+                'string',
+                'max:255',
+                'regex:/^[a-zA-Z0-9\s.,\-\/#()]+$/'
+            ],
+            'tanggal_surat'     => 'required|date',
+            'tanggal_terima'    => 'required|date',
+            'pengirim'          => [
+                'required',
+                'string',
+                'max:255',
+                'regex:/^[a-zA-Z0-9\s.,\-\/#()]+$/'
+            ],
+            'perihal'           => [
+                'required',
+                'string',
+                'max:255',
+                'regex:/^[a-zA-Z0-9\s.,\-\/#()]+$/'
+            ],
+            'file_surat'        => 'required|file|mimes:pdf|max:10240',
+            'keterangan'        => 'nullable|string',
+        ], [
+            'kategori_surat_id.required' => 'Kategori surat wajib dipilih.',
+            'kategori_surat_id.exists'   => 'Kategori surat tidak valid.',
+            
+            'nomor_surat.required'       => 'Nomor surat wajib diisi.',
+            'nomor_surat.string'         => 'Nomor surat harus berupa teks.',
+            'nomor_surat.regex'          => 'Nomor surat hanya boleh mengandung huruf, angka, spasi, dan karakter umum.',
+            'nomor_surat.max'            => 'Nomor surat maksimal 255 karakter.',
+            
+            'tanggal_surat.required'     => 'Tanggal surat wajib diisi.',
+            'tanggal_surat.date'         => 'Format tanggal surat tidak valid.',
+            
+            'tanggal_terima.required'    => 'Tanggal terima wajib diisi.',
+            'tanggal_terima.date'        => 'Format tanggal terima tidak valid.',
+            
+            'pengirim.required'          => 'Pengirim wajib diisi.',
+            'pengirim.string'            => 'Pengirim harus berupa teks.',
+            'pengirim.max'               => 'Pengirim maksimal 255 karakter.',
+            'pengirim.regex'             => 'Pengirim hanya boleh mengandung huruf, angka, spasi, dan karakter umum.',
+        
+            'perihal.required'           => 'Perihal wajib diisi.',
+            'perihal.string'             => 'Perihal harus berupa teks.',
+            'perihal.max'                => 'Perihal maksimal 255 karakter.',
+            'perihal.regex'              => 'Perihal hanya boleh mengandung huruf, angka, spasi, dan karakter umum.',
+        
+            'file_surat.required'        => 'File surat wajib diunggah.',
+            'file_surat.file'            => 'File surat harus berupa file.',
+            'file_surat.mimes'           => 'File surat hanya boleh berformat PDF.',
+            'file_surat.max'             => 'Ukuran file maksimal 10 MB.',
+        
+            'keterangan.string'          => 'Keterangan harus berupa teks.',
+        ]);              
      
          $prefix = 'SM'; // Kode tetap untuk Surat Keluar
          $tahun_bulan = Carbon::now()->format('Ym'); // Tahun dan bulan dalam format YYYYMM

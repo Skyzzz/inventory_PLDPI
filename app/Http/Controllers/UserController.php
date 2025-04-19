@@ -41,16 +41,18 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required',
+            'nama' => ['required', 'regex:/^[a-zA-Z\s]+$/'],
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:5',
+            'password' => ['required', 'min:5','regex:/^[a-zA-Z0-9!@#$%^&*()_\-+=.,]+$/'],
             'role' => 'required'
         ], [
             'nama.required' => 'Nama wajib diisi.',
+            'nama.regex' => 'Nama hanya boleh mengandung huruf.',
             'email.required' => 'Email wajib diisi.',
             'email.email' => 'Format email tidak valid.',
             'email.unique' => 'Email sudah digunakan oleh user lain.',
             'password.required' => 'Password wajib diisi.',
+            'password.regex' => 'Password hanya boleh mengandung huruf, angka, dan karakter khusus',
             'password.min' => 'Password minimal 5 karakter.',
             'role.required' => 'Role wajib dipilih.'
         ]);        

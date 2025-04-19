@@ -41,14 +41,24 @@ class BarangController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'kode_barang' => 'required',
-            'kategori_id' => 'required',
-            'pemasok_id' => 'required',
-            'nama' =>'required',
-            'satuan' => 'required',
-            'harga_ambil' => 'required',
-            'gambar' => 'nullable|mimes:jpg,jpeg,png' // Buat gambar opsional
-        ]);
+            'kode_barang'   => 'required',
+            'kategori_id'   => 'required',
+            'pemasok_id'    => 'required',
+            'nama'          => ['required', 'regex:/^[a-zA-Z0-9\s.,\-\/#()]+$/'],
+            'satuan'        => ['required', 'regex:/^[a-zA-Z]+$/'],
+            'harga_ambil'   => 'required',
+            'gambar'        => 'nullable|mimes:jpg,jpeg,png',
+        ], [
+            'kode_barang.required'    => 'Kode barang wajib diisi.',
+            'kategori_id.required'    => 'Kategori wajib dipilih.',
+            'pemasok_id.required'     => 'Pemasok wajib dipilih.',
+            'nama.required'           => 'Nama barang wajib diisi.',
+            'nama.regex'              => 'Nama hanya boleh mengandung huruf, angka, spasi, dan tanda baca umum.',
+            'satuan.required'         => 'Satuan wajib diisi.',
+            'satuan.regex'            => 'Satuan hanya boleh mengandung huruf.',
+            'harga_ambil.required'    => 'Harga ambil wajib diisi.',
+            'gambar.mimes'            => 'Gambar hanya boleh berformat jpg, jpeg, atau png.',
+        ]);        
     
         // **Menghapus "Rp" dan format angka dari harga_ambil**
         $harga = str_replace(['Rp', '.', ','], '', $request->harga_ambil); 

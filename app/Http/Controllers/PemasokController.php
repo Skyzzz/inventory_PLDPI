@@ -37,10 +37,21 @@ class PemasokController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required',
-            'alamat' => 'required',
+            'nama' => ['required', 'regex:/^[a-zA-Z\s]+$/'],
+            'alamat' => ['required', 'regex:/^[a-zA-Z0-9\s.,\-\/#()]+$/'],
             'email' => 'required|email',
             'telepon' => 'required|numeric|digits_between:10,15|unique:pemasok,telepon'
+        ], [
+            'nama.required' => 'Nama wajib diisi.',
+            'nama.regex' => 'Nama hanya boleh mengandung huruf.',
+            'alamat.required' => 'Alamat wajib diisi.',
+            'alamat.regex' => 'Alamat hanya boleh mengandung huruf, angka, dan karakter khusus.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'telepon.required' => 'Telepon wajib diisi.',
+            'telepon.numeric' => 'Telepon harus berupa angka.',
+            'telepon.digits_between' => 'Telepon harus terdiri dari 10 hingga 15 digit.',
+            'telepon.unique' => 'Telepon sudah digunakan oleh pemasok lain.'
         ]);
     
         // Cek apakah pemasok dengan email atau telepon yang sama sudah ada

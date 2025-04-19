@@ -53,9 +53,11 @@ class PegawaiController extends Controller
     {
         $request->validate([
             'kode_pegawai' => 'required',
-            'nama_pegawai' => 'required',
+            'nama_pegawai' => ['required', 'regex:/^[a-zA-Z\s]+$/'],
             'jabatan' => 'required',
             'email' => 'required|email'
+        ], [
+            'nama_pegawai.regex' => 'Nama hanya boleh mengandung huruf.',
         ]);
     
         // Cek apakah pegawai dengan email yang sama sudah ada
