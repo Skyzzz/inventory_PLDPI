@@ -46,7 +46,7 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->kategori->kategori }}</td>
                                 <td>{{ $item->pemasok->nama }}</td>
-                                <td>{{ $item->nama }}</td>
+                                <td>{{ $item->barang->nama }}</td>
                                 <td>Rp. {{ number_format($item->harga) }}</td>
                                 <td>{{ number_format($item->jumlah) }} {{ $item->satuan }}</td>
                                 <td>Rp. {{ number_format($item->tot_pengeluaran) }}</td>

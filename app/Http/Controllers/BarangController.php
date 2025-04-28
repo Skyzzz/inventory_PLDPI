@@ -8,6 +8,7 @@ use App\Models\Pemasok;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\QueryException;
 
 class BarangController extends Controller
 {
@@ -90,62 +91,67 @@ class BarangController extends Controller
     }
 
     public function edit($id)
-{
-    // Ambil satu data barang
-    $barang = Barang::findOrFail($id);
+    {
+        // Ambil satu data barang
+        $barang = Barang::findOrFail($id);
 
-    $kategori = Kategori::all();
-    $supplier = Pemasok::all();
+        $kategori = Kategori::all();
+        $supplier = Pemasok::all();
 
-    return view('barang.edtBarang', compact('barang', 'kategori', 'supplier'));
-}
-
-public function update(Request $request, $id)
-{
-    // Validasi input
-    $request->validate([
-        'kode_barang' => 'required',
-        'kategori_id' => 'required',
-        'pemasok_id' => 'required',
-        'nama' => 'required',
-        'satuan' => 'required',
-        'harga_ambil' => 'required',
-        'gambar' => 'nullable|mimes:jpg,jpeg,png'
-    ]);
-
-    // Ambil data barang yang akan diperbarui
-    $barang = Barang::findOrFail($id);
-
-    // Menghilangkan format Rp dan koma dari harga
-    $harga = str_replace(['Rp', '.', ','], '', $request->harga_ambil);
-
-    // Simpan perubahan data
-    $barang->kode_barang = $request->kode_barang;
-    $barang->kategori_id = $request->kategori_id;
-    $barang->pemasok_id = $request->pemasok_id;
-    $barang->nama = $request->nama;
-    $barang->satuan = $request->satuan;
-    $barang->harga_ambil = (int) $harga; // Pastikan disimpan sebagai angka
-
-    // Jika ada file gambar baru, update gambar
-    if ($request->hasFile('gambar')) {
-        $gm = $request->file('gambar');
-        $namaFile = $gm->getClientOriginalName();
-        $gm->move(public_path('/Image'), $namaFile);
-        $barang->gambar = $namaFile;
+        return view('barang.edtBarang', compact('barang', 'kategori', 'supplier'));
     }
 
-    // Simpan perubahan ke database
-    $barang->save();
+    public function update(Request $request, $id)
+    {
+        // Validasi input
+        $request->validate([
+            'kode_barang' => 'required',
+            'kategori_id' => 'required',
+            'pemasok_id' => 'required',
+            'nama' => 'required',
+            'satuan' => 'required',
+            'harga_ambil' => 'required',
+            'gambar' => 'nullable|mimes:jpg,jpeg,png'
+        ]);
 
-    alert()->success('Berhasil', 'Data Barang Berhasil Diupdate.');
-    return redirect('/barang');
-}
+        // Ambil data barang yang akan diperbarui
+        $barang = Barang::findOrFail($id);
+
+        // Menghilangkan format Rp dan koma dari harga
+        $harga = str_replace(['Rp', '.', ','], '', $request->harga_ambil);
+
+        // Simpan perubahan data
+        $barang->kode_barang = $request->kode_barang;
+        $barang->kategori_id = $request->kategori_id;
+        $barang->pemasok_id = $request->pemasok_id;
+        $barang->nama = $request->nama;
+        $barang->satuan = $request->satuan;
+        $barang->harga_ambil = (int) $harga; // Pastikan disimpan sebagai angka
+
+        // Jika ada file gambar baru, update gambar
+        if ($request->hasFile('gambar')) {
+            $gm = $request->file('gambar');
+            $namaFile = $gm->getClientOriginalName();
+            $gm->move(public_path('/Image'), $namaFile);
+            $barang->gambar = $namaFile;
+        }
+
+        // Simpan perubahan ke database
+        $barang->save();
+
+        alert()->success('Berhasil', 'Data Barang Berhasil Diupdate.');
+        return redirect('/barang');
+    }
 
     public function destroy($id)
     {
-        Barang::where('id_barang', $id)->delete();
-        alert()->success('Berhasil','Barang Berhasil Dihapus.');
-        return back();
+        try {
+            Barang::where('id_barang', $id)->delete();
+            alert()->success('Berhasil', 'Barang Berhasil Dihapus.');
+            return back();
+        } catch (QueryException $e) {
+            alert()->error('Gagal', 'Barang tidak dapat dihapus karena masih digunakan di tabel lain.');
+            return back();
+        }
     }
 }

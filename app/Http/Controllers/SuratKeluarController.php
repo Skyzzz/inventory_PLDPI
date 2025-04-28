@@ -62,14 +62,9 @@ class SuratKeluarController extends Controller
      {
         $request->validate([
             'kategori_surat_id' => 'required|exists:kategori_surat,id_kategori_surat',
-            'nomor_surat'       => [
-                'required',
-                'string',
-                'max:255',
-                'regex:/^[a-zA-Z0-9\s.,\-\/#()]+$/'
-            ],
-            'tanggal_surat'     => 'required|date',
-            'tanggal_terima'    => 'required|date',
+            'nomor_surat'       => ['required','string','max:255','regex:/^[a-zA-Z0-9\s.,\-\/#()]+$/'],
+            'tanggal_surat' => 'required|date',
+            'tanggal_keluar' => 'required|date',
             'pengirim'          => [
                 'required',
                 'string',
@@ -82,8 +77,9 @@ class SuratKeluarController extends Controller
                 'max:255',
                 'regex:/^[a-zA-Z0-9\s.,\-\/#()]+$/'
             ],
-            'file_surat'        => 'required|file|mimes:pdf|max:10240',
-            'keterangan'        => 'nullable|string',
+            'kategori' => 'required|string|max:255',
+            'file_surat' => 'required|file|mimes:pdf|max:10240',
+            'keterangan' => 'nullable|string',
         ], [
             'kategori_surat_id.required' => 'Kategori surat wajib dipilih.',
             'kategori_surat_id.exists'   => 'Kategori surat tidak valid.',
@@ -115,7 +111,7 @@ class SuratKeluarController extends Controller
             'file_surat.max'             => 'Ukuran file maksimal 10 MB.',
         
             'keterangan.string'          => 'Keterangan harus berupa teks.',
-        ]);  
+        ]);
      
          $prefix = 'SK'; // Kode tetap untuk Surat Keluar
          $tahun_bulan = Carbon::now()->format('Ym'); // Tahun dan bulan dalam format YYYYMM

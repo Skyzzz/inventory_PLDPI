@@ -14,6 +14,7 @@ class BarangMasuk extends Model
         'kode_bm',
         'kategori_id',
         'pemasok_id',
+        'barang_id',
         'nama',
         'jumlah',
         'satuan',
@@ -31,5 +32,14 @@ class BarangMasuk extends Model
     public function pemasok()
     {
         return $this->belongsTo(Pemasok::class, 'pemasok_id');
+    }
+
+    public function barang()
+    {
+        return $this->belongsTo(Barang::class, 'barang_id');
+    }
+    public function barang_k()
+    {
+        return $this->hasMany(BarangKeluar::class);
     }
 }

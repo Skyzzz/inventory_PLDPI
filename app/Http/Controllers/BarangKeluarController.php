@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Barang;
 use App\Models\BarangKeluar;
+use App\Models\BarangMasuk;
 use App\Models\Pegawai;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -65,17 +66,16 @@ class BarangKeluarController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
         $request->validate([
             'nama_pegawai' => 'required',
             'tgl_keluar' => 'required|date|before_or_equal:today',
             'nama_barang' => 'required',
         ], [
-            'tgl_keluar.required' => 'Kolom tanggal masuk wajib diisi.',
+            'tgl_keluar.required' => 'Kolom tanggal keluar wajib diisi.',
             'tgl_keluar.date' => 'Format Tanggal Salah',
             'tgl_keluar.before_or_equal' => 'Tanggal Keluar Tidak Boleh Lebih Dari Hari Ini',
         ]);
-
+    
         $kode_bk = $request->kode_bk;
         $nama_pegawai = $request->nama_pegawai;
         $tgl = $request->tgl_keluar;
@@ -83,34 +83,55 @@ class BarangKeluarController extends Controller
         $id_barang = $request->id_barang;
         $jumlah = $request->jml;
         $satuan = $request->satuan;
-
+    
         foreach ($jumlah as $key => $value) {
-            // dd($value);
             if ($value == 0) {
                 continue;
             }
+    
+            // Ambil data barang
             $dt_barang = Barang::where('id_barang', $id_barang[$key])->first();
-            // dd([$jumlah[$key], $dt_barang->jumlah]);
-            if ($jumlah[$key] > $dt_barang->jumlah) {
-                alert()->error('Gagal','Jumlah Barang Melebihi Stok Barang.');
+    
+            if (!$dt_barang) {
+                alert()->error('Gagal', 'Barang tidak ditemukan.');
                 return back();
-            } else {
-                Barang::where('id_barang', $id_barang[$key])->update([
-                    'jumlah' => $dt_barang->jumlah - $jumlah[$key]
-                ]);
-                BarangKeluar::insert([
-                    'kode_bk' => $kode_bk,
-                    'pegawai_id' => $nama_pegawai,
-                    'barang_id' => $id_barang[$key],
-                    'jumlah' => $jumlah[$key],
-                    'satuan' => $satuan[$key],
-                    'tanggal' => $tgl,
-                ]);
-                alert()->success('Berhasil','Kegiatan Berhasil Ditambahkan.');
-                return redirect('/barang_keluar');
             }
+    
+            // Ambil barang_masuk berdasarkan barang_id
+            $dt_barang_masuk = BarangMasuk::where('barang_id', $id_barang[$key])->first();
+    
+            if (!$dt_barang_masuk) {
+                alert()->error('Gagal', 'Data Barang Masuk tidak ditemukan.');
+                return back();
+            }
+    
+            // Cek stok
+            if ($jumlah[$key] > $dt_barang->jumlah) {
+                alert()->error('Gagal', 'Jumlah Barang Melebihi Stok.');
+                return back();
+            }
+    
+            // Update stok barang
+            Barang::where('id_barang', $id_barang[$key])->update([
+                'jumlah' => $dt_barang->jumlah - $jumlah[$key]
+            ]);
+    
+            // Insert ke tabel barang_keluar
+            BarangKeluar::insert([
+                'kode_bk' => $kode_bk,
+                'pegawai_id' => $nama_pegawai,
+                'barang_id' => $id_barang[$key],
+                'barang_masuk_id' => $dt_barang_masuk->id_barang_masuk, // ini diambil dari tabel barang_masuk
+                'jumlah' => $jumlah[$key],
+                'satuan' => $satuan[$key],
+                'tanggal' => $tgl,
+            ]);
         }
+    
+        alert()->success('Berhasil', 'Data Barang Keluar Berhasil Ditambahkan.');
+        return redirect('/barang_keluar');
     }
+    
 
     /**
      * Display the specified resource.

@@ -17,6 +17,7 @@ class CreateBarangKeluarTable extends Migration
             $table->increments('id_barang_keluar');
             $table->integer('barang_id')->unsigned();
             $table->integer('pegawai_id')->unsigned();
+            $table->integer('barang_masuk_id')->unsigned();
             $table->string('kode_bk');
             $table->integer('jumlah');
             $table->string('satuan');
@@ -25,6 +26,7 @@ class CreateBarangKeluarTable extends Migration
 
             $table->foreign('barang_id')->references('id_barang')->on('barang');
             $table->foreign('pegawai_id')->references('id_pegawai')->on('pegawai');
+            $table->foreign('barang_masuk_id')->references('id_barang_masuk')->on('barang_masuk');
         });
     }
 

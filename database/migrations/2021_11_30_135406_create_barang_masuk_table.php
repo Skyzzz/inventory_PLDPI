@@ -18,6 +18,7 @@ class CreateBarangMasukTable extends Migration
             $table->string('kode_bm');
             $table->integer('kategori_id')->unsigned();
             $table->integer('pemasok_id')->unsigned();
+            $table->integer('barang_id')->unsigned();
             $table->string('nama');
             $table->integer('jumlah');
             $table->string('satuan');
@@ -28,6 +29,7 @@ class CreateBarangMasukTable extends Migration
 
             $table->foreign('kategori_id')->references('id_kategori')->on('kategori');
             $table->foreign('pemasok_id')->references('id_pemasok')->on('pemasok');
+            $table->foreign('barang_id')->references('id_barang')->on('barang');
         });
     }
 

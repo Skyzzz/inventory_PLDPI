@@ -26,7 +26,7 @@
     <div class="col-md-12">
         <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <strong class="card-title">Daftar Media</strong>
+            <strong class="card-title">Daftar File</strong>
             <a href="/media_detail" class="btn btn-md btn-outline-primary">List Detail</a>
         </div>
             <div class="card-body">
