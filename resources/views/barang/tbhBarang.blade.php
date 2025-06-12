@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         <div class="mb-4 ml-2">
                             <label for="gambar" class="form-label">Gambar Promosi</label>
                             <img class="lihat-gambar img-fluid mb-3 col-sm-5">
-                            <input class="form-control @error('gambar') is-invalid @enderror" type="file" onchange="tampilGambar()" name="gambar" id="gambar" value="{{ old('gambar') }}">
+                            <input class="form-control @error('gambar') is-invalid @enderror" type="file" onchange="tampilGambar()" name="gambar" id="gambar" value="{{ old('gambar') }}" >
                             @error('gambar')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror

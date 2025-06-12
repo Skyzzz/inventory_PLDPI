@@ -2,52 +2,78 @@
 <html>
 
 <head>
-    <title>Laporan Rekapitulasi</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-</head>
+    <title>Laporan Barang Keluar</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        * {
+        font-family: Arial, sans-serif !important;
+        }
 
-<body>
-    <style type="text/css">
+        body {
+            font-size: 11pt;
+        }
+
+        .kop {
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .kop img {
+            float: left;
+            /* width: 100px; */
+            height: 100px;
+        }
+
+        .kop h5,
+        .kop h6 {
+            margin: 0;
+        }
+
+        .garis {
+            border: 2px solid black;
+            border-style: double none none;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
         table tr td {
-            font-size: 9pt;
+            font-size: 10pt;
         }
 
         table thead tr th {
+            font-size: 10pt;
             text-align: center;
-            font-size: 11pt;
         }
 
-        .total th {
-            font-size: 11pt;
-            color: red;
+        .table-bordered td,
+        .table-bordered th {
+            border: 1px solid #000 !important;
         }
-
-        hr {
-            margin-top: 1px;
-            margin-bottom: 30px;
-            border: 2px;
-            color: rgb(4, 79, 102);
-        }
-
-        img {
-            height: 100px;
-            width: 100px;
-        }
-
     </style>
+</head>
 
-    <center>
-        <img src="images/kantor.png" alt="">
-        <h5>Inventori Barang Pusat Layanan Disabilitas dan Pendidikan Inklusi Prov. Kalsel (PLDPI)
-            <br>Laporan Barang Keluar</h4><br>
-            <h6>Tanggal : {{ date('d-M-Y', strtotiMe($dari)) }} -
-                {{ date('d-M-Y', strtotime($sampai)) }}
-        </h5>
-    </center>
-    <hr>
+<body>
 
-    <table class='table table-bordered'>
+    <div class="kop">
+        <img src="{{ public_path('images/kantor.png') }}" alt="logo">
+        
+        <div style="font-size: 14pt;">PEMERINTAH PROVINSI KALIMANTAN SELATAN</div>
+        <div style="font-size: 14pt;">DINAS PENDIDIKAN DAN KEBUDAYAAN</div>
+        <div style="font-size: 16pt; font-weight: bold;">PUSAT LAYANAN DISABILITAS DAN PENDIDIKAN INKLUSI</div>
+        <div style="font-size: 10pt;">
+        Jalan Perdagangan Komp. Bumi Indah Lestari II, Kuin Utara, Kayu Tangi, Banjarmasin - Kalimantan Selatan<br>
+        Telp. 0811 5132 424 - Email: <u>pldpi.provkalsel@gmail.com</u>
+    </div>
+    </div>
+
+    <hr class="garis">
+
+    <div class="text-center mb-4">
+        <div style="font-size: 16pt; font-weight: bold;">LAPORAN BARANG KELUAR</div>
+        <div style="font-size: 11pt; font-weight: bold;">Tanggal: {{ date('d M Y', strtotime($dari)) }} - {{ date('d M Y', strtotime($sampai)) }}</div>
+    </div>
+
+    <table class="table table-bordered">
         <thead>
             <tr>
                 <th>No</th>
@@ -61,7 +87,7 @@
         <tbody>
             @foreach ($data_keluar as $item)
             <tr>
-                <td>{{ $loop->iteration }}</td>
+                <td class="text-center">{{ $loop->iteration }}</td>
                 <td>{{ $item->kode_bk }}</td>
                 <td>{{ $item->pegawai->nama_pegawai }}</td>
                 <td>{{ $item->barang->nama }}</td>

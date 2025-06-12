@@ -70,6 +70,7 @@ class BarangKeluarController extends Controller
             'nama_pegawai' => 'required',
             'tgl_keluar' => 'required|date|before_or_equal:today',
             'nama_barang' => 'required',
+            'keterangan' => 'nullable',
         ], [
             'tgl_keluar.required' => 'Kolom tanggal keluar wajib diisi.',
             'tgl_keluar.date' => 'Format Tanggal Salah',
@@ -83,6 +84,7 @@ class BarangKeluarController extends Controller
         $id_barang = $request->id_barang;
         $jumlah = $request->jml;
         $satuan = $request->satuan;
+        $keterangan = $request->keterangan;
     
         foreach ($jumlah as $key => $value) {
             if ($value == 0) {
@@ -125,6 +127,7 @@ class BarangKeluarController extends Controller
                 'jumlah' => $jumlah[$key],
                 'satuan' => $satuan[$key],
                 'tanggal' => $tgl,
+                'keterangan' => $keterangan,
             ]);
         }
     

@@ -54,9 +54,11 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Kode Pegawai</th>
+                            <!-- <th>Kode Pegawai</th> -->
+                             <th>ID Pegawai</th>
                             <th>Nama</th>
                             <th>Jabatan</th>
+                            <th>No. Hp</th>
                             <th>Email</th>
                             <th>Aksi</th>
                         </tr>
@@ -65,9 +67,11 @@
                         @foreach ($pegawai as $item)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $item->kode_pegawai }}</td>
+                            <!-- <td>{{ $item->kode_pegawai }}</td> -->
+                            <td>{{ $item->id_personal_pegawai }}</td>
                             <td>{{ $item->nama_pegawai }}</td>
                             <td>{{ $item->jabatan }}</td>
+                            <td>{{ $item->telp }}</td>
                             <td>{{ $item->email }}</td>
                             <td>
                                 <button onclick="handleRole('{{ $item->id_pegawai }}', '{{ $item->nama_pegawai }}', '{{ $item->email }}')" 

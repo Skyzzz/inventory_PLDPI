@@ -51,7 +51,7 @@
                                 <td>{{ $item->nama }}</td>
                                 <td>{{ number_format($item->jumlah) }} {{ $item->satuan }}</td>
                                 <td>Rp. {{ number_format($item->harga_ambil) }}</td>
-                                <td><img src="{{ asset('Image/'.$item->gambar) }}" alt=""></td>
+                                <td><img src="{{ asset('Image/'.$item->gambar) }}" alt="" width="50" height="50"></td>
                                 <td>
                                     <a href="/edtBarang/{{ $item->id_barang }}" data-bs-toggle="tooltip" title="Edit" class="btn btn-sm btn-success"><i
                                             class="fa fa-pencil-square-o"></i></a>

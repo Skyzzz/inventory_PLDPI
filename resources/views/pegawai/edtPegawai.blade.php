@@ -34,6 +34,15 @@
                     </div>
 
                     <div class="mb-3">
+                        <label for="id_personal_pegawai" class="form-label">ID Pegawai</label>
+                        <input type="text" class="form-control @error('id_personal_pegawai') is-invalid @enderror"
+                               id="id_personal_pegawai" name="id_personal_pegawai" value="{{ old('id_personal_pegawai', $item->id_personal_pegawai) }}">
+                        @error('id_personal_pegawai')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    
+                    <div class="mb-3">
                         <label for="nama_pegawai" class="form-label">Nama Pegawai</label>
                         <input type="text" class="form-control @error('nama_pegawai') is-invalid @enderror"
                                id="nama_pegawai" name="nama_pegawai" value="{{ old('nama_pegawai', $item->nama_pegawai) }}">
@@ -53,6 +62,14 @@
                             <option value="HRD" {{ old('jabatan', $item->jabatan) == 'HRD' ? 'selected' : '' }}>HRD</option>
                         </select>
                         @error('jabatan')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="telp" class="form-label">No. Hp</label>
+                        <input type="telp" class="form-control @error('telp') is-invalid @enderror"
+                               id="telp" name="telp" value="{{ old('telp', $item->telp) }}">
+                        @error('telp')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>

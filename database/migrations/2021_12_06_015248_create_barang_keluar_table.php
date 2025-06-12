@@ -22,6 +22,7 @@ class CreateBarangKeluarTable extends Migration
             $table->integer('jumlah');
             $table->string('satuan');
             $table->date('tanggal');
+            $table->string('keterangan');
             $table->timestamps();
 
             $table->foreign('barang_id')->references('id_barang')->on('barang');

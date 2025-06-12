@@ -2,83 +2,113 @@
 <html>
 
 <head>
-    <title>Laporan Rekapitulasi</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-</head>
+    <title>Laporan Barang Masuk</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        * {
+            font-family: Arial, sans-serif !important;
+        }
 
-<body>
-    <style type="text/css">
+        body {
+            font-size: 11pt;
+        }
+
+        .kop {
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .kop img {
+            float: left;
+            height: 100px;
+        }
+
+        .kop div {
+            margin: 0;
+        }
+
+        .garis {
+            border: 2px solid black;
+            border-style: double none none;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
         table tr td {
-            font-size: 9pt;
+            font-size: 10pt;
         }
 
         table thead tr th {
+            font-size: 10pt;
             text-align: center;
-            font-size: 11pt;
+        }
+
+        .table-bordered td,
+        .table-bordered th {
+            border: 1px solid #000 !important;
         }
 
         .total th {
             font-size: 11pt;
             color: red;
+            text-align: right;
         }
-
-        hr {
-            margin-top: 1px;
-            margin-bottom: 30px;
-            border: 2px;
-            color: rgb(4, 79, 102);
-        }
-
-        img {
-            width: 100px;
-        }
-
     </style>
+</head>
 
-    <center>
-        <img src="images/kantor.png" alt="">
-        <h5>Inventori Barang Pusat Layanan Disabilitas dan Pendidikan Inklusi Prov. Kalsel (PLDPI)
-            <br>Laporan Barang Masuk</h4><br>
-            <h6>Tanggal : {{ date('d-M-Y', strtotiMe($dari)) }} -
-                {{ date('d-M-Y', strtotime($sampai)) }}
-            </h5>
-        </center>
-        <hr>
+<body>
 
-        <table class='table table-bordered'>
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>ID Barang Masuk</th>
-                    <th>Supplier</th>
-                    <th>Tanggal Masuk</th>
-                    <th>Nama Barang</th>
-                    <th>Harga</th>
-                    <th>Jumlah</th>
-                    <th>Total Pengeluaran</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($data_masuk as $item)
-                <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td>{{ $item->kode_bm }}</td>
-                    <td>{{ $item->pemasok->nama }}</td>
-                    <td>{{ date('d F Y', strtotime($item->tanggal)) }}</td>
-                    <td>{{ $item->nama }}</td>
-                    <td>Rp. {{ number_format($item->harga) }}</td>
-                    <td>{{ number_format($item->jumlah) }}{{ $item->satuan }}</td>
-                    <td>Rp. {{ number_format($item->tot_pengeluaran) }}</td>
-                </tr>
-                @endforeach
-                <tr class="total">
-                    <th colspan="7"><b>Total Pembelian</b></th>
-                    <th><b>Rp {{ number_format($data_masuk->SUM('tot_pengeluaran')) }}</b></th>
-                </tr>
-            </tbody>
-        </table>
+    <div class="kop">
+        <img src="{{ public_path('images/kantor.png') }}" alt="logo">
+        <div style="font-size: 14pt;">PEMERINTAH PROVINSI KALIMANTAN SELATAN</div>
+        <div style="font-size: 14pt;">DINAS PENDIDIKAN DAN KEBUDAYAAN</div>
+        <div style="font-size: 16pt; font-weight: bold;">PUSAT LAYANAN DISABILITAS DAN PENDIDIKAN INKLUSI</div>
+        <div style="font-size: 10pt;">
+            Jalan Perdagangan Komp. Bumi Indah Lestari II, Kuin Utara, Kayu Tangi, Banjarmasin - Kalimantan Selatan<br>
+            Telp. 0811 5132 424 - Email: <u>pldpi.provkalsel@gmail.com</u>
+        </div>
+    </div>
 
-    </body>
+    <hr class="garis">
 
-    </html>
+    <div class="text-center mb-4">
+        <div style="font-size: 16pt; font-weight: bold;">LAPORAN BARANG MASUK</div>
+        <div style="font-size: 11pt; font-weight: bold;">Tanggal: {{ date('d M Y', strtotime($dari)) }} - {{ date('d M Y', strtotime($sampai)) }}</div>
+    </div>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>ID Barang Masuk</th>
+                <th>Supplier</th>
+                <th>Tanggal Masuk</th>
+                <th>Nama Barang</th>
+                <th>Harga</th>
+                <th>Jumlah</th>
+                <th>Total Pengeluaran</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($data_masuk as $item)
+            <tr>
+                <td class="text-center">{{ $loop->iteration }}</td>
+                <td>{{ $item->kode_bm }}</td>
+                <td>{{ $item->pemasok->nama }}</td>
+                <td>{{ date('d F Y', strtotime($item->tanggal)) }}</td>
+                <td>{{ $item->nama }}</td>
+                <td>Rp. {{ number_format($item->harga) }}</td>
+                <td>{{ number_format($item->jumlah) }} {{ $item->satuan }}</td>
+                <td>Rp. {{ number_format($item->tot_pengeluaran) }}</td>
+            </tr>
+            @endforeach
+            <tr class="total">
+                <th colspan="7"><b>Total Pembelian</b></th>
+                <th><b>Rp. {{ number_format($data_masuk->sum('tot_pengeluaran')) }}</b></th>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+
+</html>

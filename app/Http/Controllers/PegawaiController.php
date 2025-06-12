@@ -53,26 +53,37 @@ class PegawaiController extends Controller
     {
         $request->validate([
             'kode_pegawai' => 'required',
+            'id_personal_pegawai' => 'required',
             'nama_pegawai' => ['required', 'regex:/^[a-zA-Z\s]+$/'],
             'jabatan' => 'required',
+            'telp' => 'required|digits_between:8,15|numeric',
             'email' => 'required|email'
         ], [
             'nama_pegawai.regex' => 'Nama hanya boleh mengandung huruf.',
+            'telp.numeric' => 'Telp hanya boleh mengandung angka.',
+            'telp.digits_between' => 'Telp disi 8-15 digit dan hanya boleh angka.',
         ]);
     
         // Cek apakah pegawai dengan email yang sama sudah ada
-        $existingPegawai = Pegawai::where('email', $request->email)->first();
+        $existingEmailPegawai = Pegawai::where('email', $request->email)->first();
+        $existingPegawai = Pegawai::where('nama_pegawai', $request->nama_pegawai)->first();
     
-        if ($existingPegawai) {
+        if ($existingEmailPegawai) {
             alert()->error('Gagal', 'Email sudah terdaftar dalam sistem.');
+            return redirect()->back()->withInput();
+        }
+        if ($existingPegawai) {
+            alert()->error('Gagal', 'Nama Pegawai sudah terdaftar dalam sistem.');
             return redirect()->back()->withInput();
         }
     
         // Simpan pegawai jika belum ada
         $pegawai = new Pegawai();
         $pegawai->kode_pegawai = $request->kode_pegawai;
+        $pegawai->id_personal_pegawai = $request->id_personal_pegawai;
         $pegawai->nama_pegawai = $request->nama_pegawai;
         $pegawai->jabatan = $request->jabatan;
+        $pegawai->telp = $request->telp;
         $pegawai->email = $request->email;
         $pegawai->save();
     
@@ -86,8 +97,8 @@ class PegawaiController extends Controller
         $request->validate([
             'id_pegawai' => 'required|exists:pegawai,id_pegawai',
             'nama_pegawai' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
             'jabatan' => 'required|in:Admin',
+            'email' => 'required|email|max:255',
             'password' => 'required_if:jabatan,Admin|min:5'
         ]);
 
@@ -130,7 +141,10 @@ class PegawaiController extends Controller
         $data_p = Pegawai::where('id_pegawai', $id)->first();
         $rules = [
             'kode_pegawai' => 'required',
+            'id_personal_pegawai' => 'required',
             'nama_pegawai' => 'required',
+            'jabatan' => 'required',
+            'telp' => 'required',
         ];
 
         if ($request->email != $data_p->email) {

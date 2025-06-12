@@ -57,6 +57,17 @@
                             @enderror
                         </div>
                     </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="keterangan">Keterangan</label>
+                            <textarea id="keterangan" name="keterangan" class="form-control @error('keterangan') is-invalid @enderror" rows="3" placeholder="keterangan barang keluar">{{ old('keterangan') }}</textarea>
+                            @error('keterangan')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
                     <div class="form-row">
                         <div class="form-group col-md-12">
                         <label for="nama_barang" class="d-inline">Pilih Nama Barang</label>

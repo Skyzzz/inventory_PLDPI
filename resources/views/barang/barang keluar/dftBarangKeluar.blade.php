@@ -33,6 +33,7 @@
                             <th>Nama Barang</th>
                             <th>Jumlah</th>
                             <th>Tanggal</th>
+                            <th style="max-width: 500px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Keterangan</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -45,6 +46,7 @@
                             <td>{{ $item->barang->nama }}</td>
                             <td>{{ $item->jumlah }} {{ $item->satuan }}</td>
                             <td>{{ $item->tanggal }}</td>
+                            <td style="max-width: 500px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{{ $item->keterangan }}">{{ $item->keterangan }}</td>
                             <td>
                                 <!-- <a href="/edtBarangKeluar/{{ $item->id_barang }}" class="btn btn-sm btn-success"><i
                                         class="fa fa-pencil-square-o"></i></a> -->

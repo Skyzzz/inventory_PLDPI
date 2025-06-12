@@ -17,7 +17,9 @@ class BarangKeluar extends Model
         'kode_bk',
         'jumlah',
         'satuan',
-        'tanggal'
+        'satuan',
+        'tanggal',
+        'keterangan'
     ];
 
     public function barang()
