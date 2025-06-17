@@ -14,15 +14,23 @@
         }
 
         .kop {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
             text-align: center;
             line-height: 1.2;
+            position: relative;
+            padding-left: 0px; /* ruang untuk gambar */
         }
 
         .kop img {
-            float: left;
+            position: absolute;
+            top: 0;
+            left: 50;
             height: 100px;
+            margin-left: 30px; /* sesuaikan posisi kanan-kirinya */
         }
-
         .kop div {
             margin: 0;
         }
@@ -103,11 +111,22 @@
             </tr>
             @endforeach
             <tr class="total">
-                <th colspan="7"><b>Total Pembelian</b></th>
+                <th colspan="7" style="text-align: left;"><b>Total Pembelian</b></th>
                 <th><b>Rp. {{ number_format($data_masuk->sum('tot_pengeluaran')) }}</b></th>
             </tr>
         </tbody>
     </table>
+    <div>
+        <div style="width: 100%; margin-top: 50px;">
+        <div style="float: right; text-align: center;">
+            <!-- <div>Banjarmasin, {{ date('d F Y') }}</div> -->
+            <div style="margin-top: 5px;">KEPALA LAYANAN PUSAT DISABILITAS<br>DAN PENDIDIKAN INKLUSI<br>PROVINSI KALIMANTAN SELATAN</div>
+            <div style="margin-top: 50px; margin-bottom: 50px;" >         </div>
+            <div style="text-decoration: underline; font-weight: bold;">MISYAWALIADI NOOR, S.Pd.I, M.M</div>
+            <div>NIP. 19800828 20064 1 011</div>
+        </div>
+        <div style="clear: both;"></div>
+    </div>
 
 </body>
 

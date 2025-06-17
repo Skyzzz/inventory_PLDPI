@@ -11,17 +11,28 @@
 
         body {
             font-size: 11pt;
+            margin: 10px; /* bisa 0 untuk benar-benar mepet */
         }
 
         .kop {
+            margin-top: 0;
+            padding-top: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
             text-align: center;
             line-height: 1.2;
+            position: relative;
+            padding-left: 0px;
         }
 
         .kop img {
-            float: left;
-            /* width: 100px; */
+            position: absolute;
+            top: 0;
+            left: 50;
             height: 100px;
+            margin-left: 30px;
         }
 
         .kop h5,
@@ -97,6 +108,17 @@
             @endforeach
         </tbody>
     </table>
+
+    <div style="width: 100%; margin-top: 50px;">
+        <div style="float: right; text-align: center;">
+            <!-- <div>Banjarmasin, {{ date('d F Y') }}</div> -->
+            <div style="margin-top: 5px;">KEPALA LAYANAN PUSAT DISABILITAS<br>DAN PENDIDIKAN INKLUSI<br>PROVINSI KALIMANTAN SELATAN</div>
+            <div style="margin-top: 50px; margin-bottom: 50px;" >         </div>
+            <div style="text-decoration: underline; font-weight: bold;">MISYAWALIADI NOOR, S.Pd.I, M.M</div>
+            <div>NIP. 19800828 20064 1 011</div>
+        </div>
+        <div style="clear: both;"></div>
+    </div>
 
 </body>
 
