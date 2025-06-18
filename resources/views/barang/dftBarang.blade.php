@@ -3,21 +3,34 @@
 @section('barang', 'active')
 
 @section('content')
+<!-- Lightbox2 CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
 
 <style>
-    .card{
+    .card {
         border-radius: 20px;
-     }
+    }
 
-    .btn{
+    .btn {
         border-radius: 5px;
     }
-    .table{
+
+    .table {
         border-radius: 10px;
+    }
+
+    img.thumb-img {
+        width: 180px;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 8px;
+        cursor: pointer;
     }
 </style>
 
-<a href="/tbhBarang" class="btn btn-sm btn-primary mb-3"><i class="fa fa-plus"></i> Tambah Barang</a>
+<a href="/tbhBarang" class="btn btn-sm btn-primary mb-3">
+    <i class="fa fa-plus"></i> Tambah Barang
+</a>
 
 <div class="row">
     <div class="col-md-12">
@@ -38,7 +51,7 @@
                                 <th>Jumlah</th>
                                 <th>Harga Beli</th>
                                 <th>Gambar</th>
-                                <th></th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -51,12 +64,23 @@
                                 <td>{{ $item->nama }}</td>
                                 <td>{{ number_format($item->jumlah) }} {{ $item->satuan }}</td>
                                 <td>Rp. {{ number_format($item->harga_ambil) }}</td>
-                                <td><img src="{{ asset('Image/'.$item->gambar) }}" alt="" width="50" height="50"></td>
                                 <td>
-                                    <a href="/edtBarang/{{ $item->id_barang }}" data-bs-toggle="tooltip" title="Edit" class="btn btn-sm btn-success"><i
-                                            class="fa fa-pencil-square-o"></i></a>
-                                    <a class="btn btn-sm btn-danger" data-bs-toggle="tooltip" title="Hapus" onclick="confirmation(event)" href="{{url('/hpsBarang', $item->id_barang)}}"><i
-                                            class="fa fa-trash"></i></a>
+                                    <a href="{{ asset('Image/'.$item->gambar) }}"
+                                       data-lightbox="barang-{{ $item->id_barang }}"
+                                       data-title="Nama: {{ $item->nama }}<br>Harga: Rp {{ number_format($item->harga_ambil) }}">
+                                        <img src="{{ asset('Image/'.$item->gambar) }}" alt="gambar"
+                                             class="thumb-img">
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="/edtBarang/{{ $item->id_barang }}" data-bs-toggle="tooltip"
+                                       title="Edit" class="btn btn-sm btn-success">
+                                        <i class="fa fa-pencil-square-o"></i>
+                                    </a>
+                                    <a class="btn btn-sm btn-danger" data-bs-toggle="tooltip" title="Hapus"
+                                       onclick="confirmation(event)" href="{{ url('/hpsBarang', $item->id_barang) }}">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
                                 </td>
                             </tr>
                             @endforeach
@@ -70,10 +94,14 @@
 @endsection
 
 @section('table')
+<!-- Lightbox2 JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+
 <script type="text/javascript">
     $(document).ready(function () {
-        $('#bootstrap-data-table-export').DataTable();
+        $('#bootstrap-data-table').DataTable({
+            responsive: true
+        });
     });
-
 </script>
 @endsection
